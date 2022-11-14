@@ -1,0 +1,32 @@
+
+#id-body,#id-recent-view-container{
+    background-color:#ffffff !important
+ }
+ #id-nav, .card-body {
+     background-color: #012e45;
+ }
+ 
+ p,h2,h3,h4,h5{
+     color: rgb(255, 255, 255);
+ }
+ a,#id-header{
+     color: blue !important;
+     font-weight: bolder; 
+ }
+ small{
+    color: aqua;
+ }
+ .border-color{
+     border-color: #001621 !important;
+ }
+ 
+ /* Rating stars */
+ .checked {
+     color: rgb(255, 230, 0);
+ }
+
+
+ /*Form Style */
+ .form-label{
+     color: #ffffff !important;
+ }

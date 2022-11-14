@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>A better Audience</title>
+    {% comment %} My CSS {% endcomment %}
+    <link  rel="stylesheet" id='theme-style'  type="text/css" href="{% static 'css/dark-blue.css' %}"/>
+    <link   rel="stylesheet"  type="text/css" href="{% static 'css/main.css' %}"/>
+    <link   rel="stylesheet"  type="text/css" href="{% static 'css/formStyle.css' %}"/>
+
+    {% comment %} Icon kit  {% endcomment %}
+    <script src="https://kit.fontawesome.com/e9ac52b2b7.js" crossorigin="anonymous"></script>
+    {% comment %} Boostrasp {% endcomment %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- Font Awesome Icon Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body id='id-body'>
+<nav class="">
+    <div  class="container-fluid">
+        <div class="row flex-nowrap">
+            {% if user.is_authenticated %}
+                <div id="id-nav" class="col-auto col-md-3 col-lg-2 px-sm-2 px-0 ">
+                    <div class=" d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                        <a href="{% url 'index' %}" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                            <span class="fs-2 fw-semibold d-none d-sm-inline ">A Better Audience</span>
+                        </a>
+                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start " id="menu">
+                            <li class="nav-item my-3">
+                                <a href="{% url  'index' %}"class="nav-link align-middle px-0">
+                                    <i class="fa-solid fa-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                                </a>
+                            </li>
+                            <br>
+                            <li class="nav-item my-3">
+                                <a href="{% url  'presentations' %}"  class="nav-link px-0 align-middle">
+                                    <i class="fa-solid fa-person-chalkboard"></i><span class="ms-1 d-none d-sm-inline">Presentations</span> </a>
+                            </li>
+                            <br>
+                            <li>
+                                <a href="{% url  'create_presentation' %}"class="nav-link px-0 align-middle">
+                                    <i class="fa-regular fa-square-plus"></i><span class="ms-1 d-none d-sm-inline">Create Presentation</span></a>
+                            </li >
+                            <br>
+                            <li class="nav-item my-3">
+                                <a href="{% url  'stage' %}" class="nav-link px-0 align-middle">
+                                    <i class="fa-solid fa-people-group"></i> <span class="ms-1 d-none d-sm-inline">Stage</span> </a>
+                            </li>
+                            <hr>
+                            <div class="dropdown pb-4 my-3">
+                                <a href="#" class="d-flex align-items-center  text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="data:image/jpeg;base64,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" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                                    <span class="d-none d-sm-inline fw-bold mx-1">Giovanni</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                                    <li class="nav-item my-3"><a class="dropdown-item" href="#">Settings</a></li>
+                                    <li class="nav-item my-3"><a class="dropdown-item" href="#">Profile</a></li>
+                                    <li class="nav-item my-3">
+                                        <hr class="dropdown-divider">
+
+                                    </li>
+
+                                    <li class="nav-item my-3"><a class="dropdown-item" href="{% url 'logout'%}">Sign out</a></li>
+
+                                    <li class="nav-item my-3"><a class="dropdown-item" href="{% url 'login'%}">Login</a></li>
+
+                                </ul>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+                s{% else %}
+                <div id="id-nav" class="col-auto col-md-3 col-lg-2 px-sm-2 px-0 ">
+                    <div class=" d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                        <a href="#" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                            <span class="fs-2 fw-semibold d-none d-sm-inline ">A Better Audience</span>
+                        </a>
+                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start " id="menu">
+                            <hr>
+                            <div class="dropdown pb-4 my-3">
+                                <a href="#" class="d-flex align-items-center  text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxAQEhAQEBASEBAVEBIQFhYNEBcQEBARIB0iIiAdGR8kKDQsJB8xJx8ZLTItMTUtOi9DIys9ODMtNzQ5MC4BCgoKDQ0OFQ8QFS0dFxkrNzc3NystKystLysrNysrNy0rNys3KystKysrMSsrLSsrKysrKysrKysrKysrKysrK//AABEIAGQAZAMBIgACEQEDEQH/xAAbAAACAwEBAQAAAAAAAAAAAAAEBQADBgIBB//EADQQAAIBAgUCAwYGAQUAAAAAAAECAAMRBAUSITFBUQYTcSJhgZGhsRQyQlLR4fAVI2Jy0v/EABgBAAMBAQAAAAAAAAAAAAAAAAABAgME/8QAIREBAQACAQQCAwAAAAAAAAAAAAECETEDBBIhMkETYXH/2gAMAwEAAhEDEQA/AMy53PrOZ0w3PrPCIwgM7BsCxIVQLksbATlRBs0yv8SoU1XQDoACpPciAZ/PPEBq3pUSRT4J/U/8CLEepSZbMaZIvs3HyheNyoYWqgd9YI1eytja/aGGgK+6U3J2Hsi9oHJamEz/ABIZV1hwWC7rfrHGEz6q7mkaBLglSEPBHMF/CU8KKdRqH+6GuPOu6HpuNh7/AJTX/hEVqjIoUu5ZrCxJPeG98FfV1QxU9RY9pUymHMspdYAGyyhxDWWUusACInstKyQDtzufWckzlm3PrPCYB2rCE0iIEBCaKiIFPidF1UHNrAutz8P7mnybEYdKYqM4KcXQa/tEefIlqOvjzLfSPfASUmSslrk1blTsAABY3nN1+Xd23CzxBTo4igzU7MNNwbcG0IqDg91B+Ynni/GpTpJSp2BJVLL0ubT2mbqp/wCIHy2l9CXxrDutfkx/ikrK3WEsJUwm7AK6Sh0hrLKHSACFJJfokgCp2ngaeuJXALLwrDmCKYVQIiCrxBhfNw7/ALlHmLbuP6vFHhbNaVEAVGUKbhg+sn6G30jbNs4p4dRqGtm4UG1x1v7pjaCtXqHRTtqYKqp0JOwiuHl6Xhncb6bLw3lxzLFkIWTC0jcH9ovsN5u/EOFoYcKlIk1NN9Gq99+STxEmTZthsvw6UhTZMS3NNtyzW/MW/bM2+dPWxD1C1wtN2Yn5n7CdHjjhjr7GV3zy0KYxCbN7Ddn4PoYQRFeTuMVRDPYkk+lryrGPUwhGkmojMAKZ3Iv+09Jl4oNGEpcS9WuqsOGUMPeDK2iCkCeTsLJGCaoIO8MqiBVog58y0to1R3ivE1SIEuYaTv03iMNnOID4l9VyqnSB7h/c0PhWktJUqE8PruRwRxMejFmdzyTc+pM1xrBMMu/6B15mnT9XYgLHVqlTFu7Nc/luRwLdvnLcPhdFCu5exsUI09CRve8Dw9bU5c/qYtLa+IC0aw2Yaupv2i3v2R1lObU8NSS3teyuzezYdTcXhWGxYxFSmQdji1Auewv/AOvkJjkoPX0oilgqam09hzGfhGsWxNK/CeZUt0udv5hKVfRqWC0IKd7kXsT63tAnEcs11BijNLqQ3Q/ePKFKrUSQNcTJJUCcwOtLDUlFXeIFuL6xDi25jzGdYhxFPg3G546xGppHY/COatRmor+wKvqTFgwp33ELSo4pGkLWJBPcy4JVNSuRcDtaW1GtTZPcp+NxB0otqBI2G/rOa7mzX2JI2MRGOXZsaSOtJCazsFvzZewnOXYg0ahPDebp2N7Acj6wTK2sxfqqkj16ThqqglrEm+1jsP8ALQD6rkOd06oNIuPM5AJ3b0h+Z6TTbWwVbXuxsB758aw2Idai1FvqU6vZjjFZnVxtZaWpvLLcHi0ryTpqqLXHPXpuJJ15Wn2RwLDf0EknR7KalSD1K09rtF9erEajMcRFqA6gSux73nuIcsdt/SNK1G9FKgGwfQfkbfaTvVi5juX9BLxli8r8tS2okqBe62G/Y3i2m9iDYH3NwYyxmZo62CEE83NgNwfjv6R5eW5pM1ovvF9ZrlvWG3ln+h19m0a1O96Z1SsrIWONvEC0zpp+9jf4CdYFQ+pbAnZhqNht8R3l2IwzbMykUwdNjsbDmaXJsvy5aY89dRJ/OxJQdgSOD62hJsX0zFXAVbe1cD/o4X6C0Z+GlVCxFKrWqEWHlLZEHe5jPH5Fh7Gph2smtAGpvewNwwP0MXZTmFam74Wq5Iu3JvZhHwTSYfURvsetzqt8esk6w+4J98kNgmxGHHcyvC5cj3LXNul9pJJBgcxoKLAbD3WEaeFMvTErUw9QtoutUFTZgwFtvmZJJGbbp8s/mlAUq1SkpJVXKgtzYSgGSSbRjeXdJbkA8EgTeZTRWnTCqLAX7nrJJOfuOI6+05rPeLwA1NxyQQexAt/MzoxTgnSxXvpNriSSadL4xj1vnWl8NZlUf2GIZTtYjac5ph1XFBhyURt+/H2Ekk1+mDRYL8vxnkkkhT//2Q==" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                                    <span class="d-none d-sm-inline fw-bold mx-1">Giovanni</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                                    <li class="nav-item my-3"><a class="dropdown-item" href="#">A Better Audience</a></li>
+                                    <li class="nav-item my-3"><a class="dropdown-item" href="#">About Us</a></li>
+                                    <li class="nav-item my-3">
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li class="nav-item my-3"><a class="dropdown-item" href="{% url 'login'%}">Login</a></li>
+
+                                </ul>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+
+            {% endif %}
+            {% comment %} Main Page {% endcomment %}
+            <div class="col py-3">
+                {% block body %}
+
+                {% endblock %}
+
+            </div>
+        </div>
+    </div>
+
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+<script src="{% static 'js/theme.js' %}"></script>
+</body>
+</html>
+

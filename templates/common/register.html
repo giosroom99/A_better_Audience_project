@@ -1,0 +1,87 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>A Better Audience</title>
+</head>
+
+{% block body %}
+
+    {#////////////////////////// Tab nav ///////////////////////////////////#}
+    <ul class="nav  nav-tabs justify-content-center mb-3" id="pills-tab" role="tablist">
+
+
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Signup</a>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-disabled" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false" >About us</a>
+        </li>
+    </ul>
+
+
+
+    {#////////////////////////// Tab nav Content ///////////////////////////////////#}
+    <div class="tab-content align-center" id="pills-tabContent">
+        {#     Sign up content#}
+        <div class="tab-pane fade show active " id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+            <div class="card  mx-auto my-3" style="width: 20rem;">
+                <img class="border mx-auto rounded-circle" src="{% static 'img/profile_default.png' %}" width="50%" alt="Profile Picture">
+                <div class="card-body">
+                    <h5 class="card-title">Signup</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    {% if form.errors %}
+                        <p> {{form.messages}}</p>
+                    {% endif %}
+
+                    <form  action= "{% url 'register' %}" method="POST">
+                        {% csrf_token %}
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="name"> {{form.username.label_tag}}</label>
+                            {{form.username}}
+                            <br>
+
+                            <label class="form-label" for="name"> {{form.email.label_tag}}</label>
+                            {{form.email}}
+                            <br>
+
+                            <label class="form-label" for="name">{{form.first_name.label_tag}}</label>
+                            {{form.first_name}}
+                            <br>
+
+                            <label class="form-label" for="name">{{form.last_name.label_tag}}</label>
+                            {{form.last_name}}
+                            <br>
+
+                            <label class="form-label" for="name">{{form.password1.label_tag}}</label>
+                            {{form.password1}}
+                            <br>
+
+                            <label class="form-label" for="name">{{form.password2.label_tag}}</label>
+                            {{form.password2}}
+                            <br>
+
+                        </div>
+                                 <p> {{form.messages}}</p>
+                        <div class="card-body">
+                            <input type="submit" class="card-link btn btn-primary" value="signup">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">...</div>
+
+    </div>
+
+
+{% endblock %}
