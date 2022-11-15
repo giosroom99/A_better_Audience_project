@@ -76,7 +76,7 @@ class CreateStageForm(ModelForm):
             'Stage_image':''
         }
         widgets = {
-            'stage_name': forms.TextInput(attrs={'class':"form-control",'placeholder':'Stage Name'}),
-            'stage_description':forms.TextInput(attrs={'class':"form-control",'placeholder':'Stage Description'}),
-            'Stage_image':forms.ClearableFileInput(attrs={'multiple': True})
+            'stage_name': forms.TextInput(attrs={'class':"form-control",'placeholder':'Stage Name','id':'stage-name'}),
+            'stage_description':forms.TextInput(attrs={'class':"form-control",'placeholder':'Stage Description','id':'stage-description'}),
+            'Stage_image':forms.ClearableFileInput(attrs={'class':"form-control",'multiple': True,'id':'stage-picture'}),
         }

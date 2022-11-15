@@ -26,8 +26,7 @@ def create_presentation_views(request):
     return render(request, 'presentations/create_presentation.html')
 
 
-def stage_view(request):
-    return render(request, 'stage/stage.html')
+
 
 
 # This function renders the registration form page and create a new page based on the form data
@@ -91,6 +90,11 @@ def handle_uploaded_file(f):
         for chunk in f.chunks():
             destination.write(chunk)
 
+
+
+
+
+##################### STAGE
 def add_stage_view(request):
     submitted = False
     if request.method == 'POST':
@@ -105,3 +109,14 @@ def add_stage_view(request):
             submitted = True
 
     return render(request, 'stage/create_stage.html', {'add_stageForm': add_stageForm, 'submitted': submitted})
+
+def stage_view(request):
+    stages = Stage.objects.all()
+    context = {'Stages': stages}
+    return render(request, 'stage/stage.html', context)
+
+def updateStage_view(request):
+    pass
+
+def deleteStage_view(request):
+    return render(request,'stage/delete-confirm.html')
