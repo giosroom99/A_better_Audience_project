@@ -2,6 +2,9 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
+from django.forms import ModelForm
+
+from .models import *
 
 
 class AudienceUserRegistrationForm(UserCreationForm):
@@ -61,14 +64,19 @@ class AudienceUserRegistrationForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
 
-    #
-    #
-    # email = forms.EmailField()
-    # first_name = forms.CharField(max_length=30)
-    # last_name = forms.CharField(max_length=30)
-    #
-    # class Meta:
-    #     model = User
-    #     fied =('username','email','firstname','lastname','password1','password2')
-    #
-    #
+class CreateStageForm(ModelForm):
+    class Meta:
+        model = Stage
+        # Set the form fields
+        fields = ('stage_name','stage_description','Stage_image')
+
+        labels= {
+            'stage_name':'',
+            'stage_description':'',
+            'Stage_image':''
+        }
+        widgets = {
+            'stage_name': forms.TextInput(attrs={'class':"form-control",'placeholder':'Stage Name'}),
+            'stage_description':forms.TextInput(attrs={'class':"form-control",'placeholder':'Stage Description'}),
+            'Stage_image':forms.ClearableFileInput(attrs={'multiple': True})
+        }

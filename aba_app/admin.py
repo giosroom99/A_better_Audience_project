@@ -5,5 +5,7 @@ from .models import *
 # Register your models here.
 admin.site.register(Presentation)
 admin.site.register(Stage)
-admin.site.register(Question)
+admin.site.register(QuestionTable)
 admin.site.register(Response)
+admin.site.register(UserSetting)
+

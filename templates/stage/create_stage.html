@@ -1,10 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "common/base.html" %}
 
-</body>
-</html>
+
+
+{% block body %}
+
+
+    <div class="row">
+        <p class="  display-5 text-center mb-3">CREATE STAGE <i class="fa-solid fa-tent"></i></p>
+    </div>
+
+    <ul class="nav nav-pills my-3 flex-column justify-content-center flex-sm-row" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Create Stage</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Views</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">My Review</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">My Review</button>
+        </li>
+        <form class="d-flex " role="search">
+            <input class="form-control me-2 w-70%" type="search" placeholder="Search" aria-label="Search">
+        </form>
+    </ul>
+
+
+
+    <div class="tab-content my-3" id="pills-tabContent">
+
+        <div class="tab-pane fade show active my-3" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+            <div class="row mx-auto" >
+                <div class="col-8 mx-auto rounded-1 shadow-lg p-3 my-3">
+                    {%  if submitted %}
+                        <p>Your Stage was created!!!!!!!!!</p>
+                    {% else %}
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                {{ add_stageForm.as_p }}
+                                <input type="submit" class="btn btn-primary" value="Add Stage">
+                            </div>
+                        </form>
+                    {%  endif %}
+                </div>
+
+            </div>
+        </div>
+
+
+
+        {##}
+        {#        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">#}
+        {#            <div class="rounded-1  p-4">#}
+        {##}
+        {#                <div class="card w-100%  my-2" >#}
+        {#                    <div class="card-body">#}
+        {#                        <h6 class="card-title"><a href="#">CS 416 section 01 </a></h6>#}
+        {#                        <small class="card-text  d-inline">Nov. 16, 2022</small><br>#}
+        {#                        <small class="card-text  d-inline">Presentations : <span>10</span> </small><br>#}
+        {#                        <small class="small-text-descriptions">Final project presentation Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium aliquam doloribus eligendi esse hic minima placeat quae quas totam. Eum incidunt iste nemo placeat provident quaerat quasi quis voluptas! </small>#}
+        {#                        <p class="card-text fw-bold ">Albayram, Yusuf (Stage Owner)</p>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {##}
+        {#                <div class="card w-100%  my-2" >#}
+        {#                    <div class="card-body">#}
+        {#                        <h6 class="card-title"><a href="#">CS 416 section 20 </a></h6>#}
+        {#                        <small class="card-text  d-inline">Nov. 4, 2022</small><br>#}
+        {#                        <small class="card-text  d-inline">Presentations : <span>50</span> </small><br>#}
+        {#                        <small class="small-text-descriptions">Final project presentation Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium aliquam doloribus eligendi esse hic minima placeat quae quas totam. Eum incidunt iste nemo placeat provident quaerat quasi quis voluptas! </small>#}
+        {#                        <p class="card-text fw-bold ">Williams, Chad (Stage Owner)</p>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {##}
+        {#                <div class="card w-100%  my-2" >#}
+        {#                    <div class="card-body">#}
+        {#                        <h6 class="card-title"><a href="#">CS 410 section 01 </a></h6>#}
+        {#                        <small class="card-text  d-inline">Nov. 6, 2022</small><br>#}
+        {#                        <small class="card-text  d-inline">Presentations : <span>15</span> </small><br>#}
+        {#                        <small class="small-text-descriptions">Final project presentation Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium aliquam doloribus eligendi esse hic minima placeat quae quas totam. Eum incidunt iste nemo placeat provident quaerat quasi quis voluptas! </small>#}
+        {#                        <p class="card-text fw-bold ">Albayram, Yusuf (Stage Owner)</p>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {##}
+        {#                <div class="card w-100%  my-2" >#}
+        {#                    <div class="card-body">#}
+        {#                        <h6 class="card-title"><a href="#">CS Club General Meetings </a></h6>#}
+        {#                        <small class="card-text  d-inline">Nov. 5, 2022</small><br>#}
+        {#                        <small class="card-text  d-inline">Presentations : <span>2</span> </small><br>#}
+        {#                        <small class="small-text-descriptions">Final project presentation Lorem ipsum dolor loren loren sit amet, consectetur adipisicing elit. Ab accusantium aliquam doloribus eligendi esse hic minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident quaerat quasi quis voluptas! </small>#}
+        {#                        <p class="card-text fw-bold ">Giovanni T., (Stage Owner)</p>#}
+        {##}
+        {#                    </div>#}
+        {#                </div>#}
+        {##}
+        {#                <div class="card w-100%  my-2" >#}
+        {#                    <div class="card-body">#}
+        {#                        <h6 class="card-title"><a href="#">CT Public School VP</a></h6>#}
+        {#                        <small class="card-text  d-inline">Nov. 5, 2025</small><br>#}
+        {#                        <small class="card-text  d-inline">Presentations : <span>1</span> </small><br>#}
+        {#                        <small class="small-text-descriptions">Final project presentation Lorem ipsum dolor loren loren sit amet, consectetur adipisicing elit. Ab accusantium aliquam doloribus eligendi esse hic minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident quaerat quasi quis voluptas!</small>#}
+        {#                        <p class="card-text fw-bold ">smith John, (Stage Owner)</p>#}
+        {##}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </div>#}
+        {#        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">#}
+        {#            <p>This is some placeholder content the Home tab's associated content. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling. You can use it with tabs, pills, and any other .nav-powered navigation.</p>#}
+        {#        </div>#}
+        {#        <div class="tab-pane fade" id="pills-disabled" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0">#}
+        {#            <p>This is some placeholder content the Home tab's associated content. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling. You can use it with tabs, pills, and any other .nav-powered navigation.</p>#}
+        {#        </div>#}
+    </div>
+
+
+{% endblock%}
