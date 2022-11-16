@@ -36,11 +36,12 @@
                 {% for stage in Stages %}
                     <div class="card w-100%  my-2" >
                     <div class="card-body">
-                        <h6 class="card-title"><a href="#">{{ stage.name}}</a></h6>
+                        <h6 class="card-title"><a href="{% url 'detail_stage' stage.id %}">{{ stage.stage_name}}</a></h6>
                         <small class="card-text  d-inline">Last Updated: {{ stage.updated_at}}</small><br>
                         <small class="card-text  d-inline">Presentations : <span>10</span> </small><br>
                         <small class="small-text-descriptions"> {{ stage.stage_description }} </small>
                         <p class="card-text fw-bold ">{{ stage.stage_owner}}(Stage Owner)</p>
+                         <a class="btn btn-primary" href="{% url 'update_stage' stage.id %}"> Edit </a>  <a class="btn btn-danger" href="{% url 'delete_stage' stage.id %}"> Delete </a>
                     </div>
                 </div>
                 {% endfor %}

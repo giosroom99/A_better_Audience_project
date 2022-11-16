@@ -76,7 +76,36 @@ class CreateStageForm(ModelForm):
             'Stage_image':''
         }
         widgets = {
+            'stage_owner': forms.TextInput(attrs={"name": "user",'type': 'hidden', 'class': "form-control",'placeholder': 'owner', 'id': 'stage-owner'}),
             'stage_name': forms.TextInput(attrs={'class':"form-control",'placeholder':'Stage Name','id':'stage-name'}),
             'stage_description':forms.TextInput(attrs={'class':"form-control",'placeholder':'Stage Description','id':'stage-description'}),
             'Stage_image':forms.ClearableFileInput(attrs={'class':"form-control",'multiple': True,'id':'stage-picture'}),
+        }
+
+class CreatePresentationForm(ModelForm):
+
+    class Meta:
+        model = Presentation
+        StageSelection = forms.ModelChoiceField(queryset=Stage.objects.all())
+        # Set the form fields
+        fields = ('pres_owner','pres_name','pres_description','pres_file','pres_image','stage','type')
+        exclude = ['user']
+        Choice_value = [('1', 'First'), ('2', 'Second'), ('3', 'Third')]
+        labels= {
+
+            'pres_name':'',
+            'pres_description':'',
+            'pres_file':'Upload Presentation File',
+            'pres_image': 'Upload Presentation Cover',
+            'stage': 'Choose a Stage',
+            'type': 'Presentation Type',
+        }
+        widgets = {
+            'pres_owner':forms.TextInput(attrs={"name":"owner",'type':'hidden','class':"form-control",'placeholder':'owner','id':'presentation-owner'}),
+            'pres_name': forms.TextInput(attrs={'class':"form-control",'placeholder':'Stage Name','id':'presentation-name'}),
+            'pres_description':forms.TextInput(attrs={'class':"form-control",'placeholder':'Presentation Description','id':'presentation-description'}),
+            'type': forms.Select(attrs={'class':'form-control'}),
+            'stage': forms.Select(attrs={'class':'form-control'}),
+            'pres_file': forms.ClearableFileInput(attrs={'class':"form-control",'multiple': True,'id':'Presentation-file'}),
+            'pres_image':forms.ClearableFileInput(attrs={'class':"form-control",'multiple': True,'id':'Presentation-picture'}),
         }

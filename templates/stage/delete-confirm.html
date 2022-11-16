@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "common/base.html" %}
 
-</body>
-</html>
+
+
+{% block body %}
+`   <h1> HELLO</h1>
+    {% for stage in stages %}
+        <h1>{{ stage }}</h1>
+    {% endfor %}
+    <form action="{% url 'detail_stage' stage.id %}" method="POST">
+    {% csrf_token %}
+    <h3> Are you sure you want to delete {{ stage.stage_name }} ?</h3>
+    <input type="submit" value="Delete">
+
+    </form>
+
+
+{% endblock %}

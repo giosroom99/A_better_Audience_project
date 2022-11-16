@@ -18,9 +18,10 @@ User._meta.get_field('email')._unique = True
 6) Solving a Problem
 """""
 class Stage(models.Model):
-    stage_owner = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
+    stage_owner= models.CharField(max_length=60, null=True, blank=True)
     stage_name = models.CharField(max_length=60, null=True, blank=True)
-    stage_description = models.TextField(max_length=300, null=True, blank=True)
+    stage_description = models.TextField(max_length=500, null=True, blank=True)
     Stage_image = models.ImageField(upload_to="stage_images/", null=True, blank=True)
     #presentation =models.ManyToManyField(Presentation,null=True, blank=True)
     category = models.CharField(max_length=60, null=True, blank=True)
@@ -40,14 +41,17 @@ class Presentation(models.Model):
         ('Solving a Problem', 'Solving a Problem'),
         ('Class Presentation', 'Class Presentation'),
     )
-    approve =(
-        ('APPROVE','APPROVED'),
-        ('DECLINE', 'DECLINED'),
-        ('UNAPPROVED', 'UNAPPROVED'),
-    )
-    pres_owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    approve =[
+        ('1', 'Approved'),
+        ('2', 'Declined'),
+        ('3', 'Unapproved'),
+    ]
+
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
+    pres_owner =models.CharField(max_length=60,null=True,blank=True)
     pres_name = models.CharField(max_length=60,null=True,blank=True)
-    pres_description = models.TextField(max_length=300,null=True,blank=True)
+    pres_description = models.TextField(max_length=500,null=True,blank=True)
     stage = models.ForeignKey(Stage, on_delete=models.CASCADE,null=True,blank=True)
     approval = models.CharField(max_length=15, default=approve[2],choices= approve)
     type = models.CharField(max_length=50,choices =type,null=True,blank=True)
