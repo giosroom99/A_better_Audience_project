@@ -14,17 +14,17 @@ urlpatterns = [
                   # Presentation URL
                   path('presentations', views.presentation_views, name='presentations'),
                   path('create_presentation', views.create_presentation_views, name='create_presentation'),
-                  path('update/<int:id>', views.updatePresentation_view, name='update_presentation'),
-                  path('delete/<int:id>', views.deletePresentation_view, name='delete_presentation'),
-                  path('detail/<int:id>', views.PresentationDetail_view, name='detail_presentation'),
+                  path('update_pres/<int:id>', views.updatePresentation_view, name='update_presentation'),
+                  path('delete_pres/<int:id>', views.deletePresentation_view, name='delete_presentation'),
+                  path('detail_pres/<int:id>', views.PresentationDetail_view, name='detail_presentation'),
                   #path('status/<int:id>', views.updatePresentation, name='changestatus'),
 
                   # Stage URL
                   path('stage', views.stage_view, name='stage'),
                   path('add_stage', views.add_stage_view, name='add_stage'),
-                  path('update/<int:id>', views.updateStage_view, name= 'update_stage'),
-                  path('delete/<int:id>', views.deleteStage_view, name='delete_stage'),
-                  path('detail/<int:id>', views.stageDetail_view, name='detail_stage'),
+                  path('update_stage/<int:id>', views.updateStage_view, name= 'update_stage'),
+                  path('delete_stage/<int:id>', views.deleteStage_view, name='delete_stage'),
+                  path('detail_stage/<int:id>', views.stageDetail_view, name='detail_stage'),
                   path('status/<int:id>', views.updatePresentation_view, name='changestatus')
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -25,7 +25,7 @@
         <div class="tab-pane mx-auto fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
 
             <div class="row mx-auto" >
-                <h5 class=" text-center mt-5">ADD A PRESENTATION {{ user.id }}</h5>
+                <h5 class=" text-center mt-5">ADD A PRESENTATION</h5>
 
                 <div class="col-8 mx-auto rounded-1 p-3 shadow-lg my-3">
                     <div class="mb-3">
@@ -36,21 +36,11 @@
                             {% csrf_token %}
 
                             {{ presentation_form.as_p }}
-                            <input type="hidden" value="{{ user.id }} " name="user">
+
                              <input type="submit" class="btn btn-primary" value="Add Presentation">
                         </form>
                          {%  endif %}
                     </div>
-
-
-                    {##}
-                    {#                        <label for="presentationTitle" class="form-label mt-4">Select a Stage</label>#}
-                    {#                        <select class="form-select form-select-sm mb-4" aria-label=".form-select-sm example">#}
-                    {#                            <option selected>Select a Stage</option>#}
-                    {#                            <option value="1">One</option>#}
-                    {#                            <option value="2">Two</option>#}
-                    {#                            <option value="3">Three</option>#}
-                    {#                        </select>#}
 
                 </div>
             </div>

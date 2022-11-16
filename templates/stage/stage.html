@@ -6,7 +6,7 @@
 
 
     <div class="row">
-        <p class="  display-5 text-center mb-3">CREATE STAGE <i class="fa-solid fa-tent"></i></p>
+        <p class="  display-5 text-center mb-3">STAGE <i class="fa-solid fa-tent"></i></p>
     </div>
 
     <ul class="nav nav-pills my-3 flex-column justify-content-center flex-sm-row" id="pills-tab" role="tablist">
@@ -35,61 +35,21 @@
             <div class="rounded-1  p-4">
                 {% for stage in Stages %}
                     <div class="card w-100%  my-2" >
-                    <div class="card-body">
-                        <h6 class="card-title"><a href="{% url 'detail_stage' stage.id %}">{{ stage.stage_name}}</a></h6>
-                        <small class="card-text  d-inline">Last Updated: {{ stage.updated_at}}</small><br>
-                        <small class="card-text  d-inline">Presentations : <span>10</span> </small><br>
-                        <small class="small-text-descriptions"> {{ stage.stage_description }} </small>
-                        <p class="card-text fw-bold ">{{ stage.stage_owner}}(Stage Owner)</p>
-                         <a class="btn btn-primary" href="{% url 'update_stage' stage.id %}"> Edit </a>  <a class="btn btn-danger" href="{% url 'delete_stage' stage.id %}"> Delete </a>
+                        <div class="card-body">
+                            <h6 class="card-title"><a href="{% url 'detail_stage' stage.id %}">{{ stage.stage_name}}</a></h6>
+                            <small class="card-text  d-inline">Last Updated: {{ stage.updated_at}}</small><br>
+                            <small class="card-text  d-inline">Presentations : <span>10</span> </small><br>
+                            <small class="small-text-descriptions"> {{ stage.stage_description }} </small>
+                            <p class="card-text fw-bold ">{{ stage.stage_owner}}(Stage Owner)</p>
+                            <a class="btn btn-primary " href="{% url 'update_stage' stage.id %}"> Edit </a>
+                            <a class="btn btn-danger " href="{% url 'delete_stage' stage.id %}"> Delete </a>
+
+
+
+
+                        </div>
                     </div>
-                </div>
                 {% endfor %}
-
-{##}
-{#                <div class="card w-100%  my-2" >#}
-{#                    <div class="card-body">#}
-{#                        <h6 class="card-title"><a href="#">CS 416 section 20 </a></h6>#}
-{#                        <small class="card-text  d-inline">Nov. 4, 2022</small><br>#}
-{#                        <small class="card-text  d-inline">Presentations : <span>50</span> </small><br>#}
-{#                        <small class="small-text-descriptions">Final project presentation Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium aliquam doloribus eligendi esse hic minima placeat quae quas totam. Eum incidunt iste nemo placeat provident quaerat quasi quis voluptas! </small>#}
-{#                        <p class="card-text fw-bold ">Williams, Chad (Stage Owner)</p>#}
-{#                    </div>#}
-{#                </div>#}
-{##}
-{#                <div class="card w-100%  my-2" >#}
-{#                    <div class="card-body">#}
-{#                        <h6 class="card-title"><a href="#">CS 410 section 01 </a></h6>#}
-{#                        <small class="card-text  d-inline">Nov. 6, 2022</small><br>#}
-{#                        <small class="card-text  d-inline">Presentations : <span>15</span> </small><br>#}
-{#                        <small class="small-text-descriptions">Final project presentation Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium aliquam doloribus eligendi esse hic minima placeat quae quas totam. Eum incidunt iste nemo placeat provident quaerat quasi quis voluptas! </small>#}
-{#                        <p class="card-text fw-bold ">Albayram, Yusuf (Stage Owner)</p>#}
-{#                    </div>#}
-{#                </div>#}
-{##}
-{#                <div class="card w-100%  my-2" >#}
-{#                    <div class="card-body">#}
-{#                        <h6 class="card-title"><a href="#">CS Club General Meetings </a></h6>#}
-{#                        <small class="card-text  d-inline">Nov. 5, 2022</small><br>#}
-{#                        <small class="card-text  d-inline">Presentations : <span>2</span> </small><br>#}
-{#                        <small class="small-text-descriptions">Final project presentation Lorem ipsum dolor loren loren sit amet, consectetur adipisicing elit. Ab accusantium aliquam doloribus eligendi esse hic minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident quaerat quasi quis voluptas! </small>#}
-{#                        <p class="card-text fw-bold ">Giovanni T., (Stage Owner)</p>#}
-{##}
-{#                    </div>#}
-{#                </div>#}
-{##}
-{#                <div class="card w-100%  my-2" >#}
-{#                    <div class="card-body">#}
-{#                        <h6 class="card-title"><a href="#">CT Public School VP</a></h6>#}
-{#                        <small class="card-text  d-inline">Nov. 5, 2025</small><br>#}
-{#                        <small class="card-text  d-inline">Presentations : <span>1</span> </small><br>#}
-{#                        <small class="small-text-descriptions">Final project presentation Lorem ipsum dolor loren loren sit amet, consectetur adipisicing elit. Ab accusantium aliquam doloribus eligendi esse hic minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident quaerat quasi quis voluptas!</small>#}
-{#                        <p class="card-text fw-bold ">smith John, (Stage Owner)</p>#}
-{##}
-{#                    </div>#}
-{#                </div>#}
-
-
 
 
             </div>
@@ -98,6 +58,7 @@
         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
 
         </div>
+
 
 
 

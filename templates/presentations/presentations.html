@@ -6,23 +6,16 @@
     <div class="row">
         <p class=" fs-3 text-center">Presentations <i class="fa-solid fa-person-chalkboard"></i></p>
     </div>
-
     <ul class="nav nav-pills mb-3 flex-column flex-sm-row" id="pills-tab" role="tablist">
-
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Presentations</button>
         </li>
-
-
         <li class="nav-item " role="presentation">
             <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">My Review</button>
         </li>
-
-
         <form action="" method="POST" class="d-flex mx-2" role="search">
             <input class="form-control me-2 w-70%" type="search" placeholder="Search" aria-label="Search">
         </form>
-
     </ul>
 
 
@@ -32,18 +25,19 @@
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
 
             <div class="row m-1  p-4">
-                <div class="card w-100%  m-1" >
-                    <div class="card-body">
-                        <h6 class="card-title"><a href="#">The world in My Pocket</a></h6>
-                        <p class="card-text fw-bold d-inline">John Smith</p>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                        <p class="card-text">Great Job on that presentation, Keep up psum is no in a piece oterature from 45 BC, making it over 2000 years old. Richard McClintock,tur, </p>
+                {% for presentation in presentations %}
+                    <div class="card w-100%  m-1" >
+                        <div class="card-body">
+                            <h6 class="card-title"><a href="{% url 'detail_presentation' presentation.id %}">{{ presentation.pres_name}}</a></h6>
+                            <p class="card-text fw-bold d-inline">{{ presentation.pres_owner}}</p>
+
+                            <p class="card-text">{{ presentation.pres_description}}</p>
+                              <a class="btn btn-primary" href="{% url 'update_presentation' presentation.id %}"> Edit </a>  <a class="btn btn-danger" href="{% url 'delete_presentation' presentation.id %}"> Delete </a>
+                        </div>
                     </div>
-                </div>
+                {% endfor %}
+
+
             </div>
         </div>
 

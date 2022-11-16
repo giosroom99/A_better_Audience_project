@@ -22,10 +22,13 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'common/login.html', {"Login_form": form})
 
+
 def logout_view(request):
     logout(request)
     form = AuthenticationForm(request.POST)
     return render(request, 'common/login.html', {"Login_form": form})
+
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -48,8 +51,10 @@ def login_view(request):
 
         return render(request, 'common/login.html')
 
+
 def index(request):
     return render(request, 'main/index.html')
+
 
 # This function renders the registration form page and create a new page based on the form data
 def register_view(request):
@@ -68,8 +73,6 @@ def register_view(request):
     return render(request, 'common/register.html', {'form': form})
 
 
-
-
 def handle_uploaded_file(f):
     with open(''
               'media/stage_images/' + f.name, 'wb+') as destination:
@@ -77,42 +80,52 @@ def handle_uploaded_file(f):
             destination.write(chunk)
 
 
-
 """ ################################################
 Presentations Views
-""" ##############################################
+"""  ##############################################
 
 
 def presentation_views(request):
     presentations = Presentation.objects.all()
-    context = {'Stages': presentations}
+    context = {'presentations': presentations}
     return render(request, 'presentations/presentations.html', context)
 
+
 def updatePresentation_view(request, id):
-    presentation = Presentation.objects.get(id=id)
-    form = CreatePresentationForm(request.POST or None, instance=presentation)
+    presentations = Presentation.objects.get(id=id)
+    form = CreatePresentationForm(request.POST or None, instance=presentations)
     if form.is_valid():
         form.save()
-        return redirect('stage')
-    return render(request, 'presentations/create_presentation.html', {'form': form})
+        return redirect('presentations')
+
+    return render(request, 'presentations/create_presentation.html', {'presentation_form': form})
+
 
 def deletePresentation_view(request):
     return None
+
+
 def PresentationDetail_view(request):
-    return None
+    presentations = Presentation.objects.get(stage=id)
+    stage = Stage.objects.filter(id=id)
+    context = {'presentations': presentations, 'stage': stage}
+    return render(request, 'presentations/presentation_detail.html', context)
+
+
 def create_presentation_views(request):
     submitted = False
     if request.method == 'POST':
-        presentation_form = CreatePresentationForm(request.POST, request.FILES)
-        if presentation_form.is_valid():
-            presentation_form.save()
-            return HttpResponseRedirect('/create_presentation')
+        form = CreatePresentationForm(request.POST, request.FILES)
+        if form.is_valid():
+            # handle_uploaded_file(request.FILES["Stage_image"])
+            form.save()
+            return HttpResponseRedirect('/presentations')
     else:
-        presentation_form = CreatePresentationForm
+        form = CreatePresentationForm
         if 'submitted' in request.GET:
             submitted = True
-    return render(request, 'presentations/create_presentation.html',
-                  {'presentation_form': presentation_form, 'submitted': submitted})
+
+    return render(request, 'stage/create_stage.html', {'add_stageForm': form, 'submitted': submitted})
 
 
 """ ######################################################### STAGE
@@ -122,14 +135,33 @@ click on the stage name it brings them to
 the form and filer to only update the stage that was clicked. 
 This is possible because we are passing the PK 
 as a parameter to the view function
-"""#############################################################
+"""  #############################################################
+
+
 def updateStage_view(request, id):
     stage = Stage.objects.get(id=id)
     form = CreateStageForm(request.POST or None, instance=stage)
     if form.is_valid():
         form.save()
         return redirect('stage')
-    return render(request, 'stage/create_stage.html', {'add_stageForm': form, })
+
+    return render(request, 'stage/create_stage.html', {'add_stageForm': form})
+
+
+def add_stage_view(request):
+    submitted = False
+    if request.method == 'POST':
+        add_stageForm = CreateStageForm(request.POST, request.FILES)
+        if add_stageForm.is_valid():
+            # handle_uploaded_file(request.FILES["Stage_image"])
+            add_stageForm.save()
+            return HttpResponseRedirect('/add_stage')
+    else:
+        add_stageForm = CreateStageForm
+        if 'submitted' in request.GET:
+            submitted = True
+
+    return render(request, 'stage/create_stage.html', {'add_stageForm': add_stageForm, 'submitted': submitted})
 
 
 def deleteStage_view(request, id):
@@ -149,20 +181,6 @@ def stageDetail_view(request, id):
     context = {'stage': stage, 'presentations': presentations}
     return render(request, 'stage/view_stage.html', context)
 
-def add_stage_view(request):
-    submitted = False
-    if request.method == 'POST':
-        add_stageForm = CreateStageForm(request.POST, request.FILES)
-        if add_stageForm.is_valid():
-            # handle_uploaded_file(request.FILES["Stage_image"])
-            add_stageForm.save()
-            return HttpResponseRedirect('/add_stage')
-    else:
-        add_stageForm = CreateStageForm
-        if 'submitted' in request.GET:
-            submitted = True
-
-    return render(request, 'stage/create_stage.html', {'add_stageForm': add_stageForm, 'submitted': submitted})
 
 def stage_view(request):
     stages = Stage.objects.all()
