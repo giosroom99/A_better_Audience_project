@@ -31,16 +31,16 @@
                 </tr>
                 </thead>
                 <tbody class="table-hover ">
-                {% for pres in presentations %}
-                    <tr>
-                        <th scope="row"><a href="{% url 'detail_stage' pres.id %}">{{ pres.pres_name }} </a></th>
-                        <td>{{ pres.type }}</td>
-                        <td>{{ pres.pres_owner }}</td>
-                        <td>{{ pres.created_at }}</td>
-                        <td><a href="{% url 'changestatus' pres.id %}">{{ pres.approval }}</a></td>
-
-                    </tr>
-                {% endfor %}
+{#                {% for pres in presentations %}#}
+{#                    <tr>#}
+{#                        <th scope="row"><a href="{% url 'detail_stage' pres.id %}">{{ pres.pres_name }} </a></th>#}
+{#                        <td>{{ pres.type }}</td>#}
+{#                        <td>{{ pres.pres_owner }}</td>#}
+{#                        <td>{{ pres.created_at }}</td>#}
+{#                        <td><a href="{% url 'changestatus' pres.id %}">{{ pres.approval }}</a></td>#}
+{##}
+{#                    </tr>#}
+{#                {% endfor %}#}
 
                 </tbody>
             </table>

@@ -29,17 +29,14 @@
 
                 <div class="col-8 mx-auto rounded-1 p-3 shadow-lg my-3">
                     <div class="mb-3">
-                        {%  if submitted %}
-                        <p>Your Stage was created!!!!!!!!!</p>
-                        {% else %}
                         <form action="" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
 
                             {{ presentation_form.as_p }}
 
-                             <input type="submit" class="btn btn-primary" value="Add Presentation">
+                             <input type="submit" class="btn btn-primary" value={{ btn_value }}>
                         </form>
-                         {%  endif %}
+
                     </div>
 
                 </div>

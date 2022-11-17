@@ -8,26 +8,27 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 
-
-# Create your views here.
-def login_view(request):
+def logout_view(request):
+    logout(request)
     if request.method == 'POST':
-        form = AuthenticationForm(request.POST)
-        if form.is_valid():
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(request, username=username, password=password)
+        print(user)
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            print(username, password)
+            messages.success(request, ("There was an error loging you in"))
+            return redirect('login')
             user = form.get_user()
             login(request, user)
             print("OK")
             return redirect('index.html')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'common/login.html', {"Login_form": form})
 
-
-def logout_view(request):
-    logout(request)
-    form = AuthenticationForm(request.POST)
-    return render(request, 'common/login.html', {"Login_form": form})
-
+    return render(request, 'common/login.html')
 
 def login_view(request):
     if request.method == 'POST':
@@ -94,38 +95,40 @@ def presentation_views(request):
 def updatePresentation_view(request, id):
     presentations = Presentation.objects.get(id=id)
     form = CreatePresentationForm(request.POST or None, instance=presentations)
+    context = {
+        'presentation_form': form,
+        'btn_value': 'Update'
+    }
     if form.is_valid():
         form.save()
         return redirect('presentations')
 
-    return render(request, 'presentations/create_presentation.html', {'presentation_form': form})
+    return render(request, 'presentations/create_presentation.html', context)
 
 
 def deletePresentation_view(request):
     return None
 
 
-def PresentationDetail_view(request):
-    presentations = Presentation.objects.get(stage=id)
-    stage = Stage.objects.filter(id=id)
-    context = {'presentations': presentations, 'stage': stage}
+def PresentationDetail_view(request, id):
+    presentations = Presentation.objects.get(id=id)
+    evalutions = Evaluation.objects.filter(id=id)
+    context = {'presentations': presentations, 'responses': evalutions}
     return render(request, 'presentations/presentation_detail.html', context)
 
 
 def create_presentation_views(request):
-    submitted = False
     if request.method == 'POST':
         form = CreatePresentationForm(request.POST, request.FILES)
+
         if form.is_valid():
             # handle_uploaded_file(request.FILES["Stage_image"])
             form.save()
             return HttpResponseRedirect('/presentations')
     else:
-        form = CreatePresentationForm
-        if 'submitted' in request.GET:
-            submitted = True
+        form = CreatePresentationForm()
 
-    return render(request, 'stage/create_stage.html', {'add_stageForm': form, 'submitted': submitted})
+    return render(request, 'presentations/create_presentation.html', {'presentation_form': form, 'btn_value': 'Create'})
 
 
 """ ######################################################### STAGE

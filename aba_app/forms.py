@@ -78,7 +78,7 @@ class CreateStageForm(ModelForm):
         widgets = {
             'stage_owner': forms.TextInput(attrs={"name": "user",'type': 'hidden', 'class': "form-control",'placeholder': 'owner', 'id': 'stage-owner'}),
             'stage_name': forms.TextInput(attrs={'class':"form-control",'placeholder':'Stage Name','id':'stage-name'}),
-            'stage_description':forms.TextInput(attrs={'class':"form-control",'placeholder':'Stage Description','id':'stage-description'}),
+            'stage_description':forms.Textarea(attrs={'class':"form-control",'placeholder':'Stage Description','id':'stage-description'}),
             'Stage_image':forms.ClearableFileInput(attrs={'class':"form-control",'multiple': True,'id':'stage-picture'}),
         }
 
@@ -88,7 +88,7 @@ class CreatePresentationForm(ModelForm):
         model = Presentation
         StageSelection = forms.ModelChoiceField(queryset=Stage.objects.all())
         # Set the form fields
-        fields = ('pres_owner','pres_name','pres_description','pres_file','pres_image','stage','type')
+        fields = ('pres_owner','pres_name','pres_description','pres_file','pres_image','pres_date','stage','type')
         exclude = ['user']
         Choice_value = [('1', 'First'), ('2', 'Second'), ('3', 'Third')]
         labels= {
@@ -97,14 +97,21 @@ class CreatePresentationForm(ModelForm):
             'pres_description':'',
             'pres_file':'Upload Presentation File',
             'pres_image': 'Upload Presentation Cover',
+            'pres_date':'When are you going to Present? ',
             'stage': 'Choose a Stage',
             'type': 'Presentation Type',
         }
         widgets = {
             'pres_owner':forms.TextInput(attrs={"name":"owner",'type':'hidden','class':"form-control",'placeholder':'owner','id':'presentation-owner'}),
             'pres_name': forms.TextInput(attrs={'class':"form-control",'placeholder':'Stage Name','id':'presentation-name'}),
-            'pres_description':forms.TextInput(attrs={'class':"form-control",'placeholder':'Presentation Description','id':'presentation-description'}),
+            'pres_description':forms.Textarea(attrs={'class':"form-control",'placeholder':'Presentation Description','id':'presentation-description'}),
             'type': forms.Select(attrs={'class':'form-control'}),
+            'pres_date':forms.DateInput(format=('%Y-%m-%d'),attrs={
+                'class': 'form-control',
+                'placeholder': 'Select a date',
+                'type': 'date'
+            }),
+
             'stage': forms.Select(attrs={'class':'form-control'}),
             'pres_file': forms.ClearableFileInput(attrs={'class':"form-control",'multiple': True,'id':'Presentation-file'}),
             'pres_image':forms.ClearableFileInput(attrs={'class':"form-control",'multiple': True,'id':'Presentation-picture'}),
