@@ -8,6 +8,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 
+
 def logout_view(request):
     logout(request)
     if request.method == 'POST':
@@ -29,6 +30,7 @@ def logout_view(request):
             return redirect('index.html')
 
     return render(request, 'common/login.html')
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -101,19 +103,32 @@ def updatePresentation_view(request, id):
     }
     if form.is_valid():
         form.save()
+        # Presentation.user.add(*[request.user])
         return redirect('presentations')
 
     return render(request, 'presentations/create_presentation.html', context)
 
 
-def deletePresentation_view(request):
-    return None
+def deletePresentation_view(request, id):
+    presentation = Presentation.objects.get(id=id)
+    if request.method == "POST":
+        presentation.delete()
+        return redirect('presentations')
+
+    return render(request, 'presentations/delete-presentation.html', {'presentation': presentation, })
 
 
 def PresentationDetail_view(request, id):
     presentations = Presentation.objects.get(id=id)
-    evalutions = Evaluation.objects.filter(id=id)
-    context = {'presentations': presentations, 'responses': evalutions}
+    evaluations = Evaluation.objects.all()
+
+    form = EvaluationForm(request.POST)
+    if form.is_valid():
+        form.save()
+
+
+
+    context = {'presentations': presentations, 'evaluations': evaluations,'form': form}
     return render(request, 'presentations/presentation_detail.html', context)
 
 
@@ -124,6 +139,7 @@ def create_presentation_views(request):
         if form.is_valid():
             # handle_uploaded_file(request.FILES["Stage_image"])
             form.save()
+            # Presentation.user.add(*[request.user.id])
             return HttpResponseRedirect('/presentations')
     else:
         form = CreatePresentationForm()

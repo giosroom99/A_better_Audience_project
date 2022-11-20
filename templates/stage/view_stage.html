@@ -4,8 +4,9 @@
 
 {% block body %}
     <div class="row mx-auto" >
+        <h1 class="text-center my-4">{{ stage.stage_name}} </h1>
 
-        <div class="col-5 mx-3">
+        <div class="col-lg-5 mx-3">
             <div class="card" style="width:80%;">
                 <img src="{{ stage.Stage_image}}" class="card-img-top" alt="...">
                 <div class="card-body">
@@ -18,7 +19,7 @@
         </div>
 
 
-        <div class="col-6">
+        <div class="col-lg-6 my-4">
             <table class="table  table-striped table-hover table-dark">
                 <thead>
                 <tr>
@@ -33,7 +34,7 @@
                 <tbody class="table-hover ">
                 {% for pres in presentations %}
                     <tr>
-                        <th scope="row"><a href="{% url 'detail_stage' pres.id %}">{{ pres.pres_name }} </a></th>
+                        <th scope="row"><a href="{% url 'detail_presentation' pres.id %}">{{ pres.pres_name }} </a></th>
                         <td>{{ pres.type }}</td>
                         <td>{{ pres.pres_owner }}</td>
                         <td>{{ pres.created_at }}</td>

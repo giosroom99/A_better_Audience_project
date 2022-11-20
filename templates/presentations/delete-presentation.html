@@ -7,20 +7,20 @@
 
         <div class="row rounded-1 shadow-lg m-3 ">
 
-            <h5> Are you sure you want to delete <span style="color:red">{{ stage.stage_name }}</span> ?</h5>
+            <h5> Are you sure you want to delete <span style="color:red">{{ presentation.pres_name }}</span> ?</h5>
             <div class="col-10 mx-auto my-4">
-                 <form class="card-link" action="{%  url 'delete_stage' stage.id %}" method="post">
-                <div class="card" style="width:80%;">
-                    <img src="{{ stage.Stage_image}}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ stage.stage_name}}</h5>
-                        <p class="card-text">{{ stage.stage_description}}</p>
+                <form class="card-link" action="{%  url 'delete_presentation' presentation.id %}" method="post">
+                    <div class="card" style="width:80%;">
+                        <img src="{{ presentation.pres_image}}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ presentation.pres_name}}</h5>
+                            <p class="card-text">{{ presentation.pres_description}}</p>
 
-                        <a href="{% url 'stage' %}" class="card-link btn btn-secondary">Cancel</a>
-                        {% csrf_token %}
-                        <input class=" card-link btn btn-danger d-inline" type="submit" value="Delete" href="{% url 'delete_stage' stage.id %}">
-                    </div>
-            </form>
+                            <a href="{% url 'presentations' %}" class="card-link btn btn-secondary">Cancel</a>
+                            {% csrf_token %}
+                            <input class=" card-link btn btn-danger d-inline" type="submit" value="Delete" href="{% url 'delete_presentation' presentation.id %}">
+                        </div>
+                    </div> </form>
             </div>
 
         </div>
