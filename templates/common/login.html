@@ -53,6 +53,10 @@
                             <p> {{Login_form.messages}}</p>
                             <div class="card-body">
                                 <input type="submit" class="card-link btn btn-primary">
+
+                                <p class=" mt-2"> Don't have an account yet ? <a href="{% url 'register'%}" class="card-link"> signup</a></p>
+
+                                <p class=" mt-1"> Forgot Password ? <a href="{% url 'login'%}" class="card-link"> Reset Password</a></p>
                             </div>
                         </div>
 

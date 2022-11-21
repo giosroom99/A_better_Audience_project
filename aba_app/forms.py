@@ -77,9 +77,7 @@ class CreateStageForm(ModelForm):
             'Stage_image': ''
         }
         widgets = {
-            'stage_owner': forms.TextInput(
-                attrs={"name": "user", 'type': 'hidden', 'class': "form-control", 'placeholder': 'owner',
-                       'id': 'stage-owner'}),
+           
             'stage_name': forms.TextInput(
                 attrs={'class': "form-control", 'placeholder': 'Stage Name', 'id': 'stage-name'}),
             'stage_description': forms.Textarea(
@@ -95,7 +93,7 @@ class CreatePresentationForm(ModelForm):
         StageSelection = forms.ModelChoiceField(queryset=Stage.objects.all())
         # Set the form fields
         fields = (
-            'pres_owner', 'pres_name', 'pres_description', 'pres_file', 'pres_image', 'pres_date', 'stage', 'type')
+             'pres_name', 'pres_description', 'pres_file', 'pres_image', 'pres_date', 'stage', 'type')
         Choice_value = [('1', 'First'), ('2', 'Second'), ('3', 'Third')]
         labels = {
 
@@ -134,13 +132,17 @@ class CreatePresentationForm(ModelForm):
 class EvaluationForm(ModelForm):
     class Meta:
         model = Evaluation
-        fields = ('criteria', 'evaluation')
+        fields = ('criteria', 'evaluation',)
 
         labels = {
             'criteria': "",
             'evaluation': 'Rate'
         }
         widgets = {
+            # {{ user.username }}
+        #    'user':forms.Select(
+        #         attrs={"name": "user", 'type': 'hidden', 'class': "form-control", 'placeholder': 'owner',
+        #                'id': 'presentation-owner','value':'{{ user.id }}'}),
             'criteria': forms.Select(attrs={'class': 'form-control'}),
             'evaluation': forms.TextInput(
                 attrs={"name": "evaluation", 'type': 'text', 'class': "form-control", 'placeholder': 'Rate',

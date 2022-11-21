@@ -34,7 +34,7 @@
                 {% for evaluation in evaluations %}
                     <tr>
                         {#                                        <th scope="row"><a href="{% url 'detail_presentation' pres.id %}">{{ pres.pres_name }} </a></th>#}
-                        <td>{{ evaluation.user }}</td>
+                        <td>{{ evaluation.evalution_owner }}</td>
                         <td>{{ evaluation.criteria }}</td>
                         <td>{{ evaluation.evaluation }}</td>
                         <td>{{ evaluation.created_at }}</td>

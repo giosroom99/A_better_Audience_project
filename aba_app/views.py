@@ -108,19 +108,20 @@ def updatePresentation_view(request, id):
 
     return render(request, 'presentations/create_presentation.html', context)
 
-
+@login_required
 def EvaluatePresentation_view(request, id):
     presentations = Presentation.objects.get(id=id)
     if request.method == 'POST':
         form = EvaluationForm(request.POST)
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            instance.evalution_owner = request.user
+            instance.save()
+           
             # Presentation.user.add(*[request.user.id])
-            print("#########################################################")
+            print("#########################################################", request.user)
             #return render(request, 'presentations/presentation_detail.html', {'presentations': presentations})
             return redirect('presentations')
-
-
     else:
       form = EvaluationForm()
     return render(request, 'presentations/evalute_presentation.html', {'presentations': presentations, 'form': form})
@@ -148,7 +149,9 @@ def create_presentation_views(request):
 
         if form.is_valid():
             # handle_uploaded_file(request.FILES["Stage_image"])
-            form.save()
+            instance = form.save(commit=False)
+            instance.owner = request.user
+            instance.save()
             # Presentation.user.add(*[request.user.id])
             return HttpResponseRedirect('/presentations')
     else:
@@ -183,7 +186,9 @@ def add_stage_view(request):
         add_stageForm = CreateStageForm(request.POST, request.FILES)
         if add_stageForm.is_valid():
             # handle_uploaded_file(request.FILES["Stage_image"])
-            add_stageForm.save()
+            instance = add_stageForm.save(commit=False)
+            instance.user = request.user
+            instance.save()
             return HttpResponseRedirect('/add_stage')
     else:
         add_stageForm = CreateStageForm

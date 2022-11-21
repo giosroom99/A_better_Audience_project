@@ -48,8 +48,8 @@ class Presentation(models.Model):
     ]
 
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
-    pres_owner =models.CharField(max_length=60,null=True,blank=True)
+    #user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
+    owner =models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
     pres_name = models.CharField(max_length=60,null=True,blank=True)
     pres_description = models.TextField(max_length=500,null=True,blank=True)
     stage = models.ForeignKey(Stage, on_delete=models.CASCADE,null=True,blank=True)
@@ -76,7 +76,7 @@ class Criteria(models.Model):
 
 
 class Evaluation(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE,blank=True,null=True)
+    evalution_owner = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
     presentation = models.ForeignKey(Presentation, on_delete=models.CASCADE,blank=True,null=True)
     criteria = models.ForeignKey(Criteria, on_delete=models.CASCADE,blank=True,null=True)
     evaluation = models.CharField(max_length=60,blank=True,null=True)  ## given evalation
