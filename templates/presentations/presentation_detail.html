@@ -11,7 +11,10 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ presentations.pres_name}}</h5>
                     <p class="card-text">{{ presentations.pres_description}}</p>
+                    {%if user == presentations.owner %}
+                    {% else %}
                     <a href="{% url 'evaluate_presentation' presentations.id %}" class="btn btn-secondary color-white">Review</a>
+                    {% endif%}
                 </div>
             </div>
     </div>
