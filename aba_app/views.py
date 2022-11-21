@@ -116,6 +116,7 @@ def EvaluatePresentation_view(request, id):
         if form.is_valid():
             instance = form.save(commit=False)
             instance.evalution_owner = request.user
+            instance.presentation = presentations
             instance.save()
            
             # Presentation.user.add(*[request.user.id])
@@ -137,7 +138,9 @@ def deletePresentation_view(request, id):
 
 
 def PresentationDetail_view(request, id):
+    current_login = request.user
     presentations = Presentation.objects.get(id=id)
+    # evaluations = Evaluation.objects.get(id=id)
     evaluations = Evaluation.objects.all()
     context = {'presentations': presentations, 'evaluations': evaluations}
     return render(request, 'presentations/presentation_detail.html', context)
@@ -208,6 +211,7 @@ def deleteStage_view(request, id):
 
 
 def stageDetail_view(request, id):
+    
     presentations = Presentation.objects.filter(stage=id)
     print(presentations)
     stage = Stage.objects.get(id=id)

@@ -36,7 +36,7 @@
                     <tr>
                         <th scope="row"><a href="{% url 'detail_presentation' pres.id %}">{{ pres.pres_name }} </a></th>
                         <td>{{ pres.type }}</td>
-                        <td>{{ pres.pres_owner }}</td>
+                        <td>{{ pres.owner }}</td>
                         <td>{{ pres.created_at }}</td>
                         <td><a href="{% url 'changestatus' pres.id %}">{{ pres.approval }}</a></td>
 
