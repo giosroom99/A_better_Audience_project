@@ -83,8 +83,8 @@ class Evaluation(models.Model):
 
     created_at = models.DateField(auto_now_add=True, null=True,blank=True)
     updated_at = models.DateField(auto_now=True, null=True,blank=True)
-    def __str__(self):
-        return self.evaluation
+    # def __str__(self):
+    #     return self.evaluation
 
 
 # class Staged_presentation(models.Model):

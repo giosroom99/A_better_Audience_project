@@ -109,6 +109,23 @@ def updatePresentation_view(request, id):
     return render(request, 'presentations/create_presentation.html', context)
 
 
+def EvaluatePresentation_view(request, id):
+    presentations = Presentation.objects.get(id=id)
+    if request.method == 'POST':
+        form = EvaluationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Presentation.user.add(*[request.user.id])
+            print("#########################################################")
+            #return render(request, 'presentations/presentation_detail.html', {'presentations': presentations})
+            return redirect('presentations')
+
+
+    else:
+      form = EvaluationForm()
+    return render(request, 'presentations/evalute_presentation.html', {'presentations': presentations, 'form': form})
+
+
 def deletePresentation_view(request, id):
     presentation = Presentation.objects.get(id=id)
     if request.method == "POST":
@@ -121,14 +138,7 @@ def deletePresentation_view(request, id):
 def PresentationDetail_view(request, id):
     presentations = Presentation.objects.get(id=id)
     evaluations = Evaluation.objects.all()
-
-    form = EvaluationForm(request.POST)
-    if form.is_valid():
-        form.save()
-
-
-
-    context = {'presentations': presentations, 'evaluations': evaluations,'form': form}
+    context = {'presentations': presentations, 'evaluations': evaluations}
     return render(request, 'presentations/presentation_detail.html', context)
 
 
