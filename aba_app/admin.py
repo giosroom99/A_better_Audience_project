@@ -7,6 +7,7 @@ admin.site.register(Presentation)
 admin.site.register(Stage)
 admin.site.register(Criteria)
 admin.site.register(Evaluation)
+admin.site.register(Reviews)
 admin.site.register(UserSetting)
 # admin.site.register(Staged_presentation)
 

@@ -53,7 +53,7 @@ class Presentation(models.Model):
     pres_name = models.CharField(max_length=60,null=True,blank=True)
     pres_description = models.TextField(max_length=500,null=True,blank=True)
     stage = models.ForeignKey(Stage, on_delete=models.CASCADE,null=True,blank=True)
-    approval = models.CharField(max_length=15, default=approve[2],choices= approve)
+    # approval = models.BooleanField( default=False)
     type = models.CharField(max_length=50,choices =type,null=True,blank=True)
     pres_image = models.ImageField(upload_to="Presentation_images/", max_length=250, null=True,blank=True, default=None)
     pres_date = models.DateTimeField(null=True,blank=True)
@@ -76,10 +76,10 @@ class Criteria(models.Model):
 
 
 class Evaluation(models.Model):
-    evalution_owner = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
+    evaluation_owner = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
     presentation = models.ForeignKey(Presentation, on_delete=models.CASCADE,blank=True,null=True)
     criteria = models.ForeignKey(Criteria, on_delete=models.CASCADE,blank=True,null=True)
-    evaluation = models.CharField(max_length=60,blank=True,null=True)  ## given evalation
+    evaluation = models.IntegerField(blank=True,null=True)  ## given evalation
 
     created_at = models.DateField(auto_now_add=True, null=True,blank=True)
     updated_at = models.DateField(auto_now=True, null=True,blank=True)
@@ -104,3 +104,15 @@ class UserSetting(models.Model):
     theme = models.CharField(max_length=10,null=True,blank=True)
     def __str__(self):
         return self.user.username
+
+class Reviews(models.Model):
+    evaluation_owner = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
+    presentation = models.ForeignKey(Presentation, on_delete=models.CASCADE,blank=True,null=True)
+    review1 = models.IntegerField(null=True)
+    review2 = models.IntegerField( null=True)
+    review3 = models.IntegerField( null=True)
+
+    created_at = models.DateField(auto_now_add=True, null=True,blank=True)
+    updated_at = models.DateField(auto_now=True, null=True,blank=True)
+    # def __str__(self):
+    #     return self.evaluation

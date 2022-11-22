@@ -26,23 +26,25 @@
                 <thead>
                 <tr>
                     <th scope="col">Author</th>
-                    <th scope="col">Criteria</th>
-                    <th scope="col">Evaluation</th>
+                    <th scope="col">Review 1 1-100</th>
+                    <th scope="col">Review 2 1-100</th>
+                    <th scope="col">Review 3 1-100</th>
                     <th scope="col">Date Created</th>
                     <th scope="col">Last Edited</th>
 
                 </tr>
                 </thead>
                 <tbody class="table-hover ">
-                {% for evaluation in evaluations %}
-                {% if evaluation.presentation == presentations %}
+                {% for review in reviews %}
+                {% if review.presentation == presentations %}
                     <tr>
                         {#                                        <th scope="row"><a href="{% url 'detail_presentation' pres.id %}">{{ pres.pres_name }} </a></th>#}
-                        <td>{{ evaluation.evalution_owner }}</td>
-                        <td>{{ evaluation.criteria }}</td>
-                        <td>{{ evaluation.evaluation }}</td>
-                        <td>{{ evaluation.created_at }}</td>
-                        <td>{{ evaluation.updated_at }}</td>
+                        <td>{{ review.evaluation_owner }}</td>
+                        <td>{{ review.review1 }}</td>
+                        <td>{{ review.review2 }}</td>
+                        <td>{{ review.review3 }}</td>
+                        <td>{{ review.created_at }}</td>
+                        <td>{{ review.updated_at }}</td>
                         {#                                        <td><a href="{% url 'changestatus' pres.id %}">{{ pres.approval }}</a></td>#}
 
                     </tr>

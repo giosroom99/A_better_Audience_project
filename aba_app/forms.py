@@ -132,19 +132,42 @@ class CreatePresentationForm(ModelForm):
 class EvaluationForm(ModelForm):
     class Meta:
         model = Evaluation
+        # questions = Criteria.objects.all()
         fields = ('criteria', 'evaluation',)
 
         labels = {
-            'criteria': "",
-            'evaluation': 'Rate'
+            'criteria': '',
+            'evaluation': 'Rate 1-100'
         }
         widgets = {
-            # {{ user.username }}
-        #    'user':forms.Select(
-        #         attrs={"name": "user", 'type': 'hidden', 'class': "form-control", 'placeholder': 'owner',
-        #                'id': 'presentation-owner','value':'{{ user.id }}'}),
-            'criteria': forms.Select(attrs={'class': 'form-control'}),
-            'evaluation': forms.TextInput(
+
+            # 'criteria': forms.Select(attrs={'class': 'form-control'}),
+            'evaluation': forms.NumberInput(
                 attrs={"name": "evaluation", 'type': 'text', 'class': "form-control", 'placeholder': 'Rate',
                        'id': 'rate'}),
+        }
+
+class RevviewsForm(ModelForm):
+    class Meta:
+        model = Reviews
+        # questions = Criteria.objects.all()
+        fields = ('review1', 'review2','review3')
+
+        labels = {
+            'review1': 'How was the presentation 0-100',
+            'review2': 'How was the project 0-100',
+            'review3':'How was the style 0-100'
+        }
+        widgets = {
+
+            # 'criteria': forms.Select(attrs={'class': 'form-control'}),
+            'review1': forms.NumberInput(
+                attrs={'type': 'number', 'class': "form-control", 'placeholder': 'Rate 0-100',
+                       }),
+            'review2': forms.NumberInput(
+                attrs={'type': 'number', 'class': "form-control", 'placeholder': 'Rate 0-100',
+                       }),
+            'review3': forms.NumberInput(
+                attrs={'type': 'number', 'class': "form-control", 'placeholder': 'Rate 0-100',
+                       }),
         }

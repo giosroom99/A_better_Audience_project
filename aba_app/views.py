@@ -16,8 +16,8 @@ def logout_view(request):
         password = request.POST['password']
 
         user = authenticate(request, username=username, password=password)
-        print(user)
-        if user is not None:
+
+        if user is  not None:
             login(request, user)
             return redirect('index')
         else:
@@ -111,21 +111,38 @@ def updatePresentation_view(request, id):
 @login_required
 def EvaluatePresentation_view(request, id):
     presentations = Presentation.objects.get(id=id)
+    # criterias =Criteria.objects.all()
     if request.method == 'POST':
-        form = EvaluationForm(request.POST)
+        form = RevviewsForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
-            instance.evalution_owner = request.user
+            instance.evaluation_owner = request.user
             instance.presentation = presentations
             instance.save()
-           
+
             # Presentation.user.add(*[request.user.id])
             print("#########################################################", request.user)
-            #return render(request, 'presentations/presentation_detail.html', {'presentations': presentations})
+            # return render(request, 'presentations/presentation_detail.html', {'presentations': presentations})
             return redirect('presentations')
     else:
-      form = EvaluationForm()
+        form = RevviewsForm()
     return render(request, 'presentations/evalute_presentation.html', {'presentations': presentations, 'form': form})
+    # presentations = Presentation.objects.get(id=id)
+    # if request.method == 'POST':
+    #     form = EvaluationForm(request.POST)
+    #     if form.is_valid():
+    #         instance = form.save(commit=False)
+    #         instance.evaluation_owner = request.user
+    #         instance.presentation = presentations
+    #         instance.save()
+    #
+    #         # Presentation.user.add(*[request.user.id])
+    #         print("#########################################################", request.user)
+    #         #return render(request, 'presentations/presentation_detail.html', {'presentations': presentations})
+    #         return redirect('presentations')
+    # else:
+    #     form = EvaluationForm()
+    # return render(request, 'presentations/evalute_presentation.html', {'presentations': presentations, 'form': form})
 
 
 def deletePresentation_view(request, id):
@@ -141,8 +158,8 @@ def PresentationDetail_view(request, id):
     current_login = request.user
     presentations = Presentation.objects.get(id=id)
     # evaluations = Evaluation.objects.get(id=id)
-    evaluations = Evaluation.objects.all()
-    context = {'presentations': presentations, 'evaluations': evaluations}
+    reviews = Reviews.objects.all()
+    context = {'presentations': presentations, 'reviews': reviews}
     return render(request, 'presentations/presentation_detail.html', context)
 
 
@@ -190,6 +207,7 @@ def add_stage_view(request):
         if add_stageForm.is_valid():
             # handle_uploaded_file(request.FILES["Stage_image"])
             instance = add_stageForm.save(commit=False)
+
             instance.user = request.user
             instance.save()
             return HttpResponseRedirect('/add_stage')
@@ -211,7 +229,7 @@ def deleteStage_view(request, id):
 
 
 def stageDetail_view(request, id):
-    
+
     presentations = Presentation.objects.filter(stage=id)
     print(presentations)
     stage = Stage.objects.get(id=id)
@@ -224,3 +242,49 @@ def stage_view(request):
     stages = Stage.objects.all()
     context = {'Stages': stages}
     return render(request, 'stage/stage.html', context)
+
+
+# def presentationApproval_view(request,id):
+#
+#     presentations = Presentation.objects.get(id=id)
+#     stage = Stage.objects.get(id=id)
+#     form = CreatePresentationForm(request.POST or None, instance=presentations)
+#     if request.method == 'POST':
+#         if request.POST['boxe'] =='on':
+#             # instance = form.save(commit=False)
+#             # instance.approval = True
+#             Presentation.objects.filter(pk=id).update(approval=True)
+#         instance = form.save(commit=False)
+#         print(request.POST['boxe'])
+#         # instance.approval = request.POST['boxe']
+#         # instance.save()
+#     context = {
+#         'presentation_form': form,
+#         'presentation':presentations,
+#         'btn_value': 'Update Approval',
+#         'stage': stage
+#     }
+#     if form.is_valid():
+#         form.save()
+#         # Presentation.user.add(*[request.user])
+#         return redirect('presentations')
+#
+#     return render(request, 'stage/wating_approval.html', context)
+#
+#
+#     # presentations = Presentation.objects.filter(stage=id)
+#     # if request.user.is_superuser:
+#     #     if request.method == 'POST':
+#     #         id_list = request.POST.getlist('boxes')
+#     #         print(id_list)
+#     #         for x in id_list:
+#     #             print(x)
+#     #             Presentation.objects.filter(pk = int(x)).update(approved= True)
+#     #         # messages.success()
+#     #     else:
+#     #         return render(request,'stage/wating_approval.html',)
+#     #
+#     # stage = Stage.objects.get(id=id)
+#     # # print(stage+ """""""""""""""""""""""""")
+#     # context = {'stage': stage, 'presentations': presentations}
+#     # return render(request, 'stage/wating_approval.html',context)

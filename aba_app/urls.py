@@ -26,6 +26,6 @@ urlpatterns = [
                   path('update_stage/<int:id>', views.updateStage_view, name= 'update_stage'),
                   path('delete_stage/<int:id>', views.deleteStage_view, name='delete_stage'),
                   path('detail_stage/<int:id>', views.stageDetail_view, name='detail_stage'),
-                  path('status/<int:id>', views.updatePresentation_view, name='changestatus')
+                  # path('status/<int:id>', views.presentationApproval_view, name='changestatus')
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

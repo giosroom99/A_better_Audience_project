@@ -12,7 +12,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ stage.stage_name}}</h5>
                     <p class="card-text">{{ stage.stage_description}}</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <a href="#" class="btn btn-primary">Presentation Approval </a>
                 </div>
             </div>
 
@@ -38,7 +38,7 @@
                         <td>{{ pres.type }}</td>
                         <td>{{ pres.owner }}</td>
                         <td>{{ pres.created_at }}</td>
-                        <td><a href="{% url 'changestatus' pres.id %}">{{ pres.approval }}</a></td>
+                        <td><a href="#">#</a></td>
 
                     </tr>
                 {% endfor %}

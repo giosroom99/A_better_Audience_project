@@ -3,25 +3,42 @@
 
 
 {% block body %}
-    <div class="row mx-auto" >
+    <div class="row " >
         <h1 class="text-center my-4">{{ presentations.pres_name}}</h1>
-        <div class="col-lg-7 mx-3">
+        <div class="col-12 mx-auto">
             <div class="card" style="width:80%;">
                 <img src="{{ presentations.pres_image}}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{ presentations.pres_name}}</h5>
                     <p class="card-text">{{ presentations.pres_description}}</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    {#                    <a href="#" class="btn btn-primary">Go somewhere</a>#}
                 </div>
             </div>
 
         </div>
-        <div class="col-4">
-            <h1 class=" my-4"> Submit an Evaluation</h1>
-            <div class="col-lg-6">
+        <div class="col-12 ">
+
+            <div class="col-lg-6 mx-auto my-4 form-group">
+                <h3 class=" my-4 text-center"> Submit an Evaluation</h3>
                 <form action="" method="post">
-                    {{ form }}
+
                     {% csrf_token %}
+                    {#                    {% for field in form.evaluation  %}#}
+                    {#                        <label class="form-label">{{ field.label }}</label>#}
+                    {#                        {{ field.field }}#}
+                    {#                    {% endfor %}#}
+                    {#                    {{ form.evaluation }}#}
+
+                    {{ form.as_p }}
+
+{#                    {% for question in criterias %}#}
+{#                        <div class="mb-3">#}
+{#                            <label for="text" class="form-label">{{ question }}</label>#}
+{#                            <input type="number" class="form-control" id="text">#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+
+
                     <input type="submit" class="btn btn-primary" value="Review">
                 </form>
 
@@ -31,7 +48,7 @@
 
     </div>
 
-      
+
     </div>
 
 

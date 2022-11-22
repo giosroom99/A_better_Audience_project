@@ -1,57 +1,123 @@
-{% extends "common/base.html" %}
+{% extends "main/../common/base.html" %}
 
 
 
 {% block body %}
-    <div class="row mx-auto" >
+    <p class="  display-5 text-center mb-3">ADMIN  APPROVAL <i class="fa-solid fa-person-chalkboard"></i></p>
+    <div class="tab-pane mx-auto fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+        <div class="row mx-auto" >
+            <h4 class=" text-center mt-5">Update approval for <strong>{{ presentation.pres_name}}</strong></h4>
 
-        <div class="col-5 mx-3">
-            <div class="card" style="width:80%;">
-                <img src="{{ stage.Stage_image}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">{{ stage.stage_name}}</h5>
-                    <p class="card-text">{{ stage.stage_description}}</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+            <div class="col-8 mx-auto rounded-1 p-3 shadow-lg my-3">
+                <div class="mb-3">
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        {% if presentation.approval %}
+                            <div class="form-check">
+                                <label class="form-label"> Check this Box to Approve</label>
+                                <input class="form-check-input" name="boxe" type="checkbox" checked="checked">
+                            </div>
+                        {% else %}
+                            <div class="form-check">
+                                <label class="form-label"> Check this Box to  add this Presentation on <strong>{{ stage.stage_name}}</strong> </label>
+                                <input class="form-check-input" name="boxe" type="checkbox" >
+                            </div>
+                        {% endif %}
+                        {#                        {{ presentation_form.as_p }}#}
+
+                        <input type="submit" class="btn btn-primary" value={{ btn_value }}>
+                    </form>
+
                 </div>
+
             </div>
-
-        </div>
-
-
-        <div class="col-6">
-            <table class="table  table-striped table-hover table-dark">
-                <thead>
-                <tr>
-                    <th scope="col">Presentations</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Owner</th>
-                    <th scope="col">Date Created</th>
-                    <th scope="col">Approve</th>
-                </tr>
-                </thead>
-                <tbody class="table-hover ">
-                {% for pres in presentations %}
-                    <tr>
-                        <th scope="row"></th>
-                        <td>{{ pres.type }}</td>
-                        <td>{{ pres.pres_owner }}</td>
-                        <td>{{ pres.created_at }}</td>
-                        <td>{{ pres.approval }}</td>
-                    </tr>
-                {% endfor %}
-
-                </tbody>
-            </table>
         </div>
     </div>
 
 
 
-    <h1></h1>
+
+    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+        <h5 class="text-center mb-5">AVAILABLE STAGES</h5>
+        <div class="row ">
+            <div class="col-8 mx-auto">
+                <form class="d-flex " role="search">
+                    <input class="form-control me-2 w-50%" type="search" placeholder="Search for available stages" aria-label="Search">
+                    <a href="{% url 'stage' %}">Create a Stages</a>
+                </form>
+                <div class="rounded-1  p-4">
+
+                    <div class="card w-100%  my-2" >
+                        <div class="card-body">
+                            <h6 class="card-title"><a href="#">CS 416 section 01 </a></h6>
+                            <small class="card-text  d-inline">Nov. 16, 2022</small><br>
+                            <small class="card-text  d-inline">Presentations : <span>10</span> </small><br>
+                            <small class="small-text-descriptions">Final project presentation Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium aliquam doloribus eligendi esse hic minima placeat quae quas totam. Eum incidunt iste nemo placeat provident quaerat quasi quis voluptas! </small>
+                            <p class="card-text fw-bold ">Albayram, Yusuf (Stage Owner)</p>
+                        </div>
+                    </div>
+
+                    <div class="card w-100%  my-2" >
+                        <div class="card-body">
+                            <h6 class="card-title"><a href="#">CS 416 section 20 </a></h6>
+                            <small class="card-text  d-inline">Nov. 4, 2022</small><br>
+                            <small class="card-text  d-inline">Presentations : <span>50</span> </small><br>
+                            <small class="small-text-descriptions">Final project presentation Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium aliquam doloribus eligendi esse hic minima placeat quae quas totam. Eum incidunt iste nemo placeat provident quaerat quasi quis voluptas! </small>
+                            <p class="card-text fw-bold ">Williams, Chad (Stage Owner)</p>
+                        </div>
+                    </div>
+
+                    <div class="card w-100%  my-2" >
+                        <div class="card-body">
+                            <h6 class="card-title"><a href="#">CS 410 section 01 </a></h6>
+                            <small class="card-text  d-inline">Nov. 6, 2022</small><br>
+                            <small class="card-text  d-inline">Presentations : <span>15</span> </small><br>
+                            <small class="small-text-descriptions">Final project presentation Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium aliquam doloribus eligendi esse hic minima placeat quae quas totam. Eum incidunt iste nemo placeat provident quaerat quasi quis voluptas! </small>
+                            <p class="card-text fw-bold ">Albayram, Yusuf (Stage Owner)</p>
+                        </div>
+                    </div>
+
+                    <div class="card w-100%  my-2" >
+                        <div class="card-body">
+                            <h6 class="card-title"><a href="#">CS Club General Meetings </a></h6>
+                            <small class="card-text  d-inline">Nov. 5, 2022</small><br>
+                            <small class="card-text  d-inline">Presentations : <span>2</span> </small><br>
+                            <small class="small-text-descriptions">Final project presentation Lorem ipsum dolor loren loren sit amet, consectetur adipisicing elit. Ab accusantium aliquam doloribus eligendi esse hic minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident quaerat quasi quis voluptas! </loren> </small>
+                            <p class="card-text fw-bold ">Giovanni T., (Stage Owner)</p>
+
+                        </div>
+                    </div>
+
+                    <div class="card w-100%  my-2" >
+                        <div class="card-body">
+                            <h6 class="card-title"><a href="#">CT Public School VP</a></h6>
+                            <small class="card-text  d-inline">Nov. 5, 2025</small><br>
+                            <small class="card-text  d-inline">Presentations : <span>1</span> </small><br>
+                            <small class="small-text-descriptions">Final project presentation Lorem ipsum dolor loren loren sit amet, consectetur adipisicing elit. Ab accusantium aliquam doloribus eligendi esse hic minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident qua minima placeat quae quas totam. Eum incidunt iste nemo placeat provident quaerat quasi quis voluptas! </loren> </small>
+                            <p class="card-text fw-bold ">smith John, (Stage Owner)</p>
+
+                        </div>
+                    </div>
 
 
 
-    <h1 class="text-center">Presentations</h1>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 
 
-{% endblock %}
+
+    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">...</div>
+    <div class="tab-pane fade" id="pills-disabled" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0">...</div>
+    </div>
+
+
+
+
+
+
+{% endblock%}
