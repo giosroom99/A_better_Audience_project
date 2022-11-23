@@ -51,7 +51,7 @@
                     <th scope="col">Presentations</th>
                     <th scope="col">Type</th>
                     <th scope="col">Owner</th>
-                    <th scope="col">Date Created</th>
+                    <th scope="col">Presentation Date</th>
                     <th scope="col">Status</th>
     
                 </tr>
@@ -62,7 +62,7 @@
                         <th scope="row"><a href="{% url 'detail_presentation' pres.id %}">{{ pres.pres_name }} </a></th>
                         <td>{{ pres.type }}</td>
                         <td>{{ pres.owner }}</td>
-                        <td>{{ pres.created_at }}</td>
+                        <td>{{ pres.pres_date }}</td>
                         <td><a href="#">#</a></td>
     
                     </tr>

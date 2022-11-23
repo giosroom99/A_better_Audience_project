@@ -161,6 +161,7 @@ def deletePresentation_view(request, id):
 def PresentationDetail_view(request, id):
     current_login = request.user
     presentations = Presentation.objects.get(id=id)
+    
 
     # evaluations = Evaluation.objects.get(id=id)
     reviews = Reviews.objects.all()
@@ -264,8 +265,8 @@ def deleteStage_view(request, id):
 
 
 def stageDetail_view(request, id):
-
-    presentations = Presentation.objects.filter(stage=id)
+    
+    presentations = Presentation.objects.filter(stage=id).order_by('-pres_date')
     print(presentations)
     stage = Stage.objects.get(id=id)
     # print(stage+ """""""""""""""""""""""""")
