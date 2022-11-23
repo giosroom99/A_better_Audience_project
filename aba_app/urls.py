@@ -18,6 +18,7 @@ urlpatterns = [
                   path('delete_pres/<int:id>', views.deletePresentation_view, name='delete_presentation'),
                   path('detail_pres/<int:id>', views.PresentationDetail_view, name='detail_presentation'),
                   path('evaluate_pres/<int:id>', views.EvaluatePresentation_view, name='evaluate_presentation'),
+                  path('dashboard_pres/<int:id>', views.PresentationDasboard_view, name='dasboard_presentation'),
                   #path('status/<int:id>', views.updatePresentation, name='changestatus'),
 
                   # Stage URL

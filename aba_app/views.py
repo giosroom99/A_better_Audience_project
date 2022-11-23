@@ -1,6 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
+from .decorators import group_required
+from django.db.models import Sum,Avg
 from .forms import *
 from .models import *
 from django.contrib.auth import authenticate, login, logout
@@ -9,6 +11,8 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 
 
+
+# @group_required('User_Reviewer')
 def logout_view(request):
     logout(request)
     if request.method == 'POST':
@@ -93,7 +97,7 @@ def presentation_views(request):
     context = {'presentations': presentations}
     return render(request, 'presentations/presentations.html', context)
 
-
+# @group_required('User_Reviewer')
 def updatePresentation_view(request, id):
     presentations = Presentation.objects.get(id=id)
     form = CreatePresentationForm(request.POST or None, instance=presentations)
@@ -157,10 +161,41 @@ def deletePresentation_view(request, id):
 def PresentationDetail_view(request, id):
     current_login = request.user
     presentations = Presentation.objects.get(id=id)
+
     # evaluations = Evaluation.objects.get(id=id)
     reviews = Reviews.objects.all()
+
+    # review1_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review1'))
+    # review2_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review2'))
+    # review3_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review3'))
+    # print('##################################### SUM ###########################')
+    # print(review1_avg)
+
     context = {'presentations': presentations, 'reviews': reviews}
     return render(request, 'presentations/presentation_detail.html', context)
+
+def PresentationDasboard_view(request, id):
+    current_login = request.user
+    presentations = Presentation.objects.get(id=id)
+
+    # evaluations = Evaluation.objects.get(id=id)
+    reviews = Reviews.objects.all()
+
+    review1_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review1'))
+    review2_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review2'))
+    review3_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review3'))
+    print('##################################### SUM ###########################')
+    print(review1_avg)
+
+    context = {
+        'presentations': presentations, 
+        'reviews': reviews,
+        'review1_avg':review1_avg ,
+        'review2_avg':review2_avg ,
+        'review3_avg':review3_avg ,
+        }
+    return render(request, 'presentations/presentation_dashboard.html', context)
+
 
 
 def create_presentation_views(request):

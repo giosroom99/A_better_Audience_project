@@ -1,1 +1,9 @@
 
+#barchart_values{
+    width: 80% !important;
+    height: 50% !important;
+}
+
+.must-be-hidden{
+    display: none !important;
+}
