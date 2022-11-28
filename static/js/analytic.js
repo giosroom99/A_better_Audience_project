@@ -1,12 +1,23 @@
+
+
+
+
 google.charts.load("current", {packages:["corechart"]});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
+      
+      const rev1 =  parseInt($('#review1_avg').text())
+      const rev2 =  parseInt($('#review2_avg').text())
+      const rev3 =  parseInt($('#review3_avg').text())
+
+
+      console.log(rev2)
       var data = google.visualization.arrayToDataTable([
-        ["Element", "Density", { role: "style" } ],
-        ["Copper", 8.94, "#b87333"],
-        ["Silver", 10.49, "silver"],
-        ["Gold", 19.30, "gold"],
-        ["Platinum", 21.45, "color: #e5e4e2"]
+        ["Element", "Audience Review", { role: "style" } ],
+        ["Review 1", rev1, "#34ebe1"],
+        ["Review 2", rev2, "#3458eb"],
+        ["Review 3", rev3, "#cf1df2"],
+     
       ]);
 
       var view = new google.visualization.DataView(data);
@@ -18,14 +29,14 @@ google.charts.load("current", {packages:["corechart"]});
                        2]);
 
       var options = {
-        title: "Presentation score based on user evalution",
-        width: 800,
-        height: 250,
-        bar: {groupWidth: "90%"},
+        title: "AVG Reviews Based on Audience Rating",
+        width: 'auto',
+        height: 400,
+        bar: {groupWidth: "95%"},
         legend: { position: "none" },
+        backgroundColor: '#012e45',
+        colors:['red','#004411'],
       };
       var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
       chart.draw(view, options);
   }
-
-  

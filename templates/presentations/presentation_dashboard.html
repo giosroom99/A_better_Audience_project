@@ -23,7 +23,11 @@
     <div class="row my-3 mx-auto ">
         <div class="col-12 ">
             <script>
-                drawChart({{ data }})
+
+                {% comment %} console.log({{review1_avg}}); {% endcomment %}
+                {% comment %} drawChart() {% endcomment %}
+
+
             </script>
             <p id='review1_avg'class='must-be-hidden'>{{review1_avg}}</P>
             <p id='review2_avg' class='must-be-hidden'>{{review2_avg}}</P>

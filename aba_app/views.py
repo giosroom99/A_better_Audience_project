@@ -2,14 +2,14 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from .decorators import group_required
-from django.db.models import Sum,Avg
+from django.db.models import Sum, Avg
 from .forms import *
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-
+from json import dumps
 
 
 # @group_required('User_Reviewer')
@@ -21,7 +21,7 @@ def logout_view(request):
 
         user = authenticate(request, username=username, password=password)
 
-        if user is  not None:
+        if user is not None:
             login(request, user)
             return redirect('index')
         else:
@@ -97,6 +97,7 @@ def presentation_views(request):
     context = {'presentations': presentations}
     return render(request, 'presentations/presentations.html', context)
 
+
 # @group_required('User_Reviewer')
 def updatePresentation_view(request, id):
     presentations = Presentation.objects.get(id=id)
@@ -111,6 +112,7 @@ def updatePresentation_view(request, id):
         return redirect('presentations')
 
     return render(request, 'presentations/create_presentation.html', context)
+
 
 @login_required
 def EvaluatePresentation_view(request, id):
@@ -161,7 +163,6 @@ def deletePresentation_view(request, id):
 def PresentationDetail_view(request, id):
     current_login = request.user
     presentations = Presentation.objects.get(id=id)
-    
 
     # evaluations = Evaluation.objects.get(id=id)
     reviews = Reviews.objects.all()
@@ -175,6 +176,7 @@ def PresentationDetail_view(request, id):
     context = {'presentations': presentations, 'reviews': reviews}
     return render(request, 'presentations/presentation_detail.html', context)
 
+
 def PresentationDasboard_view(request, id):
     current_login = request.user
     presentations = Presentation.objects.get(id=id)
@@ -182,21 +184,34 @@ def PresentationDasboard_view(request, id):
     # evaluations = Evaluation.objects.get(id=id)
     reviews = Reviews.objects.all()
 
-    review1_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review1'))
+    review1_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review1')).values()
     review2_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review2'))
     review3_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review3'))
-    print('##################################### SUM ###########################')
-    print(review1_avg)
 
+    dataA = Reviews.objects.filter(presentation=presentations).aggregate(
+        avr_rev1=Avg('review1'),
+        avr_rev2=Avg('review2'),
+        avr_rev3=Avg('review3'),
+
+    )
+
+    dataJSON = dumps(dataA)
     context = {
-        'presentations': presentations, 
+        'presentations': presentations,
         'reviews': reviews,
-        'review1_avg':review1_avg ,
-        'review2_avg':review2_avg ,
-        'review3_avg':review3_avg ,
+        'review1_avg': dataA['avr_rev1'],
+        'review2_avg': dataA['avr_rev2'],
+        'review3_avg': dataA['avr_rev3'],
+        'data': {
+            'review1': dataA['avr_rev1'],
+            'review2': dataA['avr_rev2'],
+            'review3': dataA['avr_rev3']
         }
-    return render(request, 'presentations/presentation_dashboard.html', context)
+    }
+    print('##################################### SUM ###########################')
+    print(dataA['avr_rev3'])
 
+    return render(request, 'presentations/presentation_dashboard.html', context)
 
 
 def create_presentation_views(request):
@@ -265,7 +280,6 @@ def deleteStage_view(request, id):
 
 
 def stageDetail_view(request, id):
-    
     presentations = Presentation.objects.filter(stage=id).order_by('-pres_date')
     print(presentations)
     stage = Stage.objects.get(id=id)
@@ -278,7 +292,6 @@ def stage_view(request):
     stages = Stage.objects.all()
     context = {'Stages': stages}
     return render(request, 'stage/stage.html', context)
-
 
 # def presentationApproval_view(request,id):
 #
