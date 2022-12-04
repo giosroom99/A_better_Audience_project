@@ -32,10 +32,93 @@
     </div>
 
 
-    <div class='row my-4'>
-        <div class='col-10'>
+    <div class='row my-2'>
+        <h1 class="text-center">Presentations</h1>
 
-            <h1 class="text-center">Presentations</h1>
+        <div class="col-10">
+            {% for pres in presentations %}
+                    {% if user == stage.user %}
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    
+                  <div class="col-md-4">
+                    <img src="..." class="img-fluid rounded-start" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title"><a href="{% url 'detail_presentation' pres.id %}">{{ pres.pres_name }}</a></h5>
+                      <p class="card-text">{{ pres.type }}</p>
+                      <p class="card-text"><small class="text-muted">{{ pres.pres_date }}</small></p>
+                      <p class="card-text"><small class="text-muted">{{ pres.owner }}</small></p>
+
+                      <a href="{% url 'status' pres.id %}" class="btn btn-primary">{{ pres.approval }}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+              {% elif pres.approval == "Approved" %}
+
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    
+                  <div class="col-md-4">
+                    <img src="..." class="img-fluid rounded-start" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title"><a href="{% url 'detail_presentation' pres.id %}">{{ pres.pres_name }}</a></h5>
+                      <p class="card-text">{{ pres.type }}</p>
+                      <p class="card-text"><small class="text-muted">{{ pres.pres_date }}</small></p>
+                      <p class="card-text"><small class="text-muted">{{ pres.owner }}</small></p>
+
+                      <p class="">Available</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+              {% elif user == pres.owner %}
+
+             <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    
+                  <div class="col-md-4">
+                    <img src="..." class="img-fluid rounded-start" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title"><a href="{% url 'detail_presentation' pres.id %}">{{ pres.pres_name }}</a></h5>
+                      <p class="card-text">{{ pres.type }}</p>
+                      <p class="card-text"><small class="text-muted">{{ pres.pres_date }}</small></p>
+                      <p class="card-text"><small class="text-muted">{{ pres.owner }}</small></p>
+                      {% if pres.approval == "Unapproved"%}
+                      <p class="text-warning fw-bold">{{ pres.approval}}</p>
+                      {% elif pres.approval == "Declined"%}
+                      <p class="text-danger  fw-bold">{{ pres.approval}}</p>
+                      {% else %}
+                      <p class="text-success   fw-bold">{{ pres.approval}}</p>
+                      {% endif %}
+                      {% else %}
+                      {% endif %}
+                  {% endfor %}
+
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class='col-md-12 d-flex justify-content-center'>
+
+            
             <table class="table  table-striped table-hover table-dark">
                 <thead>
                 <tr>
@@ -75,7 +158,14 @@
                             <td>{{ pres.type }}</td>
                             <td>{{ pres.owner }}</td>
                             <td>{{ pres.pres_date }}</td>
-                            <td>{{ pres.approval}}</td>
+                            {% if pres.approval == "Unapproved"%}
+                            <td  class="text-warning fw-bold" >{{ pres.approval}}</td>
+                            {% elif pres.approval == "Declined"%}
+                            <td class="text-danger fw-bold">{{ pres.approval}}</td>
+                            {% else %}
+                            <td class="text-success fw-bold">{{ pres.approval}}</td>
+                            {% endif %}
+                            
                         </tr>
 
                     {% else %}

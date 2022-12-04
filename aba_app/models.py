@@ -48,7 +48,7 @@ class Presentation(models.Model):
     pres_name = models.CharField(max_length=60,null=True,blank=True)
     pres_description = models.TextField(max_length=500,null=True,blank=True)
     stage = models.ForeignKey(Stage, on_delete=models.CASCADE,null=True,blank=True)
-    approval = models.CharField(max_length=50,choices =status,null=True,blank=True)
+    approval = models.CharField(max_length=50,choices =status,null=True,blank=True, default='Unapproved')
     # presentators = models.ManyToManyField(User,blank=True)
     type = models.CharField(max_length=50,choices =type,null=True,blank=True)
     pres_image = models.ImageField(upload_to="Presentation_images/", null=True,blank=True, default=None)
