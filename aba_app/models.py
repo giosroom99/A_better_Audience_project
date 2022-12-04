@@ -29,7 +29,7 @@ class Stage(models.Model):
     updated_at = models.DateField(auto_now=True, null=True, blank=True)
 
     def __str__(self):
-        return self.stage_name
+        return self.stage_name + ' | ' + str(self.user)
 class Presentation(models.Model):
     type = (
         ('Teaching', 'Teaching'),
@@ -51,13 +51,13 @@ class Presentation(models.Model):
     approval = models.CharField(max_length=50,choices =status,null=True,blank=True)
     # presentators = models.ManyToManyField(User,blank=True)
     type = models.CharField(max_length=50,choices =type,null=True,blank=True)
-    pres_image = models.ImageField(upload_to="Presentation_images/", max_length=250, null=True,blank=True, default=None)
+    pres_image = models.ImageField(upload_to="Presentation_images/", null=True,blank=True, default=None)
     pres_date = models.DateTimeField(null=True,blank=True)
-    pres_file = models.FileField(upload_to="presentation_files/", max_length=250, null=True,blank=True, default=None)
+    pres_file = models.FileField(upload_to="presentation_files/", max_length=250, null=True,blank=True, default="/media/stage_images/logo.png")
     created_at = models.DateField(auto_now_add=True, null=True,blank=True)
     updated_at = models.DateField(auto_now=True, blank=True)
     def __str__(self):
-        return self.pres_name
+        return self.pres_name + ' | ' + str(self.owner)
 class UserSetting(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     profile_picture = models.ImageField(upload_to="User_file/Profile_picture/", max_length=250, null=True, default=None)
@@ -70,7 +70,7 @@ class Question(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
 
     def __str__(self):
-        return self.question_text
+        return self.question_text + ' | ' + str(self.author)
 
 class Answer(models.Model):
     answer = models.CharField(max_length=250,null=True,blank=True)
@@ -79,5 +79,5 @@ class Answer(models.Model):
     pres_reviewed = models.ForeignKey(Presentation, on_delete=models.CASCADE,null=True,blank=True)
 
     def __str__(self):
-        return self.answer
+        return self.answer + ' | ' + str(self.author)
 

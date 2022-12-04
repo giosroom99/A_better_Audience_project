@@ -128,21 +128,21 @@ class CreatePresentationForm(ModelForm):
                 attrs={'class': "form-control", 'multiple': True, 'id': 'Presentation-picture'}),
         }
 
-# class approvalForm(ModelForm):
-#     class Meta:
-#         model = Presentation
-#         StageSelection = forms.ModelChoiceField(queryset=Stage.objects.all())
-#         # Set the form fields
-#         fields = (
-#             'approval',)
-#         labels = {
-#             'approval': 'Update Status',
-#         }
-#         widgets = {
-#
-#             'approval': forms.Select(attrs={'class': 'form-control'}),
-#
-#         }
+class approvalForm(ModelForm):
+    class Meta:
+        model = Presentation
+        StageSelection = forms.ModelChoiceField(queryset=Stage.objects.all())
+        # Set the form fields
+        fields = (
+            'approval',)
+        labels = {
+            'approval': 'Update Status',
+        }
+        widgets = {
+
+            'approval': forms.Select(attrs={'class': 'form-control'}),
+
+        }
 
 
 class ReviewForm(forms.ModelForm):

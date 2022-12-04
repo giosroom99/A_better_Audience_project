@@ -231,7 +231,7 @@ click on the stage name it brings them to
 the form and filer to only update the stage that was clicked. 
 This is possible because we are passing the PK 
 as a parameter to the view function
-"""  #############################################################
+ ############################################################# END """
 
 @login_required
 def updateStage_view(request, id):
@@ -254,7 +254,7 @@ def add_stage_view(request):
 
             instance.user = request.user
             instance.save()
-            return HttpResponseRedirect('/add_stage')
+            return HttpResponseRedirect('/stage')
     else:
         add_stageForm = CreateStageForm
         if 'submitted' in request.GET:
@@ -272,12 +272,12 @@ def deleteStage_view(request, id):
 @login_required
 def stageDetail_view(request, id):
     presentations = Presentation.objects.filter(stage=id).order_by('-pres_date')
-    dataA = Reviews.objects.filter(presentation__in=presentations).aggregate(
-        avr_rev1=Avg('review1'),
-        avr_rev2=Avg('review2'),
-        avr_rev3=Avg('review3'),
-
-    )
+    # dataA = Reviews.objects.filter(presentation__in=presentations).aggregate(
+    #     avr_rev1=Avg('review1'),
+    #     avr_rev2=Avg('review2'),
+    #     avr_rev3=Avg('review3'),
+    #
+    # )
     # dataA = Reviews.objects.values(presentations.id).annotate(average = Avg('review1'))
     # print(dataA)
     # print(presentations)
@@ -289,7 +289,11 @@ def stageDetail_view(request, id):
 
 def stage_view(request):
     stages = Stage.objects.all()
-    context = {'Stages': stages}
+    # presnetations = Presentation.objects.()
+    context = {
+        'Stages': stages,
+        # 'number_of_pre':count_pres
+    }
     return render(request, 'stage/stage.html', context)
 @login_required
 def presentationApproval_view(request,id):
