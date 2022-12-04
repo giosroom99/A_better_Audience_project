@@ -128,46 +128,55 @@ class CreatePresentationForm(ModelForm):
                 attrs={'class': "form-control", 'multiple': True, 'id': 'Presentation-picture'}),
         }
 
+# class approvalForm(ModelForm):
+#     class Meta:
+#         model = Presentation
+#         StageSelection = forms.ModelChoiceField(queryset=Stage.objects.all())
+#         # Set the form fields
+#         fields = (
+#             'approval',)
+#         labels = {
+#             'approval': 'Update Status',
+#         }
+#         widgets = {
+#
+#             'approval': forms.Select(attrs={'class': 'form-control'}),
+#
+#         }
 
-class EvaluationForm(ModelForm):
+
+class ReviewForm(forms.ModelForm):
     class Meta:
-        model = Evaluation
-        # questions = Criteria.objects.all()
-        fields = ('criteria', 'evaluation',)
+        fields = ['answer']
+        model = Answer
 
-        labels = {
-            'criteria': '',
-            'evaluation': 'Rate 1-100'
-        }
         widgets = {
+            'answer': forms.TextInput(
+                attrs={'class': "form-control", 'placeholder': 'Rate 0-100',
+        }),}
 
-            # 'criteria': forms.Select(attrs={'class': 'form-control'}),
-            'evaluation': forms.NumberInput(
-                attrs={"name": "evaluation", 'type': 'text', 'class': "form-control", 'placeholder': 'Rate',
-                       'id': 'rate'}),
-        }
 
-class RevviewsForm(ModelForm):
-    class Meta:
-        model = Reviews
-        # questions = Criteria.objects.all()
-        fields = ('review1', 'review2','review3')
-
-        labels = {
-            'review1': 'How was the presentation 0-100',
-            'review2': 'How was the project 0-100',
-            'review3':'How was the style 0-100'
-        }
-        widgets = {
-
-            # 'criteria': forms.Select(attrs={'class': 'form-control'}),
-            'review1': forms.NumberInput(
-                attrs={'type': 'number', 'class': "form-control", 'placeholder': 'Rate 0-100',
-                       }),
-            'review2': forms.NumberInput(
-                attrs={'type': 'number', 'class': "form-control", 'placeholder': 'Rate 0-100',
-                       }),
-            'review3': forms.NumberInput(
-                attrs={'type': 'number', 'class': "form-control", 'placeholder': 'Rate 0-100',
-                       }),
-        }
+# class RevviewsForm(ModelForm):
+#     class Meta:
+#         model = Reviews
+#         # questions = Criteria.objects.all()
+#         fields = ('review1', 'review2','review3')
+#
+#         labels = {
+#             'review1': 'How was the presentation 0-100',
+#             'review2': 'How was the project 0-100',
+#             'review3':'How was the style 0-100'
+#         }
+#         widgets = {
+#
+#             # 'criteria': forms.Select(attrs={'class': 'form-control'}),
+#             'review1': forms.NumberInput(
+#                 attrs={'type': 'number', 'class': "form-control", 'placeholder': 'Rate 0-100',
+#                        }),
+#             'review2': forms.NumberInput(
+#                 attrs={'type': 'number', 'class': "form-control", 'placeholder': 'Rate 0-100',
+#                        }),
+#             'review3': forms.NumberInput(
+#                 attrs={'type': 'number', 'class': "form-control", 'placeholder': 'Rate 0-100',
+#                        }),
+#         }

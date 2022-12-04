@@ -22,18 +22,12 @@
 
     <div class="row my-3 mx-auto ">
         <div class="col-12 ">
-            <script>
-
-                {% comment %} console.log({{review1_avg}}); {% endcomment %}
-                {% comment %} drawChart() {% endcomment %}
-
-
-            </script>
+{#            These tag contain the values for the JS Google Chart API#}
             <p id='review1_avg'class='must-be-hidden'>{{review1_avg}}</P>
             <p id='review2_avg' class='must-be-hidden'>{{review2_avg}}</P>
             <p id='review3_avg' class='must-be-hidden'>{{review3_avg}}</P>
              <!--Div that will hold the pie chart-->
-    <div id="barchart_values" style="width: 80%; height: 35%;"></div>
+    <div id="barchart_values"></div>
         </div>
     </div>
         

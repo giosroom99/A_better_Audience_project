@@ -22,24 +22,20 @@
                 <h3 class=" my-4 text-center"> Submit an Evaluation</h3>
                 <form action="" method="post">
 
-                    {% csrf_token %}
-                    {#                    {% for field in form.evaluation  %}#}
-                    {#                        <label class="form-label">{{ field.label }}</label>#}
-                    {#                        {{ field.field }}#}
-                    {#                    {% endfor %}#}
-                    {#                    {{ form.evaluation }}#}
 
-                    {{ form.as_p }}
-
-{#                    {% for question in criterias %}#}
-{#                        <div class="mb-3">#}
-{#                            <label for="text" class="form-label">{{ question }}</label>#}
-{#                            <input type="number" class="form-control" id="text">#}
-{#                        </div>#}
-{#                    {% endfor %}#}
+                    <div class="mb-3S">
+                        {% csrf_token %}
+                        {{ formset.management_form }}
+                        {% for answers, question in question_answer_list %}
+                            <label class="form-label"> {{ question }}</label>
+                            {% for form in answers %}
+                                <div>{{ form }}</div>
+                            {% endfor %}
+                        {% endfor %}
 
 
-                    <input type="submit" class="btn btn-primary" value="Review">
+                        <input type="submit" class="btn btn-primary" value="Review">
+                    </div>
                 </form>
 
             </div>

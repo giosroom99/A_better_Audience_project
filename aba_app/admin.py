@@ -5,9 +5,8 @@ from .models import *
 # Register your models here.
 admin.site.register(Presentation)
 admin.site.register(Stage)
-admin.site.register(Criteria)
-admin.site.register(Evaluation)
-admin.site.register(Reviews)
+admin.site.register(Answer)
+admin.site.register(Question)
 admin.site.register(UserSetting)
-# admin.site.register(Staged_presentation)
+
 

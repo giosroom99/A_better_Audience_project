@@ -1,6 +1,11 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms import formset_factory
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+
 from .decorators import group_required
 from django.db.models import Sum, Avg
 from .forms import *
@@ -35,7 +40,6 @@ def logout_view(request):
 
     return render(request, 'common/login.html')
 
-
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -58,10 +62,8 @@ def login_view(request):
 
         return render(request, 'common/login.html')
 
-
 def index(request):
     return render(request, 'main/index.html')
-
 
 # This function renders the registration form page and create a new page based on the form data
 def register_view(request):
@@ -79,7 +81,6 @@ def register_view(request):
         form = AudienceUserRegistrationForm()
     return render(request, 'common/register.html', {'form': form})
 
-
 def handle_uploaded_file(f):
     with open(''
               'media/stage_images/' + f.name, 'wb+') as destination:
@@ -88,17 +89,15 @@ def handle_uploaded_file(f):
 
 
 """ ################################################
-Presentations Views
-"""  ##############################################
-
+                    Presentations Views
+    ##############################################
+"""
 
 def presentation_views(request):
     presentations = Presentation.objects.all()
     context = {'presentations': presentations}
     return render(request, 'presentations/presentations.html', context)
 
-
-# @group_required('User_Reviewer')
 def updatePresentation_view(request, id):
     presentations = Presentation.objects.get(id=id)
     form = CreatePresentationForm(request.POST or None, instance=presentations)
@@ -117,40 +116,28 @@ def updatePresentation_view(request, id):
 @login_required
 def EvaluatePresentation_view(request, id):
     presentations = Presentation.objects.get(id=id)
-    # criterias =Criteria.objects.all()
+
+    # QUESTIONS
+    # questions = Question.objects.filter(author=request.user)
+
+    questions = Question.objects.all()
+    AnswerFormSet = formset_factory(ReviewForm, extra=questions.count())
     if request.method == 'POST':
-        form = RevviewsForm(request.POST)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.evaluation_owner = request.user
-            instance.presentation = presentations
-            instance.save()
-
-            # Presentation.user.add(*[request.user.id])
-            print("#########################################################", request.user)
-            # return render(request, 'presentations/presentation_detail.html', {'presentations': presentations})
-            return redirect('presentations')
+        formset = AnswerFormSet(request.POST)
+        if formset.is_valid():
+            for question, answer in zip(questions, formset.cleaned_data):
+                Answer.objects.create(answer=answer['answer'], question=question, author=request.user)
+            return redirect('/dashboard_pres/'+str(id))
     else:
-        form = RevviewsForm()
-    return render(request, 'presentations/evalute_presentation.html', {'presentations': presentations, 'form': form})
-    # presentations = Presentation.objects.get(id=id)
-    # if request.method == 'POST':
-    #     form = EvaluationForm(request.POST)
-    #     if form.is_valid():
-    #         instance = form.save(commit=False)
-    #         instance.evaluation_owner = request.user
-    #         instance.presentation = presentations
-    #         instance.save()
-    #
-    #         # Presentation.user.add(*[request.user.id])
-    #         print("#########################################################", request.user)
-    #         #return render(request, 'presentations/presentation_detail.html', {'presentations': presentations})
-    #         return redirect('presentations')
-    # else:
-    #     form = EvaluationForm()
-    # return render(request, 'presentations/evalute_presentation.html', {'presentations': presentations, 'form': form})
+        formset = AnswerFormSet()
+
+        question_answer_list = zip(formset, questions)
+        context = {'formset': formset, 'question_answer_list': question_answer_list}
+
+        return render(request, 'presentations/evalute_presentation.html', context)
 
 
+@login_required
 def deletePresentation_view(request, id):
     presentation = Presentation.objects.get(id=id)
     if request.method == "POST":
@@ -160,12 +147,13 @@ def deletePresentation_view(request, id):
     return render(request, 'presentations/delete-presentation.html', {'presentation': presentation, })
 
 
+@login_required
 def PresentationDetail_view(request, id):
     current_login = request.user
     presentations = Presentation.objects.get(id=id)
 
     # evaluations = Evaluation.objects.get(id=id)
-    reviews = Reviews.objects.all()
+    reviews = Answer.objects.all()
 
     # review1_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review1'))
     # review2_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review2'))
@@ -176,44 +164,38 @@ def PresentationDetail_view(request, id):
     context = {'presentations': presentations, 'reviews': reviews}
     return render(request, 'presentations/presentation_detail.html', context)
 
-
+@login_required
 def PresentationDasboard_view(request, id):
     current_login = request.user
     presentations = Presentation.objects.get(id=id)
+    # # evaluations = Evaluation.objects.get(id=id)
+    # reviews = Answer.objects.all()
+    # dataA = Answer.objects.filter(presentation=presentations).aggregate(
+    #     avr_rev1=Avg('review1'),
+    #     avr_rev2=Avg('review2'),
+    #     avr_rev3=Avg('review3'),
+    #
+    # )
 
-    # evaluations = Evaluation.objects.get(id=id)
-    reviews = Reviews.objects.all()
-
-    review1_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review1')).values()
-    review2_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review2'))
-    review3_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review3'))
-
-    dataA = Reviews.objects.filter(presentation=presentations).aggregate(
-        avr_rev1=Avg('review1'),
-        avr_rev2=Avg('review2'),
-        avr_rev3=Avg('review3'),
-
-    )
-
-    dataJSON = dumps(dataA)
+    # dataJSON = dumps(dataA)
     context = {
         'presentations': presentations,
-        'reviews': reviews,
-        'review1_avg': dataA['avr_rev1'],
-        'review2_avg': dataA['avr_rev2'],
-        'review3_avg': dataA['avr_rev3'],
+        'reviews': 'fake',
+        'review1_avg': 'avr_rev1',
+        'review2_avg': 'avr_rev2',
+        'review3_avg': 'avr_rev3',
         'data': {
-            'review1': dataA['avr_rev1'],
-            'review2': dataA['avr_rev2'],
-            'review3': dataA['avr_rev3']
+            'review1': 'avr_rev1',
+            'review2':'avr_rev2',
+            'review3': 'avr_rev3'
         }
     }
     print('##################################### SUM ###########################')
-    print(dataA['avr_rev3'])
+    # print(dataA['avr_rev3'])
 
     return render(request, 'presentations/presentation_dashboard.html', context)
 
-
+@login_required
 def create_presentation_views(request):
     if request.method == 'POST':
         form = CreatePresentationForm(request.POST, request.FILES)
@@ -230,6 +212,17 @@ def create_presentation_views(request):
 
     return render(request, 'presentations/create_presentation.html', {'presentation_form': form, 'btn_value': 'Create'})
 
+class My_Answer(LoginRequiredMixin, CreateView):
+    model = Answer
+    fields = ['answer']
+    template_name = 'presentations/answer.html'
+    success_url = reverse_lazy('/presentations')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.post_id = self.kwargs['pk']
+        result = super().form_valid(form)
+        return result
 
 """ ######################################################### STAGE
 
@@ -240,7 +233,7 @@ This is possible because we are passing the PK
 as a parameter to the view function
 """  #############################################################
 
-
+@login_required
 def updateStage_view(request, id):
     stage = Stage.objects.get(id=id)
     form = CreateStageForm(request.POST or None, instance=stage)
@@ -250,7 +243,7 @@ def updateStage_view(request, id):
 
     return render(request, 'stage/create_stage.html', {'add_stageForm': form})
 
-
+@login_required
 def add_stage_view(request):
     submitted = False
     if request.method == 'POST':
@@ -268,22 +261,28 @@ def add_stage_view(request):
             submitted = True
 
     return render(request, 'stage/create_stage.html', {'add_stageForm': add_stageForm, 'submitted': submitted})
-
-
+@login_required
 def deleteStage_view(request, id):
     stage = Stage.objects.get(id=id)
     if request.method == "POST":
         stage.delete()
         return redirect('stage')
-
     return render(request, 'stage/delete-confirm.html', {'stage': stage, })
 
-
+@login_required
 def stageDetail_view(request, id):
     presentations = Presentation.objects.filter(stage=id).order_by('-pres_date')
-    print(presentations)
+    dataA = Reviews.objects.filter(presentation__in=presentations).aggregate(
+        avr_rev1=Avg('review1'),
+        avr_rev2=Avg('review2'),
+        avr_rev3=Avg('review3'),
+
+    )
+    # dataA = Reviews.objects.values(presentations.id).annotate(average = Avg('review1'))
+    # print(dataA)
+    # print(presentations)
+
     stage = Stage.objects.get(id=id)
-    # print(stage+ """""""""""""""""""""""""")
     context = {'stage': stage, 'presentations': presentations}
     return render(request, 'stage/view_stage.html', context)
 
@@ -292,48 +291,16 @@ def stage_view(request):
     stages = Stage.objects.all()
     context = {'Stages': stages}
     return render(request, 'stage/stage.html', context)
-
-# def presentationApproval_view(request,id):
-#
-#     presentations = Presentation.objects.get(id=id)
-#     stage = Stage.objects.get(id=id)
-#     form = CreatePresentationForm(request.POST or None, instance=presentations)
-#     if request.method == 'POST':
-#         if request.POST['boxe'] =='on':
-#             # instance = form.save(commit=False)
-#             # instance.approval = True
-#             Presentation.objects.filter(pk=id).update(approval=True)
-#         instance = form.save(commit=False)
-#         print(request.POST['boxe'])
-#         # instance.approval = request.POST['boxe']
-#         # instance.save()
-#     context = {
-#         'presentation_form': form,
-#         'presentation':presentations,
-#         'btn_value': 'Update Approval',
-#         'stage': stage
-#     }
-#     if form.is_valid():
-#         form.save()
-#         # Presentation.user.add(*[request.user])
-#         return redirect('presentations')
-#
-#     return render(request, 'stage/wating_approval.html', context)
-#
-#
-#     # presentations = Presentation.objects.filter(stage=id)
-#     # if request.user.is_superuser:
-#     #     if request.method == 'POST':
-#     #         id_list = request.POST.getlist('boxes')
-#     #         print(id_list)
-#     #         for x in id_list:
-#     #             print(x)
-#     #             Presentation.objects.filter(pk = int(x)).update(approved= True)
-#     #         # messages.success()
-#     #     else:
-#     #         return render(request,'stage/wating_approval.html',)
-#     #
-#     # stage = Stage.objects.get(id=id)
-#     # # print(stage+ """""""""""""""""""""""""")
-#     # context = {'stage': stage, 'presentations': presentations}
-#     # return render(request, 'stage/wating_approval.html',context)
+@login_required
+def presentationApproval_view(request,id):
+    presentations = Presentation.objects.get(id=id)
+    form = approvalForm(request.POST or None, instance=presentations)
+    context = {
+        'presentation_form': form,
+        'btn_value': 'Update'
+    }
+    if form.is_valid():
+        form.save()
+        # Presentation.user.add(*[request.user])
+        return redirect('stage')
+    return render(request, 'stage/wating_approval.html', context)
