@@ -19,7 +19,7 @@ User._meta.get_field('email')._unique = True
 """""
 class Stage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
-    stage_owner= models.CharField(max_length=60, null=True, blank=True)
+
     stage_name = models.CharField(max_length=60, null=True, blank=True)
     stage_description = models.TextField(max_length=500, null=True, blank=True)
     Stage_image = models.ImageField(upload_to="stage_images/", null=True, blank=True)
@@ -29,9 +29,7 @@ class Stage(models.Model):
     updated_at = models.DateField(auto_now=True, null=True, blank=True)
 
     def __str__(self):
-        return self.stage_name
-
-
+        return self.stage_name + ' | ' + str(self.user)
 class Presentation(models.Model):
     type = (
         ('Teaching', 'Teaching'),
@@ -41,63 +39,25 @@ class Presentation(models.Model):
         ('Solving a Problem', 'Solving a Problem'),
         ('Class Presentation', 'Class Presentation'),
     )
-    approve =[
-        ('1', 'Approved'),
-        ('2', 'Declined'),
-        ('3', 'Unapproved'),
+    status =[
+        ('Approved', 'Approved'),
+        ('Declined', 'Declined'),
+        ('Unapproved', 'Unapproved'),
     ]
-
-
-    #user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
     owner =models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
     pres_name = models.CharField(max_length=60,null=True,blank=True)
     pres_description = models.TextField(max_length=500,null=True,blank=True)
     stage = models.ForeignKey(Stage, on_delete=models.CASCADE,null=True,blank=True)
-    # approval = models.BooleanField( default=False)
+    approval = models.CharField(max_length=50,choices =status,null=True,blank=True)
+    # presentators = models.ManyToManyField(User,blank=True)
     type = models.CharField(max_length=50,choices =type,null=True,blank=True)
-    pres_image = models.ImageField(upload_to="Presentation_images/", max_length=250, null=True,blank=True, default=None)
+    pres_image = models.ImageField(upload_to="Presentation_images/", null=True,blank=True, default=None)
     pres_date = models.DateTimeField(null=True,blank=True)
-    pres_file = models.FileField(upload_to="presentation_files/", max_length=250, null=True,blank=True, default=None)
+    pres_file = models.FileField(upload_to="presentation_files/", max_length=250, null=True,blank=True, default="/media/stage_images/logo.png")
     created_at = models.DateField(auto_now_add=True, null=True,blank=True)
     updated_at = models.DateField(auto_now=True, blank=True)
     def __str__(self):
-        return self.pres_name
-
-
-class Criteria(models.Model):
-    crit_owner = models.ForeignKey(User, on_delete=models.CASCADE,blank=True,null=True)
-    criteria = models.CharField(max_length=60,blank=True,null=True)
-    # type = models.CharField(max_length=10,null=True,blank=True)
-    # ques_description = models.TextField(max_length=300,null=True,blank=True)
-    created_at = models.DateField(auto_now_add=True, blank=True,null=True)
-    updated_at = models.DateField(auto_now=True, blank=True,null=True)
-    def __str__(self):
-        return self.criteria
-
-
-class Evaluation(models.Model):
-    evaluation_owner = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
-    presentation = models.ForeignKey(Presentation, on_delete=models.CASCADE,blank=True,null=True)
-    criteria = models.ForeignKey(Criteria, on_delete=models.CASCADE,blank=True,null=True)
-    evaluation = models.IntegerField(blank=True,null=True)  ## given evalation
-
-    created_at = models.DateField(auto_now_add=True, null=True,blank=True)
-    updated_at = models.DateField(auto_now=True, null=True,blank=True)
-    # def __str__(self):
-    #     return self.evaluation
-
-
-# class Staged_presentation(models.Model):
-#     approve = (
-#         ('APPROVE', 'APPROVED'),
-#         ('DECLINE', 'DECLINED'),
-#         ('UNAPPROVED', 'UNAPPROVED'),
-#     )
-#     stage = models.OneToOneRel(Stage,Stage.stage_name,'Stage')
-#     presentation = models.ForeignKey(Presentation,on_delete=models.CASCADE, blank=True, null=True)
-#
-#
-
+        return self.pres_name + ' | ' + str(self.owner)
 class UserSetting(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     profile_picture = models.ImageField(upload_to="User_file/Profile_picture/", max_length=250, null=True, default=None)
@@ -105,14 +65,19 @@ class UserSetting(models.Model):
     def __str__(self):
         return self.user.username
 
-class Reviews(models.Model):
-    evaluation_owner = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
-    presentation = models.ForeignKey(Presentation, on_delete=models.CASCADE,blank=True,null=True)
-    review1 = models.IntegerField(null=True)
-    review2 = models.IntegerField( null=True)
-    review3 = models.IntegerField( null=True)
+class Question(models.Model):
+    question_text = models.CharField(max_length=250,null=True,blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
 
-    created_at = models.DateField(auto_now_add=True, null=True,blank=True)
-    updated_at = models.DateField(auto_now=True, null=True,blank=True)
-    # def __str__(self):
-    #     return self.evaluation
+    def __str__(self):
+        return self.question_text + ' | ' + str(self.author)
+
+class Answer(models.Model):
+    answer = models.CharField(max_length=250,null=True,blank=True)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE,null=True,blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
+    pres_reviewed = models.ForeignKey(Presentation, on_delete=models.CASCADE,null=True,blank=True)
+
+    def __str__(self):
+        return self.answer + ' | ' + str(self.author)
+

@@ -46,5 +46,17 @@
         </library>
       </libraries>
     </data-source>
+    <data-source source="LOCAL" name="db1 [2]" uuid="e67dce29-3c64-406c-9c25-6c33a5ee0bac">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\giova\OneDrive\Documents\A_better_Audience_project\db1.sqlite3</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+      <libraries>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.39.2/sqlite-jdbc-3.39.2.jar</url>
+        </library>
+      </libraries>
+    </data-source>
   </component>
 </project>

@@ -19,6 +19,8 @@ urlpatterns = [
                   path('detail_pres/<int:id>', views.PresentationDetail_view, name='detail_presentation'),
                   path('evaluate_pres/<int:id>', views.EvaluatePresentation_view, name='evaluate_presentation'),
                   path('dashboard_pres/<int:id>', views.PresentationDasboard_view, name='dasboard_presentation'),
+
+                  # path('answer/<int:id>', views.EvaluatePresentation_view, name='answer'),
                   #path('status/<int:id>', views.updatePresentation, name='changestatus'),
 
                   # Stage URL
@@ -27,6 +29,6 @@ urlpatterns = [
                   path('update_stage/<int:id>', views.updateStage_view, name= 'update_stage'),
                   path('delete_stage/<int:id>', views.deleteStage_view, name='delete_stage'),
                   path('detail_stage/<int:id>', views.stageDetail_view, name='detail_stage'),
-                  # path('status/<int:id>', views.presentationApproval_view, name='changestatus')
+                  path('status/<int:id>', views.presentationApproval_view, name='status')
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

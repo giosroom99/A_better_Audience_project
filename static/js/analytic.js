@@ -30,8 +30,9 @@ google.charts.load("current", {packages:["corechart"]});
 
       var options = {
         title: "AVG Reviews Based on Audience Rating",
-        width: 'auto',
-        height: 400,
+        chartArea: {width: '80%'},
+        // width: 'auto',
+        // height: 400,
         bar: {groupWidth: "95%"},
         legend: { position: "none" },
         backgroundColor: '#012e45',

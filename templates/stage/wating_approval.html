@@ -13,18 +13,7 @@
                     <form action="" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
 
-                        {% if presentation.approval %}
-                            <div class="form-check">
-                                <label class="form-label"> Check this Box to Approve</label>
-                                <input class="form-check-input" name="boxe" type="checkbox" checked="checked">
-                            </div>
-                        {% else %}
-                            <div class="form-check">
-                                <label class="form-label"> Check this Box to  add this Presentation on <strong>{{ stage.stage_name}}</strong> </label>
-                                <input class="form-check-input" name="boxe" type="checkbox" >
-                            </div>
-                        {% endif %}
-                        {#                        {{ presentation_form.as_p }}#}
+                        {{ presentation_form.as_p }}
 
                         <input type="submit" class="btn btn-primary" value={{ btn_value }}>
                     </form>
