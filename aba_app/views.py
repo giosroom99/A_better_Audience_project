@@ -113,20 +113,20 @@ def updatePresentation_view(request, id):
 
 @login_required
 def EvaluatePresentation_view(request, id):
-    presentations = Presentation.objects.get(id=id)
+    presentation = Presentation.objects.get(id=id)
     questions = Question.objects.all()
     AnswerFormSet = formset_factory(ReviewForm, extra=questions.count())
     if request.method == 'POST':
         formset = AnswerFormSet(request.POST)
         if formset.is_valid():
             for question, answer in zip(questions, formset.cleaned_data):
-                Answer.objects.create(answer=answer['answer'], question=question, author=request.user)
+                Answer.objects.create(answer=answer['answer'], question=question, author=request.user,pres_reviewed=presentation)
             return redirect('/dashboard_pres/'+str(id))
     else:
         formset = AnswerFormSet()
 
         question_answer_list = zip(formset, questions)
-        context = {'presentation':presentations,'formset': formset, 'question_answer_list': question_answer_list}
+        context = {'presentation':presentation,'formset': formset, 'question_answer_list': question_answer_list}
 
         return render(request, 'presentations/evalute_presentation.html', context)
 
@@ -143,19 +143,14 @@ def deletePresentation_view(request, id):
 
 @login_required
 def PresentationDetail_view(request, id):
-    current_login = request.user
+    questions = Question.objects.all()
+    answers  = Answer.objects.filter(pres_reviewed=id)
     presentations = Presentation.objects.get(id=id)
 
     # evaluations = Evaluation.objects.get(id=id)
     reviews = Answer.objects.all()
 
-    # review1_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review1'))
-    # review2_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review2'))
-    # review3_avg = Reviews.objects.filter(presentation=presentations).aggregate(Avg('review3'))
-    # print('##################################### SUM ###########################')
-    # print(review1_avg)
-
-    context = {'presentations': presentations, 'reviews': reviews}
+    context = {'presentations': presentations, 'reviews': answers,'questions':questions,}
     return render(request, 'presentations/presentation_detail.html', context)
 
 @login_required
