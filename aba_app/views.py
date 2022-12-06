@@ -121,7 +121,7 @@ def EvaluatePresentation_view(request, id):
         if formset.is_valid():
             for question, answer in zip(questions, formset.cleaned_data):
                 Answer.objects.create(answer=answer['answer'], question=question, author=request.user,pres_reviewed=presentation)
-            return redirect('/dashboard_pres/'+str(id))
+            return redirect('/detail_pres/'+str(id))
     else:
         formset = AnswerFormSet()
 

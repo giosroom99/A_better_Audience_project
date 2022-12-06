@@ -28,7 +28,7 @@
                 {% for presentation in presentations %}
                     <div class="card w-100%  m-1" >
                         <div class="card-body">
-                            <h6 class="card-title"><a href="{% url 'dasboard_presentation' presentation.id %}">{{ presentation.pres_name}}</a></h6>
+                            <h6 class="card-title"><a href="{% url 'detail_presentation' presentation.id %}">{{ presentation.pres_name}}</a></h6>
                             <p class="card-text fw-bold d-inline">{{ presentation.pres_owner}}</p>
 
                             <p class="card-text">{{ presentation.pres_description}}</p>

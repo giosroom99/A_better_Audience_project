@@ -36,7 +36,13 @@
                     <img src="{{ presentations.pres_image.url}}" class="card-img-top" alt="..." >
                     <div class="card-body">
                         <h5 class="card-title">{{ presentations.pres_name}}</h5>
+                        <hr style="color: #18d26e">
                         <p class="card-text">{{ presentations.pres_description}}</p>
+                        <a href="{{ presentations.pres_file.url}}">Download Presentation files</a>
+                        <hr style="color: #18d26e">
+                        <p class="card-text"> Presentation Owner: <span class="card-text fw-bold">{{ presentations.owner}}</span></p>
+
+
                         {%if user == presentations.owner %}
                         {% else %}
                             <a href="{% url 'evaluate_presentation' presentations.id %}" class="btn btn-secondary color-white">Review</a>
@@ -97,19 +103,6 @@
 
 
 
-
-    <div class="row mx-auto" >
-
-    </div>
-
-
-
-
-    </div>
-    </div>
-
-
-    </div>
 
 
 

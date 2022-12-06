@@ -18,18 +18,29 @@ User._meta.get_field('email')._unique = True
 6) Solving a Problem
 """""
 class Stage(models.Model):
+
+    type = (
+        ('Lecture halls', 'Lecture halls'),
+        ('Opera houses', 'Opera houses'),
+        ('Church', 'Church'),
+        ('Concert halls', 'Concert halls'),
+        ('Theaters', 'Theaters'),
+        ('Playhouses.', 'Playhouses'),
+        ('All purpose', 'All purpose'),
+        ('Other', 'Other'),
+    )
+
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
 
     stage_name = models.CharField(max_length=60, null=True, blank=True)
     stage_description = models.TextField(max_length=500, null=True, blank=True)
     Stage_image = models.ImageField(upload_to="stage_images/", null=True, blank=True)
-    #presentation =models.ManyToManyField(Presentation,null=True, blank=True)
-    category = models.CharField(max_length=60, null=True, blank=True)
+    category = models.CharField(max_length=60, choices =type,null=True, blank=True)
     created_at = models.DateField(auto_now_add=True, blank=True,null=True)
     updated_at = models.DateField(auto_now=True, null=True, blank=True)
 
     def __str__(self):
-        return self.stage_name + ' | ' + str(self.user)
+        return self.stage_name + ' | ' + str(self.category)
 class Presentation(models.Model):
     type = (
         ('Teaching', 'Teaching'),
@@ -53,7 +64,7 @@ class Presentation(models.Model):
     type = models.CharField(max_length=50,choices =type,null=True,blank=True)
     pres_image = models.ImageField(upload_to="Presentation_images/", null=True,blank=True, default=None)
     pres_date = models.DateTimeField(null=True,blank=True)
-    pres_file = models.FileField(upload_to="presentation_files/", max_length=250, null=True,blank=True, default="/media/stage_images/logo.png")
+    pres_file = models.FileField(upload_to="presentation_files/", null=True,blank=True, default="/media/stage_images/logo.png")
     created_at = models.DateField(auto_now_add=True, null=True,blank=True)
     updated_at = models.DateField(auto_now=True, blank=True)
     def __str__(self):

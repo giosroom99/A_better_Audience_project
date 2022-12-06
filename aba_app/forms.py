@@ -68,17 +68,19 @@ class CreateStageForm(ModelForm):
     class Meta:
         model = Stage
         # Set the form fields
-        fields = ('stage_name', 'stage_description', 'Stage_image')
+        fields = ('stage_name', 'category','stage_description', 'Stage_image',)
 
         labels = {
             'stage_name': '',
             'stage_description': '',
+            'category':'Select Stage Type',
             'Stage_image': ''
         }
         widgets = {
            
             'stage_name': forms.TextInput(
                 attrs={'class': "form-control", 'placeholder': 'Stage Name', 'id': 'stage-name'}),
+            'category': forms.Select(attrs={'class': 'form-control','placeholder': 'Select Stage Type',}),
             'stage_description': forms.Textarea(
                 attrs={'class': "form-control", 'placeholder': 'Stage Description', 'id': 'stage-description'}),
             'Stage_image': forms.ClearableFileInput(
@@ -97,7 +99,7 @@ class CreatePresentationForm(ModelForm):
 
             'pres_name': '',
             'pres_description': '',
-            'pres_file': 'Upload Presentation File',
+            'pres_file': 'Upload Presentation File (Only PDF Docs!)',
             'pres_image': 'Upload Presentation Cover',
             'pres_date': 'When are you going to Present? ',
             'stage': 'Choose a Stage',
@@ -121,9 +123,9 @@ class CreatePresentationForm(ModelForm):
 
             'stage': forms.Select(attrs={'class': 'form-control'}),
             'pres_file': forms.ClearableFileInput(
-                attrs={'class': "form-control", 'multiple': True, 'id': 'Presentation-file'}),
+                attrs={'class': "form-control", 'multiple': True, 'accept':'application/pdf' }),
             'pres_image': forms.ClearableFileInput(
-                attrs={'class': "form-control", 'multiple': True, 'id': 'Presentation-picture'}),
+                attrs={'class': "form-control", 'multiple': True, }),
         }
 
 class approvalForm(ModelForm):
