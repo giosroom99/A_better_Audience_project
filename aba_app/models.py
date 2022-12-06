@@ -70,7 +70,7 @@ class Question(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
 
     def __str__(self):
-        return self.question_text + ' | ' + str(self.author)
+        return self.question_text
 
 class Answer(models.Model):
     answer = models.CharField(max_length=250,null=True,blank=True)

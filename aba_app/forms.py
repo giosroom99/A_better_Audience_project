@@ -64,7 +64,6 @@ class AudienceUserRegistrationForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
 
-
 class CreateStageForm(ModelForm):
     class Meta:
         model = Stage
@@ -85,7 +84,6 @@ class CreateStageForm(ModelForm):
             'Stage_image': forms.ClearableFileInput(
                 attrs={'class': "form-control", 'multiple': True, 'id': 'stage-picture'}),
         }
-
 
 class CreatePresentationForm(ModelForm):
     class Meta:
@@ -144,39 +142,13 @@ class approvalForm(ModelForm):
 
         }
 
-
 class ReviewForm(forms.ModelForm):
     class Meta:
         fields = ['answer']
         model = Answer
 
         widgets = {
-            'answer': forms.TextInput(
-                attrs={'class': "form-control", 'placeholder': 'Rate 0-100',
+            'answer': forms.NumberInput(
+                attrs={'class': "form-control mb-3", 'placeholder': 'Rate 0-100','type':'number'
         }),}
 
-
-# class RevviewsForm(ModelForm):
-#     class Meta:
-#         model = Reviews
-#         # questions = Criteria.objects.all()
-#         fields = ('review1', 'review2','review3')
-#
-#         labels = {
-#             'review1': 'How was the presentation 0-100',
-#             'review2': 'How was the project 0-100',
-#             'review3':'How was the style 0-100'
-#         }
-#         widgets = {
-#
-#             # 'criteria': forms.Select(attrs={'class': 'form-control'}),
-#             'review1': forms.NumberInput(
-#                 attrs={'type': 'number', 'class': "form-control", 'placeholder': 'Rate 0-100',
-#                        }),
-#             'review2': forms.NumberInput(
-#                 attrs={'type': 'number', 'class': "form-control", 'placeholder': 'Rate 0-100',
-#                        }),
-#             'review3': forms.NumberInput(
-#                 attrs={'type': 'number', 'class': "form-control", 'placeholder': 'Rate 0-100',
-#                        }),
-#         }

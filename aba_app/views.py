@@ -92,7 +92,6 @@ def handle_uploaded_file(f):
                     Presentations Views
     ##############################################
 """
-
 def presentation_views(request):
     presentations = Presentation.objects.all()
     context = {'presentations': presentations}
@@ -112,14 +111,9 @@ def updatePresentation_view(request, id):
 
     return render(request, 'presentations/create_presentation.html', context)
 
-
 @login_required
 def EvaluatePresentation_view(request, id):
     presentations = Presentation.objects.get(id=id)
-
-    # QUESTIONS
-    # questions = Question.objects.filter(author=request.user)
-
     questions = Question.objects.all()
     AnswerFormSet = formset_factory(ReviewForm, extra=questions.count())
     if request.method == 'POST':
@@ -132,7 +126,7 @@ def EvaluatePresentation_view(request, id):
         formset = AnswerFormSet()
 
         question_answer_list = zip(formset, questions)
-        context = {'formset': formset, 'question_answer_list': question_answer_list}
+        context = {'presentation':presentations,'formset': formset, 'question_answer_list': question_answer_list}
 
         return render(request, 'presentations/evalute_presentation.html', context)
 
@@ -300,6 +294,7 @@ def presentationApproval_view(request,id):
     presentations = Presentation.objects.get(id=id)
     form = approvalForm(request.POST or None, instance=presentations)
     context = {
+        'presentation':presentations,
         'presentation_form': form,
         'btn_value': 'Update'
     }
