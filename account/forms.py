@@ -4,6 +4,7 @@ from django.forms import ModelForm
 
 from account.models import *
 
+
 class AudienceUserRegistrationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
@@ -61,22 +62,21 @@ class AudienceUserRegistrationForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
 
+
 class editUserPofile(ModelForm):
     class Meta:
         model = UserSetting
+
         # Set the form fields
         fields = (
-            'profile_picture','theme','education')
+            'profile_picture', 'theme', 'education')
         labels = {
             'theme': 'Choose a Theme',
             "education": 'Education Level',
-            "profile_picture":'Upload an image',
+            "profile_picture": 'Upload an image',
         }
         widgets = {
-
             'theme': forms.Select(attrs={'class': 'form-control'}),
             'education': forms.Select(attrs={'class': 'form-control'}),
-            'profile_picture': forms.ClearableFileInput(
-                attrs={'class': "form-control", 'multiple': True, }),
-
+            'profile_picture': forms.ClearableFileInput(attrs={'class': "form-control", 'multiple': True, }),
         }

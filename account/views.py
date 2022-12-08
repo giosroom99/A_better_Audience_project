@@ -76,9 +76,11 @@ def edit_user_profile(request, id):
     user = User.objects.get(id=id)
     form = editUserPofile(request.POST or None, instance=user)
     if form.is_valid():
-        form.save()
+        instance = form.save(commit=False)
+        instance.user = request.user
+        instance.save()
+        # form.save()
         return redirect('view_profile')
-
     return render(request, 'account/profile_edit.html', {'form': form})
 
 
@@ -91,5 +93,4 @@ def view_profile(request,id):
         'userSetting':userSetting
 
     }
-
     return render(request, 'account/profile_setting.html',context)

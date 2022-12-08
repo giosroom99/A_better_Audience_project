@@ -1,56 +1,28 @@
 {% extends "common/base.html" %}
-
-
-
 {% block body %}
 
-
     <div class="row">
-        <p class="  display-5 text-center mb-3">Edit  Profile <i class="fa-solid fa-tent"></i></p>
+        <p class="  display-5 text-center mb-3">Edit  Profile <i class="fa-solid fa-user-pen"></i></p>
     </div>
 
-    <ul class="nav nav-pills my-3 flex-column justify-content-center flex-sm-row" id="pills-tab" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Create Stage</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Views</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">My Review</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">My Review</button>
-        </li>
-        <form class="d-flex " role="search">
-            <input class="form-control me-2 w-70%" type="search" placeholder="Search" aria-label="Search">
-        </form>
-    </ul>
 
-
-
-    <div class="tab-content my-3" id="pills-tabContent">
-
-        <div class="tab-pane fade show active my-3" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
-            <div class="row mx-auto" >
-                <div class="col-8 mx-auto rounded-1 shadow-lg p-3 my-3">
-                    {%  if submitted %}
-                        <p>Your Stage was created!!!!!!!!!</p>
-                    {% else %}
-                        <form action="" method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="mb-3">
-                                {{ form.as_p }}
-                                <input type="submit" class="btn btn-primary" value="Add Stage">
-                            </div>
-                        </form>
-                    {%  endif %}
-                </div>
-
-            </div>
+    <div class="row mx-auto" >
+        <div class="col-8 mx-auto rounded-1 shadow-lg p-3 my-3">
+            {%  if submitted %}
+                <p>Your Stage was created!!!!!!!!!</p>
+            {% else %}
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.as_p }}
+                        <input type="submit" class="btn btn-primary" value="Update">
+                    </div>
+                </form>
+            {%  endif %}
         </div>
 
     </div>
+
 
 
 {% endblock%}
