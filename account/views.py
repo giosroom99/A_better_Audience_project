@@ -1,11 +1,12 @@
 from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
-from django.http import HttpResponseRedirect
-from json import dumps
 
-from aba_app.forms import AudienceUserRegistrationForm
+
+from account.forms import *
+from aba_app.models import Stage
+from account.models import *
 
 
 # Create your views here.
@@ -53,7 +54,6 @@ def login_view(request):
 
         return render(request, 'account/login.html')
 
-
 # This function renders the registration form page and create a new page based on the form data
 def register_view(request):
     if request.method == 'POST':
@@ -69,3 +69,27 @@ def register_view(request):
     else:
         form = AudienceUserRegistrationForm()
     return render(request, 'account/register.html', {'form': form})
+
+
+@login_required(login_url='login')
+def edit_user_profile(request, id):
+    user = User.objects.get(id=id)
+    form = editUserPofile(request.POST or None, instance=user)
+    if form.is_valid():
+        form.save()
+        return redirect('view_profile')
+
+    return render(request, 'account/profile_edit.html', {'form': form})
+
+
+def view_profile(request,id):
+    user = User.objects.get(id=id)
+    userSetting = UserSetting.objects.get(user=id)
+
+    context ={
+        'user':user,
+        'userSetting':userSetting
+
+    }
+
+    return render(request, 'account/profile_setting.html',context)

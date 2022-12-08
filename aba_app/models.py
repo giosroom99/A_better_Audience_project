@@ -69,12 +69,6 @@ class Presentation(models.Model):
     updated_at = models.DateField(auto_now=True, blank=True)
     def __str__(self):
         return self.pres_name + ' | ' + str(self.owner)
-class UserSetting(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    profile_picture = models.ImageField(upload_to="User_file/Profile_picture/", max_length=250, null=True, default=None)
-    theme = models.CharField(max_length=10,null=True,blank=True)
-    def __str__(self):
-        return self.user.username
 
 class Question(models.Model):
     question_text = models.CharField(max_length=250,null=True,blank=True)
