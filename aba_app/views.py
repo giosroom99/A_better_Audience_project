@@ -17,86 +17,24 @@ from django.http import HttpResponseRedirect
 from json import dumps
 
 
-# @group_required('User_Reviewer')
-def logout_view(request):
-    logout(request)
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
 
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            return redirect('index')
-        else:
-            print(username, password)
-            messages.success(request, ("There was an error loging you in"))
-            return redirect('login')
-            user = form.get_user()
-            login(request, user)
-            print("OK")
-            return redirect('index.html')
-
-    return render(request, 'common/login.html')
-
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-
-        user = authenticate(request, username=username, password=password)
-        print(user)
-        if user is not None:
-            login(request, user)
-            return redirect('index')
-        else:
-            print(username, password)
-            messages.success(request, ("There was an error loging you in"))
-            return redirect('login')
-            user = form.get_user()
-            login(request, user)
-            print("OK")
-            return redirect('index.html')
-    else:
-
-        return render(request, 'common/login.html')
-
+@login_required(login_url='login')
 def index(request):
     return render(request, 'main/index.html')
-
-# This function renders the registration form page and create a new page based on the form data
-def register_view(request):
-    if request.method == 'POST':
-        form = AudienceUserRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password1']
-            # password1= form.changed_data['']
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            return render(request, 'main/index.html')
-    else:
-        form = AudienceUserRegistrationForm()
-    return render(request, 'common/register.html', {'form': form})
-
-def handle_uploaded_file(f):
-    with open(''
-              'media/stage_images/' + f.name, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
 
 
 """ ################################################
                     Presentations Views
     ##############################################
 """
+
+@login_required(login_url='login')
 def presentation_views(request):
     presentations = Presentation.objects.all()
     context = {'presentations': presentations}
     return render(request, 'presentations/presentations.html', context)
 
+@login_required(login_url='login')
 def updatePresentation_view(request, id):
     presentations = Presentation.objects.get(id=id)
     form = CreatePresentationForm(request.POST or None, instance=presentations)
@@ -111,7 +49,8 @@ def updatePresentation_view(request, id):
 
     return render(request, 'presentations/create_presentation.html', context)
 
-@login_required
+
+@login_required(login_url='login')
 def EvaluatePresentation_view(request, id):
     presentation = Presentation.objects.get(id=id)
     questions = Question.objects.all()
@@ -120,18 +59,19 @@ def EvaluatePresentation_view(request, id):
         formset = AnswerFormSet(request.POST)
         if formset.is_valid():
             for question, answer in zip(questions, formset.cleaned_data):
-                Answer.objects.create(answer=answer['answer'], question=question, author=request.user,pres_reviewed=presentation)
-            return redirect('/detail_pres/'+str(id))
+                Answer.objects.create(answer=answer['answer'], question=question, author=request.user,
+                                      pres_reviewed=presentation)
+            return redirect('/detail_pres/' + str(id))
     else:
         formset = AnswerFormSet()
 
         question_answer_list = zip(formset, questions)
-        context = {'presentation':presentation,'formset': formset, 'question_answer_list': question_answer_list}
+        context = {'presentation': presentation, 'formset': formset, 'question_answer_list': question_answer_list}
 
         return render(request, 'presentations/evalute_presentation.html', context)
 
 
-@login_required
+@login_required(login_url='login')
 def deletePresentation_view(request, id):
     presentation = Presentation.objects.get(id=id)
     if request.method == "POST":
@@ -141,19 +81,20 @@ def deletePresentation_view(request, id):
     return render(request, 'presentations/delete-presentation.html', {'presentation': presentation, })
 
 
-@login_required
+@login_required(login_url='login')
 def PresentationDetail_view(request, id):
     questions = Question.objects.all()
-    answers  = Answer.objects.filter(pres_reviewed=id)
+    answers = Answer.objects.filter(pres_reviewed=id)
     presentations = Presentation.objects.get(id=id)
 
     # evaluations = Evaluation.objects.get(id=id)
     reviews = Answer.objects.all()
 
-    context = {'presentations': presentations, 'reviews': answers,'questions':questions,}
+    context = {'presentations': presentations, 'reviews': answers, 'questions': questions, }
     return render(request, 'presentations/presentation_detail.html', context)
 
-@login_required
+
+@login_required(login_url='login')
 def PresentationDasboard_view(request, id):
     current_login = request.user
     presentations = Presentation.objects.get(id=id)
@@ -175,7 +116,7 @@ def PresentationDasboard_view(request, id):
         'review3_avg': 'avr_rev3',
         'data': {
             'review1': 'avr_rev1',
-            'review2':'avr_rev2',
+            'review2': 'avr_rev2',
             'review3': 'avr_rev3'
         }
     }
@@ -184,7 +125,8 @@ def PresentationDasboard_view(request, id):
 
     return render(request, 'presentations/presentation_dashboard.html', context)
 
-@login_required
+
+@login_required(login_url='login')
 def create_presentation_views(request):
     if request.method == 'POST':
         form = CreatePresentationForm(request.POST, request.FILES)
@@ -201,17 +143,6 @@ def create_presentation_views(request):
 
     return render(request, 'presentations/create_presentation.html', {'presentation_form': form, 'btn_value': 'Create'})
 
-class My_Answer(LoginRequiredMixin, CreateView):
-    model = Answer
-    fields = ['answer']
-    template_name = 'presentations/answer.html'
-    success_url = reverse_lazy('/presentations')
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        form.instance.post_id = self.kwargs['pk']
-        result = super().form_valid(form)
-        return result
 
 """ ######################################################### STAGE
 
@@ -222,7 +153,8 @@ This is possible because we are passing the PK
 as a parameter to the view function
  ############################################################# END """
 
-@login_required
+
+@login_required(login_url='login')
 def updateStage_view(request, id):
     stage = Stage.objects.get(id=id)
     form = CreateStageForm(request.POST or None, instance=stage)
@@ -232,7 +164,8 @@ def updateStage_view(request, id):
 
     return render(request, 'stage/create_stage.html', {'add_stageForm': form})
 
-@login_required
+
+@login_required(login_url='login')
 def add_stage_view(request):
     submitted = False
     if request.method == 'POST':
@@ -250,7 +183,9 @@ def add_stage_view(request):
             submitted = True
 
     return render(request, 'stage/create_stage.html', {'add_stageForm': add_stageForm, 'submitted': submitted})
-@login_required
+
+
+@login_required(login_url='login')
 def deleteStage_view(request, id):
     stage = Stage.objects.get(id=id)
     if request.method == "POST":
@@ -258,7 +193,8 @@ def deleteStage_view(request, id):
         return redirect('stage')
     return render(request, 'stage/delete-confirm.html', {'stage': stage, })
 
-@login_required
+
+@login_required(login_url='login')
 def stageDetail_view(request, id):
     presentations = Presentation.objects.filter(stage=id).order_by('-pres_date')
     # dataA = Reviews.objects.filter(presentation__in=presentations).aggregate(
@@ -275,7 +211,7 @@ def stageDetail_view(request, id):
     context = {'stage': stage, 'presentations': presentations}
     return render(request, 'stage/view_stage.html', context)
 
-
+@login_required(login_url='login')
 def stage_view(request):
     stages = Stage.objects.all()
     # presnetations = Presentation.objects.()
@@ -284,12 +220,14 @@ def stage_view(request):
         # 'number_of_pre':count_pres
     }
     return render(request, 'stage/stage.html', context)
-@login_required
-def presentationApproval_view(request,id):
+
+
+@login_required(login_url='login')
+def presentationApproval_view(request, id):
     presentations = Presentation.objects.get(id=id)
     form = approvalForm(request.POST or None, instance=presentations)
     context = {
-        'presentation':presentations,
+        'presentation': presentations,
         'presentation_form': form,
         'btn_value': 'Update'
     }
