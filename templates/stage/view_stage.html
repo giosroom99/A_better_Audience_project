@@ -3,7 +3,9 @@
 
 
     <div class="row mx-auto">
-        <p class="  display-5 text-center mb-3">STAGE <i class="fa-solid fa-people"></i></p>
+        <p class="  display-5 text-center mb-3">Stage name<i class="fa-solid fa-people"></i></p>
+
+        <p class="  display-5 text-center mb-3"><span class="fw-bold">{{ stage.stage_name }}</span><i class="fa-solid fa-people"></i></p>
     </div>
 
     <ul class="nav nav-pills my-3 flex-column justify-content-center flex-sm-row" id="pills-tab" role="tablist">
@@ -84,7 +86,7 @@
                     </table>
                 {% else %}
                     <div class="alert alert-info mt-4" role="alert">
-                       <h5 class="text-dark "><i class="fa-solid fa-circle-info"></i> There arent any presentations scheduled on this stage. <i class="fa-solid fa-circle-info"></i></h5>
+                        <h5 class="text-dark "><i class="fa-solid fa-circle-info"></i> There arent any presentations scheduled on this stage. <i class="fa-solid fa-circle-info"></i></h5>
                     </div>
 
                 {% endif %}

@@ -84,5 +84,5 @@ class Answer(models.Model):
     pres_reviewed = models.ForeignKey(Presentation, on_delete=models.CASCADE,null=True,blank=True)
 
     def __str__(self):
-        return self.answer + ' | ' + str(self.author)
+        return self.answer + ' | ' + str(self.author)+ ' | ' + str(self.pres_reviewed)
 

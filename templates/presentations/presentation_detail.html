@@ -40,7 +40,8 @@
                         <p class="card-text">{{ presentations.pres_description}}</p>
                         <a href="{{ presentations.pres_file.url}}">Download Presentation files</a>
                         <hr style="color: #18d26e">
-                        <p class="card-text"> Presentation Owner: <span class="card-text fw-bold">{{ presentations.owner}}</span></p>
+                        <p class="card-text"> Stage name: <span class="card-text fw-bold"> {{ presentations.stage}}</span></p>
+                        <p class="card-text"> Presentation owner: <span class="card-text fw-bold"> {{ presentations.owner}}</span></p>
 
 
                         {%if user == presentations.owner %}
@@ -54,45 +55,39 @@
         {#    Presentation reviews#}
 
         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
-        <div class="row">
-            <div class="col-md-12 d-flex justify-content-center">
-                 {%if user == presentations.owner %}
-                 {% if reviews %}
-            <table class="table  table-striped table-hover table-light">
-                <thead>
-                <tr>
-                    <th scope="col">Author</th>
-                    <th scope="col">Rubric</th>
-                    <th scope="col">Score</th>
-                    {#                    <th scope="col">Review 3 1-100</th>#}
-                    {#                    <th scope="col">Date Created</th>#}
-                    {#                    <th scope="col">Last Edited</th>#}
-
-                </tr>
-                </thead>
-                <tbody class="table-hover ">
-
-                    {% for review in reviews %}
-                        {% if review.pres_reviewed == presentations %}
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-center">
+                    {% if user.is_authenticated %}
+                        {% if reviews %}
+                            <table class="table  table-striped table-hover table-light">
+                            <thead>
                             <tr>
-                                <td>{{ review.author }}</td>
-                                <td>{{ review.question }}</td>
-                                <td>{{ review.answer }}</td>
+                                <th scope="col">Author</th>
+                                <th scope="col">Rubric</th>
+                                <th scope="col">Score</th>
                             </tr>
-                        {% endif %}
-                    {% endfor %}
-                    {% else %}
-                    <div class="alert alert-info mt-4" role="alert">
-                        <h5 class="text-dark text-center "><i class="fa-solid fa-circle-info"></i> There arent any reviews for this presentatio. <i class="fa-solid fa-circle-info"></i></h5>
-                    </div>
+                            </thead>
+                            <tbody class="table-hover ">
+                            {% for review in reviews %}
+                                {% if review.pres_reviewed == presentations %}
+                                    <tr>
+                                        <td>{{ review.author }}</td>
+                                        <td>{{ review.question }}</td>
+                                        <td>{{ review.answer }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <div class="alert alert-info mt-4" role="alert">
+                                <h5 class="text-dark text-center "><i class="fa-solid fa-circle-info"></i> There arent any reviews for this presentatio. <i class="fa-solid fa-circle-info"></i></h5>
+                            </div>
+                        {% endif%}
                     {% endif%}
-                {% endif%}
-                </tbody>
-            </table>
+                    </tbody>
+                    </table>
+                </div>
             </div>
-
-        </div>
-
+            <a class="btn btn-secondary" href="{% url 'evaluate_presentation' presentations.id %} "> <i class="fa-regular fa-square-plus"></i> Add a Review</a>
         </div>
 
         {#    Stats#}
@@ -100,7 +95,7 @@
             <div class="row my-3 ">
                 <div class="col-md-10 ">
                     {#            These tag contain the values for the JS Google Chart API#}
-                    <p id='review1_avg'class='must-be-hidden'>{{review1_avg}}</P>
+                    <p id='review1_avg' class='must-be-hidden'>{{review1_avg}}</P>
                     <p id='review2_avg' class='must-be-hidden'>{{review2_avg}}</P>
                     <p id='review3_avg' class='must-be-hidden'>{{review3_avg}}</P>
                     <!--Div that will hold the pie chart-->

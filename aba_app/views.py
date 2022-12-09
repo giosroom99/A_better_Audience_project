@@ -87,6 +87,14 @@ def PresentationDetail_view(request, id):
     answers = Answer.objects.filter(pres_reviewed=id)
     presentations = Presentation.objects.get(id=id)
 
+    """ Get the average score from the answer Table"""
+    data = answers.annotate(avg_answer=Avg('answer')).values('question')
+
+
+    print("####################################################")
+    print(answers)
+    print(data)
+
     # evaluations = Evaluation.objects.get(id=id)
     reviews = Answer.objects.all()
 
@@ -163,7 +171,6 @@ def updateStage_view(request, id):
         return redirect('stage')
 
     return render(request, 'stage/create_stage.html', {'add_stageForm': form})
-
 
 @login_required(login_url='login')
 def add_stage_view(request):
