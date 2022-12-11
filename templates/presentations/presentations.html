@@ -14,9 +14,10 @@
             <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">My Review</button>
         </li>
         <form action="{% url 'search_pres' user.id %}" method="GET" class="d-flex mx-2" role="search">
+            {% csrf_token %}
             <input class="form-control me-2 w-70%" name="search-presentations" id ="search-presentations" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-primary" type="submit" id="button-search"><i
-                    class="fa-solid fa-magnifying-glass"></i> Search
+                    class="fa-solid fa-magnifying-glass"></i>
             </button>
         </form>
     </ul>

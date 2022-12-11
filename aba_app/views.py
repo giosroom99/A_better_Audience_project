@@ -86,20 +86,27 @@ def PresentationDetail_view(request, id):
     Filters by current presentation, and do the average for all each answer-question
     """
     data = answers.values('question').annotate(avg_answer=Avg('answer'))
+    if (data):
+        context = {
+            'presentations': presentations,
+            'reviews': answers,
+            'questions': questions,
+            # "data": data,
+            'review1': data[0]['avg_answer'],
+            'review2': data[1]['avg_answer'],
+            'review3': data[2]['avg_answer']
+        }
+    else:
+        context = {
+            'presentations': presentations,
+            'reviews': answers,
+            'questions': questions,
+            # # "data": data,
+            # 'review1': data[0]['avg_answer'],
+            # 'review2': data[1]['avg_answer'],
+            # 'review3': data[2]['avg_answer']
+        }
 
-    # print(data[0]['avg_answer'])
-    # print(data[1]['avg_answer'])
-    # print(data[2]['avg_answer'])
-
-    context = {
-        'presentations': presentations,
-        'reviews': answers,
-        'questions':questions,
-        # "data": data,
-        'review1': data[0]['avg_answer'],
-        'review2': data[1]['avg_answer'],
-        'review3': data[2]['avg_answer']
-    }
     return render(request, 'presentations/presentation_detail.html', context)
 
 
@@ -152,14 +159,14 @@ def create_presentation_views(request):
 
     return render(request, 'presentations/create_presentation.html', {'presentation_form': form, 'btn_value': 'Create'})
 
-def PresentationSearch(request,id):
-    search_term = request.GET.get('search-presentations' )or ''
-    presentations = Presentation.objects.filter(pres_name__contains=search_term)
+
+def PresentationSearch(request, id):
+    search_term = request.GET.get('search-presentations') or ''
+    presentations = Presentation.objects.filter(pres_name__contains=search_term, owner=id)
     print(presentations)
     context = {'presentations': presentations}
-
-
     return render(request, 'presentations/presentations.html', context)
+
 
 """ ######################################################### STAGE
 
@@ -255,4 +262,13 @@ def presentationApproval_view(request, id):
         return redirect('stage')
     return render(request, 'stage/wating_approval.html', context)
 
+def StageSearch(request):
+    search_term = request.GET.get('search-stages') or ''
+    stages = Stage.objects.filter(stage_name__contains=search_term)
+    print(stages)
 
+    context = {
+        'Stages': stages,
+
+    }
+    return render(request, 'stage/stage.html', context)
