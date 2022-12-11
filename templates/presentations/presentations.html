@@ -26,15 +26,21 @@
 
             <div class="row m-1  p-4">
                 {% for presentation in presentations %}
-                    <div class="card w-100%  m-1" >
-                        <div class="card-body">
-                            <h6 class="card-title"><a href="{% url 'detail_presentation' presentation.id %}">{{ presentation.pres_name}}</a></h6>
-                            <p class="card-text fw-bold d-inline">{{ presentation.pres_owner}}</p>
+                    {% if user == presentation.owner %}
+                        <div class="card w-100%  m-1" >
+                            <div class="card-body">
+                                <h6 class="card-title"><a href="{% url 'detail_presentation' presentation.id %}">{{ presentation.pres_name}}</a></h6>
+                                <p class="card-text fw-bold d-inline">{{ presentation.pres_owner}}</p>
 
-                            <p class="card-text">{{ presentation.pres_description}}</p>
-                              <a class="btn btn-primary" href="{% url 'update_presentation' presentation.id %}"> Edit </a>  <a class="btn btn-danger" href="{% url 'delete_presentation' presentation.id %}"> Delete </a>
+                                <p class="card-text">{{ presentation.pres_description}}</p>
+                                <a class="btn btn-primary" href="{% url 'update_presentation' presentation.id %}"> Edit </a>  <a class="btn btn-danger" href="{% url 'delete_presentation' presentation.id %}"> Delete </a>
+                            </div>
                         </div>
-                    </div>
+                    {% else %}
+                        <div class="alert alert-warning" role="alert">
+                            You don't have any Presentations
+                        </div>
+                    {% endif %}
                 {% endfor %}
 
 

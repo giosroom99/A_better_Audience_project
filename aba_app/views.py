@@ -1,21 +1,14 @@
+import json
+
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import formset_factory
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
-from django.urls import reverse_lazy
-from django.views.generic import CreateView
 
-from .decorators import group_required
 from django.db.models import Sum, Avg
 from .forms import *
 from .models import *
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib import messages
-from django.http import HttpResponseRedirect
-from json import dumps
 
+from django.http import HttpResponseRedirect
 
 
 @login_required(login_url='login')
@@ -28,11 +21,13 @@ def index(request):
     ##############################################
 """
 
+
 @login_required(login_url='login')
-def presentation_views(request):
-    presentations = Presentation.objects.all()
+def presentation_views(request, id):
+    presentations = Presentation.objects.filter(owner=id)
     context = {'presentations': presentations}
     return render(request, 'presentations/presentations.html', context)
+
 
 @login_required(login_url='login')
 def updatePresentation_view(request, id):
@@ -83,22 +78,28 @@ def deletePresentation_view(request, id):
 
 @login_required(login_url='login')
 def PresentationDetail_view(request, id):
-    questions = Question.objects.all()
     answers = Answer.objects.filter(pres_reviewed=id)
     presentations = Presentation.objects.get(id=id)
+    questions = Question.objects.all()
+    """ 
+    Get the average score from the answer Table
+    Filters by current presentation, and do the average for all each answer-question
+    """
+    data = answers.values('question').annotate(avg_answer=Avg('answer'))
 
-    """ Get the average score from the answer Table"""
-    data = answers.annotate(avg_answer=Avg('answer')).values('question')
+    # print(data[0]['avg_answer'])
+    # print(data[1]['avg_answer'])
+    # print(data[2]['avg_answer'])
 
-
-    print("####################################################")
-    print(answers)
-    print(data)
-
-    # evaluations = Evaluation.objects.get(id=id)
-    reviews = Answer.objects.all()
-
-    context = {'presentations': presentations, 'reviews': answers, 'questions': questions, }
+    context = {
+        'presentations': presentations,
+        'reviews': answers,
+        'questions':questions,
+        # "data": data,
+        'review1': data[0]['avg_answer'],
+        'review2': data[1]['avg_answer'],
+        'review3': data[2]['avg_answer']
+    }
     return render(request, 'presentations/presentation_detail.html', context)
 
 
@@ -172,6 +173,7 @@ def updateStage_view(request, id):
 
     return render(request, 'stage/create_stage.html', {'add_stageForm': form})
 
+
 @login_required(login_url='login')
 def add_stage_view(request):
     submitted = False
@@ -217,6 +219,7 @@ def stageDetail_view(request, id):
     stage = Stage.objects.get(id=id)
     context = {'stage': stage, 'presentations': presentations}
     return render(request, 'stage/view_stage.html', context)
+
 
 @login_required(login_url='login')
 def stage_view(request):

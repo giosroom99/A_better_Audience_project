@@ -8,7 +8,7 @@ urlpatterns = [
 
 
                   # Presentation URL
-                  path('presentations', views.presentation_views, name='presentations'),
+                  path('presentations/<int:id>', views.presentation_views, name='presentations'),
                   path('create_presentation', views.create_presentation_views, name='create_presentation'),
                   path('update_pres/<int:id>', views.updatePresentation_view, name='update_presentation'),
                   path('delete_pres/<int:id>', views.deletePresentation_view, name='delete_presentation'),

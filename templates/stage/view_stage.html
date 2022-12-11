@@ -1,11 +1,12 @@
 {% extends "common/base.html" %}
 {% block body %}
+    {% load static %}
+
 
 
     <div class="row mx-auto">
-        <p class="  display-5 text-center mb-3">Stage name<i class="fa-solid fa-people"></i></p>
-
-        <p class="  display-5 text-center mb-3"><span class="fw-bold">{{ stage.stage_name }}</span><i class="fa-solid fa-people"></i></p>
+        <p class= " display-5 text-center mb-3 ">Stage name<i class= " fa-solid fa-people " ></i></p>
+        <p class= " display-5 text-center mb-3 "><span class="fw-bold">{{ stage.stage_name }}</span><i class="fa-solid fa-people"></i></p>
     </div>
 
     <ul class="nav nav-pills my-3 flex-column justify-content-center flex-sm-row" id="pills-tab" role="tablist">
@@ -98,7 +99,12 @@
 
         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">>
             <div class="card" style="width:80%; height: 50%">
-                <img src="{{ stage.Stage_image.url}}" class="card-img-top" alt="Stage image" width="40%" height="40%">
+                {% if stage.Stage_image %}
+                    <img src="{{ stage.Stage_image.url}}" class="card-img-top" alt="Stage image" width="40%" height="40%">
+                {%  else %}
+                    <img src="{% static 'img/stage_default_image.png' %}" class="card-img-top" alt="Stage image" width="40%" height="40%">
+
+                {% endif %}
                 <div class="card-body">
                     <h5 class="card-title text-center">{{ stage.stage_name}}</h5>
                     <hr style="color: #18d26e">

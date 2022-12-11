@@ -43,12 +43,12 @@
                             </a>
                         </li>
                         <br>
-                        {% if user.is_superuser %}
+
                             <li class="nav-item my-3">
-                                <a href="{% url  'presentations' %}"  class="nav-link px-0 align-middle">
+                                <a href="{% url  'presentations' user.id %}"  class="nav-link px-0 align-middle">
                                     <i class="fa-solid fa-person-chalkboard"></i><span class="ms-1 d-none d-sm-inline">Presentations</span> </a>
                             </li>
-                        {% endif %}
+
                         <br>
                         <li>
                             <a href="{% url  'create_presentation' %}"class="nav-link px-0 align-middle">
