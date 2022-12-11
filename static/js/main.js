@@ -1,11 +1,6 @@
-var quill = new Quill('#presentation-description', {
-  modules: {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ['bold', 'italic', 'underline'],
-      ['image', 'code-block']
-    ]
-  },
-  placeholder: 'Compose an epic...',
-  theme: 'snow'  // or 'bubble'
+
+
+$("#search-presentations").on("change paste keyup", function() {
+  console.log("hello")
+  $('#button-search').click()
 });

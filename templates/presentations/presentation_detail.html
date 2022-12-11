@@ -98,21 +98,22 @@
         {#    Stats#}
         <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
             <div class="row my-3 ">
-                <div class="col-md-10 ">
-                    {#            These tag contain the values for the JS Google Chart API#}
 
-                <ol class="text-white">
-                    {%  for question in questions %}
-                        <li> <p class="text-paragraph">{{ question }}</p></li>
-                    {% endfor %}
-                </ol>
-
-                    <p id='review1_avg' class='must-be-hidden'>{{review1}}</P>
-                    <p id='review2_avg' class='must-be-hidden'>{{review2}}</P>
-                    <p id='review3_avg' class='must-be-hidden'>{{review3}}</P>
-                    <!--Div that will hold the pie chart-->
-                    <div id="barchart_values"></div>
+                <div class="col-xl-5 d-flex justify-content-left">
+                    <ol class="list-group list-group-numbered">
+                        {% for question in questions %}
+                            <li class="list-group-item">{{ question}}</li>
+                        {% endfor %}
+                    </ol>
                 </div>
+
+                <div class="col-xl-5 d-flex justify-content-center">
+                    <!--Div that will hold the pie chart-->
+                    <div  id="piechart" class="mt-4"></div>
+                </div>
+                <p id='review1_avg' class='must-be-hidden'>{{review1}}</P>
+                <p id='review2_avg' class='must-be-hidden'>{{review2}}</P>
+                <p id='review3_avg' class='must-be-hidden'>{{review3}}</P>
             </div>
         </div>
 

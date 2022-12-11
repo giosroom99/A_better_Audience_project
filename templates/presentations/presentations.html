@@ -13,8 +13,11 @@
         <li class="nav-item " role="presentation">
             <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">My Review</button>
         </li>
-        <form action="" method="POST" class="d-flex mx-2" role="search">
-            <input class="form-control me-2 w-70%" type="search" placeholder="Search" aria-label="Search">
+        <form action="{% url 'search_pres' user.id %}" method="GET" class="d-flex mx-2" role="search">
+            <input class="form-control me-2 w-70%" name="search-presentations" id ="search-presentations" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-primary" type="submit" id="button-search"><i
+                    class="fa-solid fa-magnifying-glass"></i> Search
+            </button>
         </form>
     </ul>
 
@@ -23,7 +26,6 @@
     <div class="tab-content" id="pills-tabContent">
 
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
-
             <div class="row m-1  p-4">
                 {% for presentation in presentations %}
                     {% if user == presentation.owner %}
@@ -36,11 +38,13 @@
                                 <a class="btn btn-primary" href="{% url 'update_presentation' presentation.id %}"> Edit </a>  <a class="btn btn-danger" href="{% url 'delete_presentation' presentation.id %}"> Delete </a>
                             </div>
                         </div>
-                    {% else %}
-                        <div class="alert alert-warning" role="alert">
-                            You don't have any Presentations
-                        </div>
+
                     {% endif %}
+
+                {%  empty %}
+                    <div class="alert alert-warning" role="alert">
+                        You don't have any Presentations
+                    </div>s
                 {% endfor %}
 
 

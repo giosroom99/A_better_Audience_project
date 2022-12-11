@@ -3,12 +3,19 @@
     display: none !important;
 }
 
-#barchart_values{
-    width: 100% !important;
-    height: 35% !important;
+/*#barchart_values{*/
+/*    width: 100% !important;*/
+/*    height: 35% !important;*/
 
-}
+/*}*/
 
 .errorlist{
      color: red !important;
  }
+#chart_wrap {
+    position: relative;
+    padding-bottom: 100%;
+    height: 0;
+    overflow:hidden;
+}
+

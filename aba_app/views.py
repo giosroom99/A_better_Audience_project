@@ -152,6 +152,14 @@ def create_presentation_views(request):
 
     return render(request, 'presentations/create_presentation.html', {'presentation_form': form, 'btn_value': 'Create'})
 
+def PresentationSearch(request,id):
+    search_term = request.GET.get('search-presentations' )or ''
+    presentations = Presentation.objects.filter(pres_name__contains=search_term)
+    print(presentations)
+    context = {'presentations': presentations}
+
+
+    return render(request, 'presentations/presentations.html', context)
 
 """ ######################################################### STAGE
 
@@ -246,3 +254,5 @@ def presentationApproval_view(request, id):
         # Presentation.user.add(*[request.user])
         return redirect('stage')
     return render(request, 'stage/wating_approval.html', context)
+
+
