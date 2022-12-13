@@ -31,9 +31,14 @@
                         <div class="card w-100%  m-1" >
                             <div class="card-body">
                                 <h6 class="card-title"><a href="{% url 'detail_presentation' presentation.id %}">{{ presentation.pres_name}}</a></h6>
-                                <p class="card-text fw-bold d-inline">{{ presentation.pres_owner}}</p>
+                                <small class="card-text  d-inline">Presenting on : <span class="fw-bold">{{ presentation.pres_date}}</span> </small><br>
+                                <hr style="color: #18d26e">
                                 <p class="card-text">{{ presentation.pres_description}}</p>
+                                <hr style="color: #18d26e">
+                                <small class="card-text  text-left d-inline">Created: {{ presentation.created_at}}</small><br>
+
                                 <a class="btn btn-primary" href="{% url 'update_presentation' presentation.id %}"> Edit </a>  <a class="btn btn-danger" href="{% url 'delete_presentation' presentation.id %}"> Delete </a>
+
                             </div>
                         </div>
                     {% endif %}

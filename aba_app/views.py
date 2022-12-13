@@ -1,4 +1,5 @@
 import json
+from datetime import time, date
 
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
@@ -13,7 +14,14 @@ from django.http import HttpResponseRedirect
 
 @login_required(login_url='login')
 def index(request):
-    return render(request, 'main/index.html')
+    today = date.today()
+    presentations = Presentation.objects.filter(owner=request.user,pres_date__gt=today).order_by('pres_date')[:5]
+    print(presentations)
+    context = {
+        'presentations': presentations,
+
+    }
+    return render(request, 'main/index.html',context)
 
 
 """ ################################################
@@ -24,7 +32,8 @@ def index(request):
 
 @login_required(login_url='login')
 def presentation_views(request, id):
-    presentations = Presentation.objects.filter(owner=id)
+
+    presentations = Presentation.objects.filter(owner=request.user)
     context = {'presentations': presentations}
     return render(request, 'presentations/presentations.html', context)
 
