@@ -85,12 +85,44 @@ def edit_user_profile(request, id):
 
 
 def view_profile(request,id):
-    user = User.objects.get(id=id)
-    userSetting = UserSetting.objects.get(user=id)
+    profile = UserSetting.objects.filter(user=request.user)
+    if profile:
+        user = User.objects.get(id=id)
+        userSetting = UserSetting.objects.get(user=id)
+        context ={
+            'user':user,
+            'userSetting':userSetting
+        }
+        return render(request, 'account/profile_setting.html',context)
+    else:
+        form = editUserPofile(request.POST, request.FILES)
+        print("########################### TEST @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            return render(request, 'main/index.html')
 
-    context ={
-        'user':user,
-        'userSetting':userSetting
+        else:
+            form = editUserPofile()
+    return render(request, "account/create_profile.html", {'form': form, 'hasProfile': False})
 
-    }
-    return render(request, 'account/profile_setting.html',context)
+
+def create_profile(request):
+    profile = UserSetting.objects.filter(user=request.user)
+    if profile:
+        form = "You already created a profile, If you wish to edit please"
+        hasProfile = True
+    else:
+        hasProfile = False
+        form = editUserPofile(request.POST,request.FILES)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            return render(request, 'main/index.html')
+
+        else:
+            form = editUserPofile()
+
+    return render(request,"account/create_profile.html", {'form':form,'hasProfile':hasProfile })

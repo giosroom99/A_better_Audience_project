@@ -1,0 +1,33 @@
+{% extends "common/base.html" %}
+{% block body %}
+
+    <div class="row">
+        <p class="  display-5 text-center mb-3">Create Profile <i class="fa-solid fa-user-pen"></i></p>
+    </div>
+
+
+    <div class="row mx-auto" >
+
+            {%  if hasProfile %}
+                 <div class="col-8 mx-auto  p-3 my-3">
+                <div class="alert alert-info text-center fw-bold" role="alert">
+                    {{ form }} <a href="#"> click here </a>
+                </div>
+                 </div>
+            {% else %}
+                <div class="col-8 mx-auto rounded-1 shadow-lg p-3 my-3">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.as_p }}
+                        <input type="submit" class="btn btn-primary" value="Update">
+                    </div>
+                </form>
+            {%  endif %}
+        </div>
+
+    </div>
+
+
+
+{% endblock%}
