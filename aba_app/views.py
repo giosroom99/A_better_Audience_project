@@ -1,25 +1,25 @@
 import json
 from datetime import time, date
 
+import requests
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
 from django.shortcuts import render, redirect
-
 from django.db.models import Sum, Avg
 from .forms import *
 from .models import *
-
 from django.http import HttpResponseRedirect
+
 
 
 @login_required(login_url='login')
 def index(request):
     today = date.today()
     presentations = Presentation.objects.filter(owner=request.user,pres_date__gt=today).order_by('pres_date')[:5]
+
     print(presentations)
     context = {
         'presentations': presentations,
-
     }
     return render(request, 'main/index.html',context)
 
@@ -29,14 +29,12 @@ def index(request):
     ##############################################
 """
 
-
 @login_required(login_url='login')
 def presentation_views(request, id):
 
     presentations = Presentation.objects.filter(owner=request.user)
     context = {'presentations': presentations}
     return render(request, 'presentations/presentations.html', context)
-
 
 @login_required(login_url='login')
 def updatePresentation_view(request, id):
@@ -52,7 +50,6 @@ def updatePresentation_view(request, id):
         return redirect('/detail_pres/'+str(id))
 
     return render(request, 'presentations/create_presentation.html', context)
-
 
 @login_required(login_url='login')
 def EvaluatePresentation_view(request, id):
@@ -74,7 +71,6 @@ def EvaluatePresentation_view(request, id):
 
         return render(request, 'presentations/evalute_presentation.html', context)
 
-
 @login_required(login_url='login')
 def deletePresentation_view(request, id):
     presentation = Presentation.objects.get(id=id)
@@ -83,8 +79,6 @@ def deletePresentation_view(request, id):
         return redirect('presentations')
 
     return render(request, 'presentations/delete-presentation.html', {'presentation': presentation, })
-
-
 @login_required(login_url='login')
 def PresentationDetail_view(request, id):
     answers = Answer.objects.filter(pres_reviewed=id)
@@ -117,7 +111,6 @@ def PresentationDetail_view(request, id):
         }
 
     return render(request, 'presentations/presentation_detail.html', context)
-
 
 @login_required(login_url='login')
 def PresentationDasboard_view(request, id):

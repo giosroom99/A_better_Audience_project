@@ -1,6 +1,7 @@
 
-#id-body,#id-recent-view-container{
-   background-color:#012e45 !important
+#id-body,#id-recent-view-container,modal{
+   background-color:#012e45 !important;
+
 }
 #id-nav,.card, .card-body{
     background-color: #000b11 !important;

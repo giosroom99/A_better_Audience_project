@@ -4,26 +4,23 @@
 
 {% block body %}
     <div class="container-fluid  ">
-
         <div class="row rounded-1 shadow-lg m-3">
             <h1 id='id-header'class="display-1 text-center fw-semibold ">Dashboard</h1>
         </div>
-
         <div class="row m-1">
 
             <div class="col-lg-6  rounded-1 shadow-lg p-4 me-3">
                 <p class=" fs-3 text-center">My Up coming Presentations </p>
                 {% for presentation in presentations %}
-                <div class="card w-100%  m-1" >
-                    <div class="card-body">
-                        <h6 class="card-title"><a href="#">{{ presentation.pres_name}}</a></h6>
-                        <small class="card-text  d-inline">{{ presentation.pres_date}}</small>
-                        <p class="card-text"> Stage:  <span class="card-text fw-bold">{{ presentation.stage}}</span></p>
+                    <div class="card w-100%  m-1" >
+                        <div class="card-body">
+                            <h6 class="card-title"><a href="#">{{ presentation.pres_name}}</a></h6>
+                            <small class="card-text  d-inline">{{ presentation.pres_date}}</small>
+                            <p class="card-text"> Stage:  <span class="card-text fw-bold">{{ presentation.stage}}</span></p>
+                        </div>
                     </div>
-                </div>
                 {% endfor %}
             </div>
-
 
             <div class="col-lg-5 rounded-1 shadow-lg p-4 align-items-ends">
                 <p class=" fs-3 text-center">My Most Recent Reviews </p>
@@ -70,6 +67,25 @@
             </div>
         </div>
     </div>
+    </div>
+
+
+    <div class="modal" id="myModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="activity-type" class="modal-title text-black"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="activity-text"class="text-black"></p>
+                </div>
+                <div class="modal-footer">
+{#                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>#}
+                    <button type="button" class="btn btn-primary">Try again</button>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
