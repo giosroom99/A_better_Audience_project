@@ -10,8 +10,8 @@
 /*}*/
 
 .errorlist{
-     color: red !important;
- }
+    color: red !important;
+}
 #chart_wrap {
     position: relative;
     padding-bottom: 100%;
@@ -19,3 +19,18 @@
     overflow:hidden;
 }
 
+#stage-detail{
+    display: none !important;
+}
+
+@media screen and (min-width: 480px) {
+    body {
+        background-color: lightgreen;
+    }
+    #stage-detail{
+        display: inline !important;
+    }
+    #readmore-text{
+        display: none !important;
+    }
+}

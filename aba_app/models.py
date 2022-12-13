@@ -8,16 +8,6 @@ User._meta.get_field('email')._unique = True
 
 # Create your models here.
 
-"""""
- Providing Information. ...
-2) Teaching a Skill. ...
-3) Reporting Progress. ...
-4) Selling a Product or Service. ...
-5) Making a Decision. ...
-6) Solving a Problem
-"""""
-
-
 class Stage(models.Model):
     type = (
         ('Lecture halls', 'Lecture halls'),
@@ -41,7 +31,6 @@ class Stage(models.Model):
 
     def __str__(self):
         return self.stage_name + ' | ' + str(self.category)
-
 
 class Presentation(models.Model):
     type = (
@@ -74,14 +63,12 @@ class Presentation(models.Model):
     def __str__(self):
         return self.pres_name + ' | ' + str(self.owner)
 
-
 class Question(models.Model):
     question_text = models.CharField(max_length=250, null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.question_text
-
 
 class Answer(models.Model):
     answer = models.CharField(max_length=250, default=0)

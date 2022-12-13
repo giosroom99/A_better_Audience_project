@@ -1,7 +1,4 @@
 {% extends "common/base.html" %}
-
-
-
 {% block body %}
 
 
@@ -26,18 +23,18 @@
 
     <div class="tab-content my-3" id="pills-tabContent">
 
-        <div class="tab-pane fade show active my-3" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
-            <div class="rounded-1  p-4">
+        <div class="tab-pane fade show active " id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+            <div class="row m-1  p-4">
                 {% for stage in Stages %}
-                    <div class="card w-100%  my-2" >
+                    <div class="card w-100% m-1 " >
                         <div class="card-body">
                             <h6 class="card-title"><a href="{% url 'detail_stage' stage.id %}">{{ stage.stage_name}}</a></h6>
                             <hr style="color: #18d26e">
                             <small class="card-text  text-left d-inline">Last Updated: {{ stage.updated_at}}</small><br>
                             <small class="card-text  d-inline">Presentations : <span>10</span> </small><br>
 
-
-                            <small class="small-text-descriptions"> {{ stage.stage_description }} </small>
+                            <small id="readmore-text" class="card-text "><a href="{% url 'detail_stage' stage.id %}">Read more</a> </small>
+                            <p id="stage-detail" class="card-text "> {{ stage.stage_description}} </p>
                             <p class="card-text">owner: <span class="card-text fw-bold text-primary ">{{ stage.user}}</span>  </p>
 
                             {% if user == stage.user %}
