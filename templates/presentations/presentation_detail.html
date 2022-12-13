@@ -76,7 +76,7 @@
                             {% for review in reviews %}
                                 {% if review.pres_reviewed == presentations %}
                                     <tr>
-                                        <td>{{ review.author }}</td>
+                                        <td><a class="fw-bold" href="{% url 'view_profile' review.author.id %}">{{ review.author }}</a></td>
                                         <td>{{ review.question }}</td>
                                         <td>{{ review.answer }}</td>
                                     </tr>
