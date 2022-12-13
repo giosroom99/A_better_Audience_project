@@ -73,14 +73,16 @@ def register_view(request):
 
 @login_required(login_url='login')
 def edit_user_profile(request, id):
-    user = User.objects.get(id=id)
-    form = editUserPofile(request.POST or None, instance=user)
-    if form.is_valid():
-        instance = form.save(commit=False)
-        instance.user = request.user
-        instance.save()
-        # form.save()
-        return redirect('view_profile')
+    userEdit = UserSetting.objects.get(user=id)
+    form = editUserPofile(request.POST or None, instance=userEdit)
+    if request.method == 'POST':
+        if form.is_valid():
+            # instance = form.save(commit=False)
+            # instance.user = request.user
+            # instance.save()
+            form.save()
+            return redirect('/account/view_profile/' + str(id))
+
     return render(request, 'account/profile_edit.html', {'form': form})
 
 
@@ -96,7 +98,6 @@ def view_profile(request,id):
         return render(request, 'account/profile_setting.html',context)
     else:
         form = editUserPofile(request.POST, request.FILES)
-        print("########################### TEST @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
@@ -106,7 +107,6 @@ def view_profile(request,id):
         else:
             form = editUserPofile()
     return render(request, "account/create_profile.html", {'form': form, 'hasProfile': False})
-
 
 def create_profile(request):
     profile = UserSetting.objects.filter(user=request.user)

@@ -30,7 +30,7 @@ class Stage(models.Model):
     updated_at = models.DateField(auto_now=True, null=True, blank=True)
 
     def __str__(self):
-        return self.stage_name + ' | ' + str(self.category)
+        return self.stage_name + ' | ' + str(self.category)+ ' | ' + str(self.user)
 
 class Presentation(models.Model):
     type = (

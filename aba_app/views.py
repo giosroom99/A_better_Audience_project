@@ -40,7 +40,7 @@ def updatePresentation_view(request, id):
     if form.is_valid():
         form.save()
         # Presentation.user.add(*[request.user])
-        return redirect('presentations')
+        return redirect('/detail_pres/'+str(id))
 
     return render(request, 'presentations/create_presentation.html', context)
 
@@ -153,7 +153,7 @@ def create_presentation_views(request):
             instance.owner = request.user
             instance.save()
             # Presentation.user.add(*[request.user.id])
-            return HttpResponseRedirect('/presentations')
+            return HttpResponseRedirect('/presentations/'+str(request.user.id))
     else:
         form = CreatePresentationForm()
 
