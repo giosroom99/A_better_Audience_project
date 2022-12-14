@@ -114,7 +114,11 @@ def PresentationDetail_view(request, id):
     comment = OpenEndedAnswer.objects.filter(pres_reviewed=id)
 
     # print(comment['OpenEndedAnswer'])
-
+    labels =['Rubric%201','Rubric%20', 'Rubric%203']
+    user = 'AVG%20Reviews%20Based%20on%20Audience%20Rating'
+    #url="https://quickchart.io/chart?v=undefined&c={ type: 'bar', data: { labels: [" + labels[0]+"," + labels[1] +","+ labels[2]+"], datasets:[{label:%27AVG%20Reviews%20Based%20on%20Audience%20Rating%27,data:[" + str(data[0]['avg_answer'])+","+ str(data[1]['avg_answer'])+","+ str(data[2]['avg_answer'])+"]}]}}"
+    url ="https://quickchart.io/chart?c={type:%27bar%27,data:{labels:[1,2,3],datasets:[{label:%27AVG%20Reviews%20Based%20on%20Audience%20Rating%27,data:[" + str(data[0]['avg_answer'])+","+ str(data[1]['avg_answer'])+","+ str(data[2]['avg_answer'])+"]}]}}"
+    print(url)
     if (data):
         context = {
             'OpenEndedAnswer':comment,
@@ -122,9 +126,7 @@ def PresentationDetail_view(request, id):
             'reviews': answers,
             'questions': questions,
             # "data": data,
-            'review1': data[0]['avg_answer'],
-            'review2': data[1]['avg_answer'],
-            'review3': data[2]['avg_answer']
+            'quuickchartURL':url
         }
     else:
         context = {
