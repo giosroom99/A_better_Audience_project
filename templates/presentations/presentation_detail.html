@@ -16,7 +16,7 @@
             <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Stats</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">My Review</button>
+            <button class="nav-link" id="pills-reviews-tab" data-bs-toggle="pill" data-bs-target="#pills-reviews" type="button" role="tab" aria-controls="pills-reviews" aria-selected="false">My Review</button>
         </li>
 
     </ul>
@@ -117,9 +117,27 @@
             </div>
         </div>
 
-        <div class="tab-pane fade" id="pills-disabled" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0">
-            <p>This is some placeholder content the Home tab's associated content. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling. You can use it with tabs, pills, and any other .nav-powered navigation.</p>
+        <div class="tab-pane fade" id="pills-reviews" role="tabpanel" aria-labelledby="pills-reviews-tab" tabindex="0">
+            <div class="row justify-content-center mt-4">
+                <div class="col-lg-10 rounded-1 shadow-lg p-2 ">
+
+                    {% for review in OpenEndedAnswer %}
+                        <div class="card w-100%  m-1 " >
+                            <div class="card-body">
+                                <p class="card-text ">Author:<span  class="card-text fw-bold text-primary">  {{ review.author }}</span> </p>
+                                <p class="card-text fw-bold d-inline">{{ review.question}} :</p>
+                                <p class="card-text">{{ review.openEndedAnswer}}</p>
+                            </div>
+                        </div>
+
+
+                    {% endfor %}
+                </div>
+            </div>
+
         </div>
+
+
 
     </div>
 

@@ -62,14 +62,36 @@ def EvaluatePresentation_view(request, id):
             for question, answer in zip(questions, formset.cleaned_data):
                 Answer.objects.create(answer=answer['answer'], question=question, author=request.user,
                                       pres_reviewed=presentation)
-            return redirect('/detail_pres/' + str(id))
+            return redirect('/evaluate_pres2/' + str(id))
     else:
         formset = AnswerFormSet()
 
         question_answer_list = zip(formset, questions)
         context = {'presentation': presentation, 'formset': formset, 'question_answer_list': question_answer_list}
-
         return render(request, 'presentations/evalute_presentation.html', context)
+
+@login_required(login_url='login')
+def OpendEndedEvaluation_view(request,id):
+    presentation = Presentation.objects.get(id=id)
+    openEndedQuestion = OpenEndedQuestion.objects.all()
+
+    openEnedAnswerFormSet = formset_factory(OpenEndedForm, extra=openEndedQuestion.count())
+
+    if request.method == 'POST':
+        formset = openEnedAnswerFormSet(request.POST)
+        if formset.is_valid():
+            for openQuestion, opneAnswer in zip(openEndedQuestion, formset.cleaned_data):
+                OpenEndedAnswer.objects.create(openEndedAnswer=opneAnswer['openEndedAnswer'], question=openQuestion, author=request.user,
+                                      pres_reviewed=presentation)
+            return redirect('/detail_pres/' + str(id))
+    else:
+        formset = openEnedAnswerFormSet()
+        question_answer_list = zip(formset, openEndedQuestion)
+        context = {'presentation': presentation, 'formset': formset, 'question_answer_list': question_answer_list}
+
+        return render(request, 'presentations/evalute_presentation2.html', context)
+
+
 
 @login_required(login_url='login')
 def deletePresentation_view(request, id):
@@ -89,8 +111,13 @@ def PresentationDetail_view(request, id):
     Filters by current presentation, and do the average for all each answer-question
     """
     data = answers.values('question').annotate(avg_answer=Avg('answer'))
+    comment = OpenEndedAnswer.objects.filter(pres_reviewed=id)
+
+    # print(comment['OpenEndedAnswer'])
+
     if (data):
         context = {
+            'OpenEndedAnswer':comment,
             'presentations': presentations,
             'reviews': answers,
             'questions': questions,
@@ -274,3 +301,5 @@ def StageSearch(request):
 
     }
     return render(request, 'stage/stage.html', context)
+
+

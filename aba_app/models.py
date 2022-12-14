@@ -59,9 +59,9 @@ class Presentation(models.Model):
                                  default="/media/stage_images/logo.png")
     created_at = models.DateField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateField(auto_now=True, blank=True)
-
     def __str__(self):
         return self.pres_name + ' | ' + str(self.owner)
+
 
 class Question(models.Model):
     question_text = models.CharField(max_length=250, null=True, blank=True)
@@ -72,9 +72,26 @@ class Question(models.Model):
 
 class Answer(models.Model):
     answer = models.CharField(max_length=250, default=0)
+    openEndedAnswer = models.CharField(max_length=1000,null=True, blank=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     pres_reviewed = models.ForeignKey(Presentation, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.answer + ' | ' + str(self.author) + ' | ' + str(self.pres_reviewed)
+
+
+class OpenEndedQuestion(models.Model):
+    openEndedQuestion = models.CharField(max_length=250, null=True, blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return self.openEndedQuestion
+class OpenEndedAnswer(models.Model):
+    openEndedAnswer = models.CharField(max_length=1000, null=True, blank=True)
+    question = models.ForeignKey(OpenEndedQuestion, on_delete=models.CASCADE, null=True, blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    pres_reviewed = models.ForeignKey(Presentation, on_delete=models.CASCADE, null=True, blank=True)
+    def __str__(self):
+        return self.openEndedAnswer + ' | ' + str(self.author) + ' | ' + str(self.pres_reviewed)
+

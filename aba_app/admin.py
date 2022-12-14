@@ -8,4 +8,5 @@ admin.site.register(Stage)
 admin.site.register(Answer)
 admin.site.register(Question)
 
-
+admin.site.register(OpenEndedQuestion)
+admin.site.register(OpenEndedAnswer)

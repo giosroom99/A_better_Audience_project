@@ -34,3 +34,8 @@
         display: none !important;
     }
 }
+
+.modal-content{
+       background-color:aqua !important;
+
+}

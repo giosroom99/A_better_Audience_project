@@ -29,10 +29,17 @@ function getActivity(){
             // Update the page with the information received from the API
             $('#activity-text').text(activity);
             $('#activity-type').text(type);
+
         }
     });
 
+
 }
 
-
+// $('#new-activity').click(getActivity())
 getActivity()
+
+
+$('#close-button').delay(1000).click()
+console.log("#######################################################")
+

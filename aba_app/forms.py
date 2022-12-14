@@ -22,7 +22,7 @@ class CreateStageForm(ModelForm):
             'Stage_image': ''
         }
         widgets = {
-           
+
             'stage_name': forms.TextInput(
                 attrs={'class': "form-control", 'placeholder': 'Stage Name', 'id': 'stage-name'}),
             'category': forms.Select(attrs={'class': 'form-control','placeholder': 'Select Stage Type',}),
@@ -38,7 +38,7 @@ class CreatePresentationForm(ModelForm):
         StageSelection = forms.ModelChoiceField(queryset=Stage.objects.all())
         # Set the form fields
         fields = (
-             'pres_name', 'pres_description', 'pres_file', 'pres_image', 'pres_date', 'stage', 'type')
+            'pres_name', 'pres_description', 'pres_file', 'pres_image', 'pres_date', 'stage', 'type')
         Choice_value = [('1', 'First'), ('2', 'Second'), ('3', 'Third')]
         labels = {
 
@@ -91,11 +91,26 @@ class approvalForm(ModelForm):
 
 class ReviewForm(forms.ModelForm):
     class Meta:
-        fields = ['answer']
+        fields = ['answer',]
         model = Answer
 
         widgets = {
             'answer': forms.NumberInput(
                 attrs={'class': "form-control mb-3", 'placeholder': 'Rate 0-100','type':'number'
-        }),}
+                       }),
+        }
 
+
+
+
+
+class OpenEndedForm(forms.ModelForm):
+    class Meta:
+        fields = ['openEndedAnswer']
+        model = OpenEndedAnswer
+
+        widgets = {
+            'openEndedAnswer': forms.TextInput(
+                attrs={'class': "form-control mb-3", 'placeholder': 'Type here','type':'text'
+                       }),
+        }
