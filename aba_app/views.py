@@ -183,8 +183,7 @@ def create_presentation_views(request):
             instance = form.save(commit=False)
             instance.owner = request.user
             instance.save()
-            # Presentation.user.add(*[request.user.id])
-            return HttpResponseRedirect('/presentations/'+str(request.user.id))
+            return HttpResponseRedirect('/presentations/'+(request.user.id))
     else:
         form = CreatePresentationForm()
 
