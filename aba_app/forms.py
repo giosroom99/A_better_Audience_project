@@ -37,11 +37,12 @@ class CreatePresentationForm(ModelForm):
         StageSelection = forms.ModelChoiceField(queryset=Stage.objects.all())
         # Set the form fields
         fields = (
-            'pres_name', 'pres_description', 'pres_file', 'pres_image', 'pres_date', 'stage', 'type')
+            'pres_name','members', 'pres_description', 'pres_file', 'pres_image', 'pres_date', 'stage', 'type')
         Choice_value = [('1', 'First'), ('2', 'Second'), ('3', 'Third')]
         labels = {
 
             'pres_name': '',
+            'members':'List all participants name separated by commas',
             'pres_description': '',
             'pres_file': 'Upload Presentation File (Only PDF Docs!)',
             'pres_image': 'Upload Presentation Cover',
@@ -53,6 +54,8 @@ class CreatePresentationForm(ModelForm):
             'pres_owner': forms.TextInput(
                 attrs={"name": "owner", 'type': 'hidden', 'class': "form-control", 'placeholder': 'owner',
                        'id': 'presentation-owner'}),
+            'members': forms.TextInput(
+                attrs={'class': "form-control", 'placeholder': 'List all participants name separated by commas', }),
             'pres_name': forms.TextInput(
                 attrs={'class': "form-control", 'placeholder': 'Presentation Name', 'id': 'presentation-name'}),
             'pres_description': forms.Textarea(

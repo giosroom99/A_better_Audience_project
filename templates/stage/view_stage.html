@@ -122,28 +122,30 @@
                                 <div class="card w-100%  m-1" >
                                     <div class="card-body">
                                         <h6 class="card-title"><a href="#">{{ pres.pres_name }}</a></h6>
-                                        <p class="card-text fw-bold d-inline">{{ pres.owner }}</p><br>
-                                            <p class="card-text d-inline"> {{ top.avg_answer|floatformat:"0" }} X </p>
-                                        {% if  top.avg_answer|floatformat:"0" == 5 %}
+                                        <p class="card-text fw-bold d-inline">{{ pres.owner }}</p>
+                                        <p class="card-text">Members: <span class="fw-bold">{{ pres.members}}</span> </p>
+                                        <br>
+                                        <p class="card-text d-inline"> {{ top.avg_answer|floatformat }} X </p>
+                                        {% if  top.avg_answer|floatformat == 5 %}
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
-                                        {% elif  top.avg_answer|floatformat:"0" == 4 %}
+                                        {% elif  top.avg_answer|floatformat == 4 %}
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
-                                        {% elif  top.avg_answer|floatformat:0 == 3 %}
+                                        {% elif  top.avg_answer|floatformat == 3 %}
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
-                                        {% elif  top.avg_answer|floatformat:0 == 2 %}
+                                        {% elif  top.avg_answer|floatformat == 2 %}
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
-                                        {% elif  top.avg_answer|floatformat:0 == 1 %}
+                                        {% elif  top.avg_answer|floatformat == 1 %}
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                         {% else %}

@@ -47,6 +47,7 @@ class Presentation(models.Model):
         ('Unapproved', 'Unapproved'),
     ]
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    members = models.CharField(max_length=150, null=True, blank=True)
     pres_name = models.CharField(max_length=60, null=True, blank=True)
     pres_description = models.TextField(max_length=500, null=True, blank=True)
     stage = models.ForeignKey(Stage, on_delete=models.CASCADE, null=True, blank=True)
