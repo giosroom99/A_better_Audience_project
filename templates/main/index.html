@@ -14,7 +14,7 @@
                 {% for presentation in presentations %}
                     <div class="card w-100%  m-1" >
                         <div class="card-body">
-                            <h6 class="card-title"><a href="#">{{ presentation.pres_name}}</a></h6>
+                            <h6 class="card-title"><a href="{% url 'detail_presentation' presentation.id %}">{{ presentation.pres_name}}</a></h6>
                             <small class="card-text  d-inline">{{ presentation.pres_date}}</small>
                             <p class="card-text"> Stage:  <span class="card-text fw-bold">{{ presentation.stage}}</span></p>
                         </div>

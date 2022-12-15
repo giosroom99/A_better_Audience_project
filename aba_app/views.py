@@ -17,9 +17,8 @@ def index(request):
     today = date.today()
 
     presentations = Presentation.objects.filter(owner=request.user,pres_date__gt=today).order_by('pres_date')[:5]
-    presentationss = Presentation.objects.filter(owner=request.user,pres_date__lt=today )[:1]
-    comments = OpenEndedAnswer.objects.all().filter(pres_reviewed = 4,created_at__lte=today).order_by('created_at')[:10]
-    print(comments)
+    presentationss = Presentation.objects.filter(owner=request.user, )[:1]
+    comments = OpenEndedAnswer.objects.all().filter(pres_reviewed = presentationss,created_at__lte=today).order_by('created_at')[:10]
     context = {
         'presentations': presentations,
         'comments':comments
