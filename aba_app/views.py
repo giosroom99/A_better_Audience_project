@@ -118,6 +118,7 @@ def PresentationDetail_view(request, id):
     """
     data = answers.values('question').annotate(avg_answer=Avg('answer'))
     comment = OpenEndedAnswer.objects.filter(pres_reviewed=id)
+    print(data)
 
     if (data):
         url = "https://quickchart.io/chart?c={type:%27bar%27,data:{labels:[1,2,3],datasets:[{label:%27AVG%20Reviews%20Based%20on%20Audience%20Rating%27,data:[" + str(
@@ -143,40 +144,7 @@ def PresentationDetail_view(request, id):
             'questions': questions,
             'quuickchartURL': url
         }
-
     return render(request, 'presentations/presentation_detail.html', context)
-
-
-@login_required(login_url='login')
-def PresentationDasboard_view(request, id):
-    current_login = request.user
-    presentations = Presentation.objects.get(id=id)
-    # # evaluations = Evaluation.objects.get(id=id)
-    # reviews = Answer.objects.all()
-    # dataA = Answer.objects.filter(presentation=presentations).aggregate(
-    #     avr_rev1=Avg('review1'),
-    #     avr_rev2=Avg('review2'),
-    #     avr_rev3=Avg('review3'),
-    #
-    # )
-
-    # dataJSON = dumps(dataA)
-    context = {
-        'presentations': presentations,
-        'reviews': 'fake',
-        'review1_avg': 'avr_rev1',
-        'review2_avg': 'avr_rev2',
-        'review3_avg': 'avr_rev3',
-        'data': {
-            'review1': 'avr_rev1',
-            'review2': 'avr_rev2',
-            'review3': 'avr_rev3'
-        }
-    }
-    print('##################################### SUM ###########################')
-    # print(dataA['avr_rev3'])
-
-    return render(request, 'presentations/presentation_dashboard.html', context)
 
 
 @login_required(login_url='login')
@@ -221,7 +189,6 @@ def updateStage_view(request, id):
     if form.is_valid():
         form.save()
         return redirect('stage')
-
     return render(request, 'stage/create_stage.html', {'add_stageForm': form})
 
 
@@ -256,8 +223,41 @@ def deleteStage_view(request, id):
 
 @login_required(login_url='login')
 def stageDetail_view(request, id):
+
     presentations = Presentation.objects.filter(stage=id).order_by('-pres_date')
     stage = Stage.objects.get(id=id)
+
+    # Calculate the average rate, grouped by presentation_id
+    # select  presentation_id, avg(rate)
+    #   from aba_app_bestpresentation
+    #   group by presentation_id
+    #   order by rate desc
+    #   limit 5;
+    best = BestPresentation.objects.filter(stage=id).values('presentation').annotate(avg_answer=Avg('rate'))
+
+    top_presentations = best.order_by('-avg_answer')[:3]
+
+    if len(top_presentations) ==3:
+        url = "https://quickchart.io/chart?c={type:%27bar%27,data:{labels:[1,2,3],datasets:[{label:%27TOP%203%20Best%20Presentations%27,data:[" + str(
+            top_presentations[0]['avg_answer']) + "," + str(int(top_presentations[1]['avg_answer'])) + "," + str(
+            int(top_presentations[2]['avg_answer'])) + "]}]}}&backgroundColor=#012e45"
+
+        print(url)
+    elif len(top_presentations) ==2:
+        url = "https://quickchart.io/chart?c={type:%27bar%27,data:{labels:[1,2,3],datasets:[{label:%27TOP%203%20Best%20Presentations%27,data:[" + str(
+            int(top_presentations[0]['avg_answer'])) + "," + str(int(top_presentations[1]['avg_answer'])) + ",]}]}}&backgroundColor=#012e45"
+        print(url)
+    elif len(top_presentations) == 1:
+        url = "https://quickchart.io/chart?c={type:%27bar%27,data:{labels:[1,2,3],datasets:[{label:%27TOP%203%20Best%20Presentations%27,data:[" + str(
+            top_presentations[0]['avg_answer']) + ",]}]}}&backgroundColor=#012e45"
+        print(url)
+    else:
+        url = "https://quickchart.io/chart?c={type:%27bar%27,data:{labels:[1,2,3],datasets:[{label:%27TOP%203%20Best%20Presentations%27,data:[" + str(
+            0) + "," + str(0) + "," + str(
+            0) + "]}]}}&backgroundColor=#012e45"
+
+
+    print(presentations)
 
 
 
@@ -274,7 +274,13 @@ def stageDetail_view(request, id):
     else:
         form = BestPresentationForm
 
-    context = {'stage': stage, 'presentations': presentations, 'form': form}
+    context = {
+        'stage': stage,
+        'presentations': presentations,
+        'form': form,
+        'url':url,
+        'top_presentations':top_presentations
+    }
     return render(request, 'stage/view_stage.html', context)
 
 
