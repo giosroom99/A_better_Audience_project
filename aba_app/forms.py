@@ -6,7 +6,6 @@ from django.forms import ModelForm
 
 from .models import *
 
-
 class CreateStageForm(ModelForm):
     class Meta:
         model = Stage
@@ -29,8 +28,6 @@ class CreateStageForm(ModelForm):
             'Stage_image': forms.ClearableFileInput(
                 attrs={'class': "form-control", 'multiple': True, 'id': 'stage-picture'}),
         }
-
-
 class CreatePresentationForm(ModelForm):
     class Meta:
         model = Presentation
@@ -75,7 +72,6 @@ class CreatePresentationForm(ModelForm):
                 attrs={'class': "form-control", 'multiple': True, }),
         }
 
-
 class approvalForm(ModelForm):
     class Meta:
         model = Presentation
@@ -92,7 +88,6 @@ class approvalForm(ModelForm):
 
         }
 
-
 class ReviewForm(forms.ModelForm):
     class Meta:
         fields = ['answer', ]
@@ -100,7 +95,7 @@ class ReviewForm(forms.ModelForm):
 
         widgets = {
             'answer': forms.NumberInput(
-                attrs={'class': "form-control mb-3", 'placeholder': 'Rate 0-100', 'type': 'number'
+                attrs={'class': "form-control mb-3", 'placeholder': 'Rate 0-100', 'type': 'number', 'min':"1", 'max':"100"
                        }),
         }
 
@@ -127,6 +122,6 @@ class BestPresentationForm(forms.ModelForm):
         widgets = {
             'presentation': forms.Select(attrs={'class': 'form-control'}),
             'rate': forms.NumberInput(
-                attrs={'class': "form-control mb-3", 'placeholder': 'Rate 1-5', 'type': 'number'
+                attrs={'class': "form-control mb-3", 'placeholder': 'Rate 1-5', 'type': 'number', 'min':"1", 'max':"5"
                        }),
         }
