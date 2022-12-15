@@ -9,9 +9,9 @@
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Presentation Detail</button>
         </li>
-{#        <li class="nav-item" role="presentation">#}
-{#            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Reviews</button>#}
-{#        </li>#}
+        {#        <li class="nav-item" role="presentation">#}
+        {#            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Reviews</button>#}
+        {#        </li>#}
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Stats</button>
         </li>
@@ -51,7 +51,9 @@
 
                         {%if user == presentations.owner %}
                         {% else %}
-                            <a href="{% url 'evaluate_presentation' presentations.id %}" class="btn btn-secondary color-white">Review</a>
+                            <a href="{% url 'evaluate_presentation' presentations.id %}" class="btn btn-secondary fw-bold color-white">Review</a>
+                            <a href="{% url 'evaluate_presentation2' presentations.id %}" class="btn btn-secondary color-white fw-bold"><i class="fa-regular  fa-comment-dots"></i> Leave a review</a>
+
                         {% endif%}
                     </div>
                 </div>
@@ -68,7 +70,7 @@
                 <div class="col-xl-12 d-flex justify-content-left my-4">
 
                     <ol class="list-group list-group-numbered">
-                    <p class="display-6"> Legend</p>
+                        <p class="display-6"> Legend</p>
                         {% for question in questions %}
                             <li class="list-group-item">{{ question}}</li>
                         {% endfor %}
@@ -131,16 +133,6 @@
             </div>
 
         </div>
-
-
-
     </div>
-
-
-
-
-
-
-
 
 {% endblock %}

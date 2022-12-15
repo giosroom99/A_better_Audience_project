@@ -5,10 +5,10 @@
 
 {% block body %}
     <div class="row " >
-        <h1 class="text-center my-4">{{ presentation.pres_name}}</h1>
+        <h1 class="text-center my-2">{{ presentation.pres_name}}</h1>
         <hr style="color: #18d26e">
-        <div class="col-lg-5 mx-auto my-4  rounded-1 shadow-lg">
-            <div class="card" style="width:80%;">
+        <div class="col-lg-6  my-2  rounded-1 shadow-lg">
+            <div class="card" style="width:100%;">
                 {% if presentations.pres_image %}
                     <img src="{{ presentations.pres_image.url}}" class="card-img-top" alt="..." >
                 {% else %}
@@ -26,11 +26,9 @@
             </div>
         </div>
         {#    Form section #}
-        <div class="col-lg-5 mx-auto my-4 p-3 form-group rounded-1 shadow-lg">
+        <div class="col-lg-5 mx-auto my-2 p-2 form-group rounded-1 shadow-lg">
             <h3 class=" my-4 text-center"> Peer Evaluation</h3>
             <form action="" method="post">
-
-
                 <div class="mb-3S">
                     {% csrf_token %}
                     {{ formset.management_form }}
@@ -40,7 +38,6 @@
                             <div>{{ form }}</div>
                         {% endfor %}
                     {% endfor %}
-
                     <br>
                     <input type="submit" class="btn btn-primary" value="Review">
                 </div>

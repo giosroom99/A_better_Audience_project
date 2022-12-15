@@ -9,7 +9,7 @@
         </div>
         <div class="row m-1">
 
-            <div class="col-lg-6  rounded-1 shadow-lg p-4 me-3">
+            <div class="col-lg-6  rounded-1 shadow-lg p-2 me-3">
                 <p class=" fs-3 text-center">My Up coming Presentations </p>
                 {% for presentation in presentations %}
                     <div class="card w-100%  m-1" >
@@ -22,48 +22,25 @@
                 {% endfor %}
             </div>
 
-            <div class="col-lg-5 rounded-1 shadow-lg p-4 align-items-ends">
+            <div class="col-lg-5 rounded-1 shadow-lg p-2 align-items-ends">
                 <p class=" fs-3 text-center">My Most Recent Reviews </p>
 
-                <div class="card w-100%  m-1" >
+                {% for comment in comments %}
+
+                    <div class="card w-100%  m-1" >
                     <div class="card-body">
-                        <h6 class="card-title"><a href="#">The world in My Pocket</a></h6>
-                        <p class="card-text fw-bold d-inline">John Smith</p>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                        <p class="card-text">Great Job on that presentation, Keep up psum is no in a piece oterature from 45 BC, making it over 2000 years old. Richard McClintock,tur, </p>
+{#                        <h6 class="card-title">{{ comment.author}}</h6>#}
+                        <p class="card-text fw-bold d-inline">{{ comment.author}}</p>
+{#                        <span class="fa fa-star checked"></span>#}
+{#                        <span class="fa fa-star checked"></span>#}
+{#                        <span class="fa fa-star checked"></span>#}
+{#                        <span class="fa fa-star"></span>#}
+{#                        <span class="fa fa-star"></span>#}
+                        <p class="card-text"><i class="fa-regular fw-bold fa-comment-dots text-primary"></i> : {{ comment.openEndedAnswer }}</p>
                     </div>
                 </div>
 
-                <div class="card w-100%  m-1" >
-                    <div class="card-body">
-                        <h6 class="card-title"><a href="#">The world in My Pocket</a></h6>
-                        <p class="card-text fw-bold d-inline">Jaden Smith</p>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <p class="card-text">Contrary to popular belief, Lorem Ipsum is not simply random text. Itrature from 45 BC, making it over 2000 years old. Richard McClintock,tur, </p>
-                    </div>
-                </div>
-
-
-                <div class="card w-100%  m-1" >
-                    <div class="card-body">
-                        <h6 class="card-title"><a href="#">The world in My Pocket</a></h6>
-                        <p class="card-text fw-bold d-inline">Giovanni Smith</p>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star "></span>
-                        <span class="fa fa-star "></span>
-                        <span class="fa fa-star "></span>
-                        <span class="fa fa-star"></span>
-                        <p class="card-text">m 45 BC, making it over 2000 years old. Richard McClintock,tur, </p>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

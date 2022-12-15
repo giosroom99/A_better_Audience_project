@@ -66,6 +66,8 @@ class Presentation(models.Model):
 class Question(models.Model):
     question_text = models.CharField(max_length=250, null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateField(auto_now=True, blank=True)
 
     def __str__(self):
         return self.question_text
@@ -76,6 +78,8 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     pres_reviewed = models.ForeignKey(Presentation, on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateField(auto_now=True, blank=True)
 
     def __str__(self):
         return self.answer + ' | ' + str(self.author) + ' | ' + str(self.pres_reviewed)
@@ -84,6 +88,8 @@ class Answer(models.Model):
 class OpenEndedQuestion(models.Model):
     openEndedQuestion = models.CharField(max_length=250, null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateField(auto_now=True, blank=True)
 
     def __str__(self):
         return self.openEndedQuestion
@@ -92,6 +98,8 @@ class OpenEndedAnswer(models.Model):
     question = models.ForeignKey(OpenEndedQuestion, on_delete=models.CASCADE, null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     pres_reviewed = models.ForeignKey(Presentation, on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateField(auto_now=True, blank=True)
     def __str__(self):
         return self.openEndedAnswer + ' | ' + str(self.author) + ' | ' + str(self.pres_reviewed)
 

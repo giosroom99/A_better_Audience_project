@@ -15,11 +15,14 @@ from django.http import HttpResponseRedirect
 @login_required(login_url='login')
 def index(request):
     today = date.today()
-    presentations = Presentation.objects.filter(owner=request.user,pres_date__gt=today).order_by('pres_date')[:5]
 
-    print(presentations)
+    presentations = Presentation.objects.filter(owner=request.user,pres_date__gt=today).order_by('pres_date')[:5]
+    presentationss = Presentation.objects.filter(owner=request.user,pres_date__lt=today )[:1]
+    comments = OpenEndedAnswer.objects.all().filter(pres_reviewed = 4,created_at__lte=today).order_by('created_at')[:10]
+    print(comments)
     context = {
         'presentations': presentations,
+        'comments':comments
     }
     return render(request, 'main/index.html',context)
 
@@ -82,7 +85,7 @@ def OpendEndedEvaluation_view(request,id):
         if formset.is_valid():
             for openQuestion, opneAnswer in zip(openEndedQuestion, formset.cleaned_data):
                 OpenEndedAnswer.objects.create(openEndedAnswer=opneAnswer['openEndedAnswer'], question=openQuestion, author=request.user,
-                                      pres_reviewed=presentation)
+                                               pres_reviewed=presentation)
             return redirect('/detail_pres/' + str(id))
     else:
         formset = openEnedAnswerFormSet()
@@ -90,8 +93,6 @@ def OpendEndedEvaluation_view(request,id):
         context = {'presentation': presentation, 'formset': formset, 'question_answer_list': question_answer_list}
 
         return render(request, 'presentations/evalute_presentation2.html', context)
-
-
 
 @login_required(login_url='login')
 def deletePresentation_view(request, id):
@@ -113,13 +114,11 @@ def PresentationDetail_view(request, id):
     data = answers.values('question').annotate(avg_answer=Avg('answer'))
     comment = OpenEndedAnswer.objects.filter(pres_reviewed=id)
 
-    # print(comment['OpenEndedAnswer'])
-    labels =['Rubric%201','Rubric%20', 'Rubric%203']
-    user = 'AVG%20Reviews%20Based%20on%20Audience%20Rating'
-    #url="https://quickchart.io/chart?v=undefined&c={ type: 'bar', data: { labels: [" + labels[0]+"," + labels[1] +","+ labels[2]+"], datasets:[{label:%27AVG%20Reviews%20Based%20on%20Audience%20Rating%27,data:[" + str(data[0]['avg_answer'])+","+ str(data[1]['avg_answer'])+","+ str(data[2]['avg_answer'])+"]}]}}"
-    url ="https://quickchart.io/chart?c={type:%27bar%27,data:{labels:[1,2,3],datasets:[{label:%27AVG%20Reviews%20Based%20on%20Audience%20Rating%27,data:[" + str(data[0]['avg_answer'])+","+ str(data[1]['avg_answer'])+","+ str(data[2]['avg_answer'])+"]}]}}&backgroundColor=#012e45"
-    print(url)
     if (data):
+        url = "https://quickchart.io/chart?c={type:%27bar%27,data:{labels:[1,2,3],datasets:[{label:%27AVG%20Reviews%20Based%20on%20Audience%20Rating%27,data:[" + str(
+            data[0]['avg_answer']) + "," + str(data[1]['avg_answer']) + "," + str(
+            data[2]['avg_answer']) + "]}]}}&backgroundColor=#012e45"
+
         context = {
             'OpenEndedAnswer':comment,
             'presentations': presentations,
@@ -129,14 +128,15 @@ def PresentationDetail_view(request, id):
             'quuickchartURL':url
         }
     else:
+        url = "https://quickchart.io/chart?c={type:%27bar%27,data:{labels:[1,2,3],datasets:[{label:%27AVG%20Reviews%20Based%20on%20Audience%20Rating%27,data:[" + str(
+            0) + "," + str(0) + "," + str(
+            0) + "]}]}}&backgroundColor=#012e45"
+
         context = {
             'presentations': presentations,
             'reviews': answers,
             'questions': questions,
-            # # "data": data,
-            # 'review1': data[0]['avg_answer'],
-            # 'review2': data[1]['avg_answer'],
-            # 'review3': data[2]['avg_answer']
+            'quuickchartURL':url
         }
 
     return render(request, 'presentations/presentation_detail.html', context)
