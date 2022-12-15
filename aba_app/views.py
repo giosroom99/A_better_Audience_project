@@ -102,7 +102,7 @@ def deletePresentation_view(request, id):
     presentation = Presentation.objects.get(id=id)
     if request.method == "POST":
         presentation.delete()
-        return redirect('presentations')
+        return redirect('/presentations/'+ str((request.user.id)))
 
     return render(request, 'presentations/delete-presentation.html', {'presentation': presentation, })
 
@@ -157,7 +157,7 @@ def create_presentation_views(request):
             instance = form.save(commit=False)
             instance.owner = request.user
             instance.save()
-            return HttpResponseRedirect('/presentations/' + (request.user.id))
+            return HttpResponseRedirect('/presentations/' + str((request.user.id)))
     else:
         form = CreatePresentationForm()
 

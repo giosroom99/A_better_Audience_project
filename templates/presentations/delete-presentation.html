@@ -1,5 +1,5 @@
 {% extends "common/base.html" %}
-
+{%  load static %}
 
 
 {% block body %}
@@ -11,12 +11,16 @@
             <div class="col-10 mx-auto my-4">
                 <form class="card-link" action="{%  url 'delete_presentation' presentation.id %}" method="post">
                     <div class="card" style="width:80%;">
-                        <img src="{{ presentation.pres_image}}" class="card-img-top" alt="...">
+                        {% if  presentation.pres_image.url %}
+                            <img src="{{ presentation.pres_image.url}}" class="card-img-top" alt="...">
+                        {% else %}
+                            <img src="{% static 'img/profile_default.png' %}" class="card-img-top" alt="...">
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ presentation.pres_name}}</h5>
                             <p class="card-text">{{ presentation.pres_description}}</p>
 
-                            <a href="{% url 'presentations' %}" class="card-link btn btn-secondary">Cancel</a>
+                            <a href="{% url 'presentations' presentation.id %}" class="card-link btn btn-secondary">Cancel</a>
                             {% csrf_token %}
                             <input class=" card-link btn btn-danger d-inline" type="submit" value="Delete" href="{% url 'delete_presentation' presentation.id %}">
                         </div>

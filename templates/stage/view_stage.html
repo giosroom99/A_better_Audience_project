@@ -122,34 +122,34 @@
                                 <div class="card w-100%  m-1" >
                                     <div class="card-body">
                                         <h6 class="card-title"><a href="#">{{ pres.pres_name }}</a></h6>
-                                        <p class="card-text fw-bold d-inline">{{ pres.owner }}</p>
-
-                                        {% if  top.avg_answer == 5 %}
+                                        <p class="card-text fw-bold d-inline">{{ pres.owner }}</p><br>
+                                            <p class="card-text d-inline"> {{ top.avg_answer|floatformat:"0" }} X </p>
+                                        {% if  top.avg_answer|floatformat:"0" == 5 %}
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
-                                        {% elif  top.avg_answer == 4 %}
+                                        {% elif  top.avg_answer|floatformat:"0" == 4 %}
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
-                                        {% elif  top.avg_answer == 3 %}
+                                        {% elif  top.avg_answer|floatformat:0 == 3 %}
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
-                                        {% elif  top.avg_answer == 2 %}
+                                        {% elif  top.avg_answer|floatformat:0 == 2 %}
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
-                                        {% elif  top.avg_answer == 1 %}
+                                        {% elif  top.avg_answer|floatformat:0 == 1 %}
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                         {% else %}
                                             <span class="fa fa-star checked"></span>
                                         {% endif %}
-                                        <p> {{ top.avg_answer }} </p>
+
                                         <p class="card-text"> {{ pres.pres_description }} </p>
                                     </div>
                                 </div>
