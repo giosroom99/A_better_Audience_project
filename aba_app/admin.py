@@ -10,3 +10,5 @@ admin.site.register(Question)
 
 admin.site.register(OpenEndedQuestion)
 admin.site.register(OpenEndedAnswer)
+admin.site.register(BestPresentation)
+

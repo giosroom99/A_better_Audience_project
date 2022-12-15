@@ -7,30 +7,29 @@ from django.forms import ModelForm
 from .models import *
 
 
-
-
 class CreateStageForm(ModelForm):
     class Meta:
         model = Stage
         # Set the form fields
-        fields = ('stage_name', 'category','stage_description', 'Stage_image',)
+        fields = ('stage_name', 'category', 'stage_description', 'Stage_image',)
 
         labels = {
             'stage_name': '',
             'stage_description': '',
-            'category':'Select Stage Type',
+            'category': 'Select Stage Type',
             'Stage_image': ''
         }
         widgets = {
 
             'stage_name': forms.TextInput(
                 attrs={'class': "form-control", 'placeholder': 'Stage Name', 'id': 'stage-name'}),
-            'category': forms.Select(attrs={'class': 'form-control','placeholder': 'Select Stage Type',}),
+            'category': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Select Stage Type', }),
             'stage_description': forms.Textarea(
                 attrs={'class': "form-control", 'placeholder': 'Stage Description', 'id': 'stage-description'}),
             'Stage_image': forms.ClearableFileInput(
                 attrs={'class': "form-control", 'multiple': True, 'id': 'stage-picture'}),
         }
+
 
 class CreatePresentationForm(ModelForm):
     class Meta:
@@ -68,10 +67,11 @@ class CreatePresentationForm(ModelForm):
 
             'stage': forms.Select(attrs={'class': 'form-control'}),
             'pres_file': forms.ClearableFileInput(
-                attrs={'class': "form-control", 'multiple': True, 'accept':'application/pdf' }),
+                attrs={'class': "form-control", 'multiple': True, 'accept': 'application/pdf'}),
             'pres_image': forms.ClearableFileInput(
                 attrs={'class': "form-control", 'multiple': True, }),
         }
+
 
 class approvalForm(ModelForm):
     class Meta:
@@ -89,19 +89,17 @@ class approvalForm(ModelForm):
 
         }
 
+
 class ReviewForm(forms.ModelForm):
     class Meta:
-        fields = ['answer',]
+        fields = ['answer', ]
         model = Answer
 
         widgets = {
             'answer': forms.NumberInput(
-                attrs={'class': "form-control mb-3", 'placeholder': 'Rate 0-100','type':'number'
+                attrs={'class': "form-control mb-3", 'placeholder': 'Rate 0-100', 'type': 'number'
                        }),
         }
-
-
-
 
 
 class OpenEndedForm(forms.ModelForm):
@@ -111,6 +109,24 @@ class OpenEndedForm(forms.ModelForm):
 
         widgets = {
             'openEndedAnswer': forms.TextInput(
-                attrs={'class': "form-control mb-3", 'placeholder': 'Type here','type':'text'
+                attrs={'class': "form-control mb-3", 'placeholder': 'Type here', 'type': 'text'
+                       }),
+        }
+
+
+class BestPresentationForm(forms.ModelForm):
+    class Meta:
+
+        model = BestPresentation
+        fields = ['rate', 'presentation']
+
+        labels = {
+            'presentation': 'Select your favorite Presentation',
+            'rate':'Give your Favorite presentation a score (1-5)'
+        }
+        widgets = {
+            'presentation': forms.Select(attrs={'class': 'form-control'}),
+            'rate': forms.NumberInput(
+                attrs={'class': "form-control mb-3", 'placeholder': 'Rate 1-5', 'type': 'number'
                        }),
         }

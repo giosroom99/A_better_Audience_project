@@ -103,3 +103,12 @@ class OpenEndedAnswer(models.Model):
     def __str__(self):
         return self.openEndedAnswer + ' | ' + str(self.author) + ' | ' + str(self.pres_reviewed)
 
+class BestPresentation(models.Model):
+    presentation = models.ForeignKey(Presentation, on_delete=models.CASCADE, null=True, blank=True)
+    stage = models.ForeignKey(Stage, on_delete=models.CASCADE, null=True, blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    rate = models.IntegerField( null=True, blank=True)
+    created_at = models.DateField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateField(auto_now=True, blank=True)
+    def __str__(self):
+        return  str(self.presentation) + ' | ' + str(self.rate)

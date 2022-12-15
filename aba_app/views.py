@@ -14,14 +14,15 @@ from django.http import HttpResponseRedirect
 def index(request):
     today = date.today()
 
-    presentations = Presentation.objects.filter(owner=request.user,pres_date__gt=today).order_by('pres_date')[:5]
+    presentations = Presentation.objects.filter(owner=request.user, pres_date__gt=today).order_by('pres_date')[:5]
     presentationss = Presentation.objects.filter(owner=request.user, )[:1]
-    comments = OpenEndedAnswer.objects.all().filter(pres_reviewed = presentationss,created_at__lte=today).order_by('created_at')[:10]
+    comments = OpenEndedAnswer.objects.all().filter(pres_reviewed=presentationss, created_at__lte=today).order_by(
+        'created_at')[:10]
     context = {
         'presentations': presentations,
-        'comments':comments
+        'comments': comments
     }
-    return render(request, 'main/index.html',context)
+    return render(request, 'main/index.html', context)
 
 
 """ ################################################
@@ -29,12 +30,13 @@ def index(request):
     ##############################################
 """
 
+
 @login_required(login_url='login')
 def presentation_views(request, id):
-
     presentations = Presentation.objects.filter(owner=request.user)
     context = {'presentations': presentations}
     return render(request, 'presentations/presentations.html', context)
+
 
 @login_required(login_url='login')
 def updatePresentation_view(request, id):
@@ -47,9 +49,10 @@ def updatePresentation_view(request, id):
     if form.is_valid():
         form.save()
         # Presentation.user.add(*[request.user])
-        return redirect('/detail_pres/'+str(id))
+        return redirect('/detail_pres/' + str(id))
 
     return render(request, 'presentations/create_presentation.html', context)
+
 
 @login_required(login_url='login')
 def EvaluatePresentation_view(request, id):
@@ -70,8 +73,9 @@ def EvaluatePresentation_view(request, id):
         context = {'presentation': presentation, 'formset': formset, 'question_answer_list': question_answer_list}
         return render(request, 'presentations/evalute_presentation.html', context)
 
+
 @login_required(login_url='login')
-def OpendEndedEvaluation_view(request,id):
+def OpendEndedEvaluation_view(request, id):
     presentation = Presentation.objects.get(id=id)
     openEndedQuestion = OpenEndedQuestion.objects.all()
 
@@ -81,7 +85,8 @@ def OpendEndedEvaluation_view(request,id):
         formset = openEnedAnswerFormSet(request.POST)
         if formset.is_valid():
             for openQuestion, opneAnswer in zip(openEndedQuestion, formset.cleaned_data):
-                OpenEndedAnswer.objects.create(openEndedAnswer=opneAnswer['openEndedAnswer'], question=openQuestion, author=request.user,
+                OpenEndedAnswer.objects.create(openEndedAnswer=opneAnswer['openEndedAnswer'], question=openQuestion,
+                                               author=request.user,
                                                pres_reviewed=presentation)
             return redirect('/detail_pres/' + str(id))
     else:
@@ -91,6 +96,7 @@ def OpendEndedEvaluation_view(request,id):
 
         return render(request, 'presentations/evalute_presentation2.html', context)
 
+
 @login_required(login_url='login')
 def deletePresentation_view(request, id):
     presentation = Presentation.objects.get(id=id)
@@ -99,6 +105,8 @@ def deletePresentation_view(request, id):
         return redirect('presentations')
 
     return render(request, 'presentations/delete-presentation.html', {'presentation': presentation, })
+
+
 @login_required(login_url='login')
 def PresentationDetail_view(request, id):
     answers = Answer.objects.filter(pres_reviewed=id)
@@ -117,12 +125,12 @@ def PresentationDetail_view(request, id):
             data[2]['avg_answer']) + "]}]}}&backgroundColor=#012e45"
 
         context = {
-            'OpenEndedAnswer':comment,
+            'OpenEndedAnswer': comment,
             'presentations': presentations,
             'reviews': answers,
             'questions': questions,
             # "data": data,
-            'quuickchartURL':url
+            'quuickchartURL': url
         }
     else:
         url = "https://quickchart.io/chart?c={type:%27bar%27,data:{labels:[1,2,3],datasets:[{label:%27AVG%20Reviews%20Based%20on%20Audience%20Rating%27,data:[" + str(
@@ -133,10 +141,11 @@ def PresentationDetail_view(request, id):
             'presentations': presentations,
             'reviews': answers,
             'questions': questions,
-            'quuickchartURL':url
+            'quuickchartURL': url
         }
 
     return render(request, 'presentations/presentation_detail.html', context)
+
 
 @login_required(login_url='login')
 def PresentationDasboard_view(request, id):
@@ -180,7 +189,7 @@ def create_presentation_views(request):
             instance = form.save(commit=False)
             instance.owner = request.user
             instance.save()
-            return HttpResponseRedirect('/presentations/'+(request.user.id))
+            return HttpResponseRedirect('/presentations/' + (request.user.id))
     else:
         form = CreatePresentationForm()
 
@@ -248,18 +257,24 @@ def deleteStage_view(request, id):
 @login_required(login_url='login')
 def stageDetail_view(request, id):
     presentations = Presentation.objects.filter(stage=id).order_by('-pres_date')
-    # dataA = Reviews.objects.filter(presentation__in=presentations).aggregate(
-    #     avr_rev1=Avg('review1'),
-    #     avr_rev2=Avg('review2'),
-    #     avr_rev3=Avg('review3'),
-    #
-    # )
-    # dataA = Reviews.objects.values(presentations.id).annotate(average = Avg('review1'))
-    # print(dataA)
-    # print(presentations)
-
     stage = Stage.objects.get(id=id)
-    context = {'stage': stage, 'presentations': presentations}
+
+
+
+    """ Takes care of the form """
+    if request.method == 'POST':
+        form = BestPresentationForm(request.POST, )
+        if form.is_valid():
+            # handle_uploaded_file(request.FILES["Stage_image"])
+            instance = form.save(commit=False)
+            instance.author = request.user
+            instance.stage = stage
+            instance.save()
+            return HttpResponseRedirect('/detail_stage/' + str(id))
+    else:
+        form = BestPresentationForm
+
+    context = {'stage': stage, 'presentations': presentations, 'form': form}
     return render(request, 'stage/view_stage.html', context)
 
 
@@ -289,6 +304,7 @@ def presentationApproval_view(request, id):
         return redirect('stage')
     return render(request, 'stage/wating_approval.html', context)
 
+
 def StageSearch(request):
     search_term = request.GET.get('search-stages') or ''
     stages = Stage.objects.filter(stage_name__contains=search_term)
@@ -299,5 +315,3 @@ def StageSearch(request):
 
     }
     return render(request, 'stage/stage.html', context)
-
-
