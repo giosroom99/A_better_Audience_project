@@ -1,6 +1,5 @@
 import json
 from datetime import time, date
-
 import requests
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
@@ -9,7 +8,6 @@ from django.db.models import Sum, Avg
 from .forms import *
 from .models import *
 from django.http import HttpResponseRedirect
-
 
 
 @login_required(login_url='login')
