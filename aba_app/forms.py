@@ -101,7 +101,6 @@ class ReviewForm(forms.ModelForm):
                        }),
         }
 
-
 class OpenEndedForm(forms.ModelForm):
     class Meta:
         fields = ['openEndedAnswer']
@@ -112,8 +111,6 @@ class OpenEndedForm(forms.ModelForm):
                 attrs={'class': "form-control mb-3", 'placeholder': 'Type here', 'type': 'text'
                        }),
         }
-
-
 class BestPresentationForm(forms.ModelForm):
     class Meta:
 
