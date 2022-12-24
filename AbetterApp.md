@@ -45,3 +45,13 @@ The teacher would Create a stage.
 -	User-profile creation
 -	Dynamic charts
 -	Authentications and Authorizations (Access Control)
+
+# Future improvements
+- Finish Theme Button switcher.
+- Finish SMTP mail server.
+- Presentation reminder.
+- Unapproved presentation queue reminder.
+- User reset password 
+- Two-Factor Auth
+- User account deletion
+
